@@ -3,7 +3,6 @@ import { ref } from 'vue';
 
 const counter = ref(100)
 const onAddButtonClick = () => {
-  console.log('haha')
   counter.value++
 }
 

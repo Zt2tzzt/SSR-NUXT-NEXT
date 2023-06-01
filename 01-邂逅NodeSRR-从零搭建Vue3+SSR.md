@@ -143,43 +143,117 @@ SPA 应用，默认只返回一个空 HTML 页面，不利于 SEO（search engin
 
 ## 五、静态站点生成（SSG）
 
-静态站点生成（SSG，static site generator）是什么？
+静态站点生成（SSG，Static Site Generate），指的是预先生成好的静态网站。
 
-SSG 的优点和缺点。
+SSG 应用一般在构建阶段，就确定了网站的内容。
 
+如果网站的内容需要更新了，那必须重新构建和部署。
 
+构建 SSG 应用，常见的库和框架有：
 
-适用场景：
+- Vue Nuxt；
+- React Next.js。
 
-例如说明文档，博客...这样的静态站点。
+适用场景：说明文档，博客...，这样的静态站点。
 
----
+### 1.SSG 优点
 
-服务器端渲染（SSR，Server side render）是什么。
+访问速度非常快，因为每个页面，在构建阶段就已经生成好了；
+
+直接给浏览器返回静态的 HTML 文件，也有利于 SEO；
+
+SSG 应用，依然保留了 SPA 应用的特性；
+
+- 比如：前端路由、响应式数据、虚拟 DOM 等。
+
+### 2.SSG 缺点
+
+页面都是静态的，不利于展示实时性的内容（SSR 更合适）。
+
+如果站点内容更新了，那必须得重新再次构建和部署。
+
+## 六、服务器端渲染（SSR）
+
+服务器端渲染（SSR,Server Side Render），指的是在服务器端渲染页面，并将渲染好 HTML 返回给浏览器呈现。
+
+SSR 应用的页面，是在服务端渲染的；
+
+用户每请求一个 SSR 页面，都会先在服务端进行渲染，然后将渲染好的页面，返回给浏览器呈现。
+
+构建 SSR 应用，常见的库和框架有：
+
+- Vue Nuxt；
+- React Next.js
+
+SSR 应用，也称同构应用。
+
+- “服务端打包的应用程序”和“客户端打包的应用程序”同时构建的应用。
+
+- “server.bundle.js” 和 “client.bundle.js” 同时构建的应用程序。
 
 理解 Vue3 + SSR 生成静态文件的图解。
 
+![Vue3 + SSR 生成静态文件](NodeAssets/Vue3+SSR生成静态文件.png)
+
 理解 Vue3 + SSR hydration 的图解。
 
+![Vue3 + SSR hydration](NodeAssets/Vue3+SSR-hydration.png)
 
+服务器端渲染原理:
 
-SSR 的优点和缺点。
+![服务器端渲染原理](NodeAssets/服务器端渲染原理.jpg)
 
----
+### 1.SSR 优点
 
-SSR 解决方案。
+更快的首屏渲染速度：
 
-三种方案：
+- 浏览器显示静态页面内容，要比加载 JS 后，动态生成的内容快得多。
+- 当用户访问首页时，可立即返回静态页面内容，而不需要等待浏览器先加载完整个应用程序。
 
+更好的 SEO
 
+- 爬虫是最擅长爬取静态的 HTML 页面，服务器端直接返回一个静态的 HTML 给浏览器。
+- 这样有利于爬虫快速抓取网页内容，并编入索引，有利于 SEO。
 
-应用场景
+SSR 应用程序，在 Hydration 后，依然可以保留 Web 应用程序的交互性。
 
----
+- 比如：前端路由、响应式数据、虚拟 DOM 等。
 
-邂逅 Vue3 + SSR
+### 2.SSR 缺点
 
-创建 01-... 项目；
+SSR 通常需要对服务器进行更多 API 调用，会消耗更多的服务器资源，成本高。
+
+增加了一定的开发成本，开发者需要关心哪些代码是运行在服务器端，哪些代码是运行在浏览器端。增加开发者心智负担。
+
+SSR 配置站点的缓存通常会比 SPA 站点要复杂一点。
+
+## 七、SSR 解决方案
+
+方案一：php、jsp ...
+
+方案二：从零搭建 SSR 项目（Node + webpack + Vue / React ）
+
+方案三：直接使用流行的框架（推荐）
+
+- React + Next.js
+- Vue3 + Nuxt3 / Vue2 + Nuxt.js
+- Angular + Anglular Universal
+
+## 八、SSR 应用场景
+
+SaaS 产品，如：电子邮件网站、在线游戏、客户关系管理系统（CRM）、采购系统等
+
+门户网站、电子商务、零售网站
+
+单个页面、静态网站、文档类网站
+
+...
+
+案例：稀土掘金、魅族、美团、TikTok、awwwards、monopo...
+
+## 九、邂逅 Vue3 + SSR
+
+创建 01-node-server 项目；
 
 初始化项目：
 
@@ -187,17 +261,17 @@ SSR 解决方案。
 pnpm init
 ```
 
----
+### 1.Node Server 搭建
 
-Node Server 的搭建。
-
-安装依赖 express、
+安装依赖 *express*、
 
 ```shell
 pnpm add express
 ```
 
-安装开发时依赖 nodemon、webpack、webpack-node-externals
+安装开发时依赖 *nodemon*、*webpack*、*webpack-node-externals*；
+
+- webpack-node-externals：用于排除掉 node_modules 中所以的模块
 
 ```shell
 pnpm add webpack webpack-cli webpack-node-externals nodemon -D
@@ -205,7 +279,7 @@ pnpm add webpack webpack-cli webpack-node-externals nodemon -D
 
 创建 exoress 服务器。
 
-01-node-server\src\server\index.js
+demo-project\01-node-server\src\server\index.js
 
 ```js
 const express = require('express')
@@ -221,9 +295,9 @@ app.listen(9000, () => {
 })
 ```
 
-配置启动服务的脚本：
+在 `package.json` 中，配置启动服务的脚本：
 
-01-node-server\package.json
+demo-project\01-node-server\package.json
 
 ```json
 {
@@ -233,9 +307,9 @@ app.listen(9000, () => {
 }
 ```
 
-编写 webpack 配置文件，对服务进行打包
+编写 `webpack.config.js` 配置文件，对服务进行打包。
 
-01-node-server\src\config\webpack.config.js
+demo-project\01-node-server\src\config\webpack.config.js
 
 ```js
 const path = require('path')
@@ -251,7 +325,7 @@ module.exports = {
 }
 ```
 
-在 webpack 配置文件中，配置打包服务端代码的命令。
+在 `package.json` 中，配置打包服务端代码的命令。
 
 ```json
 {
@@ -270,9 +344,11 @@ pnpm build:server
 
 发现打包的结果太大；
 
-因为打包的是 node 环境，所以要配置 webpack，排除 webpack-node-externals 的打包。
+因为打包的是 node 环境（`target: "node"`）；
 
-01-node-server\src\config\webpack.config.js
+所以要在 `webpack.config.js` 中，配置 webpack-node-externals，排除 node 环境的打包。
+
+demo-project\01-node-server\src\config\webpack.config.js
 
 ```js
 const path = require('path')
@@ -290,7 +366,7 @@ module.exports = {
 }
 ```
 
-配置命令 start，用于运行打包后的服务端代码。
+在 `package.json` 中，配置命令 “start”，用于运行打包后的服务端代码。
 
 ```json
 {
@@ -302,21 +378,19 @@ module.exports = {
 }
 ```
 
----
+### 2.Vue3 App 搭建
 
-Vue App 搭建
+主要目的是：将 vue3 代码（App.vue）转成字符串，放入到 Node Server 中。
 
-将 App.vue 转成字符串，放入到 Node Server 中。
+拷贝 01-node-server 项目，重命名为 02-vue3-ssr 项目。
 
-拷贝 01-... 项目，重命名为 02-... 项目。
-
-在其中还要安装依赖：vue
+安装依赖：*vue*
 
 ```shell
 pnpm add vue
 ```
 
-安装开发时依赖 vue-loader、babel-loader、@babel/preset-env、webpack-merge
+安装开发时依赖 *vue-loader*、*babel-loader*、*@babel/preset-env*、*webpack-merge*
 
 ```shell
 pnpm add vue-loader babel-loader @babel/core @babel/preset-env webpack-merge -D
@@ -347,7 +421,7 @@ const onAddButtonClick = () => count.value++
 </style>
 ```
 
-创建 Vue3 的入口，
+创建 Vu3e App 的入口，
 
 02-vue3-ssr\src\app.js
 
@@ -355,16 +429,16 @@ const onAddButtonClick = () => count.value++
 import { createSSRApp } from 'vue';
 import App from './App.vue';
 
-// 导出一个函数，在其中中返回 app 实例。
-// 避免跨请求状态的污染。
-// 保证每个请求，都会返回一个新的 app 实例。
+// 导出一个函数，在其中中返回 app 实例。这么做的原因是：
+// - 避免跨请求状态的污染。
+// - 保证每个请求，都会返回一个新的 app 实例。
 export default function createApp() {
   const app = createSSRApp(App)
   return app
 }
 ```
 
-在 webpack 配置文件中，配置扩展名：
+在 `webpack.config.js` 配置文件中，配置扩展名：
 
 02-vue3-ssr\config\webpack.config.js
 
@@ -426,7 +500,7 @@ server.listen(9000, () => {
 })
 ```
 
-在 webpack 配置文件中，配置 loader
+在 `webpack.config.js` 配置文件中，配置 loader
 
 修改 `webpack.config.js` 名称为 `webpack.server.config.js`；
 
@@ -468,22 +542,22 @@ module.exports = {
 }
 ```
 
-执行命令打包
+执行命令打包：
 
 ```shell
 pnpm build:server
 ```
 
-执行命令，开启本地服务
+执行命令，开启本地服务：
 
 ```shell
 pnpm start
 ```
 
-访问 localhost:9000
+访问 `localhost:9000`：
 
 静态资源被展示，但不能点击按钮交互。
 
-至此，同构应用的服务端搭建，已经完成
+至此，同构应用的服务端搭建，已经完成；
 
 接下来要进行 hydration。也就是搭建客户端，新建 client 文件夹。
