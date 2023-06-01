@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from 'vue'
 
-console.log('haha')
 const counter = ref(100)
 function onAddButtonClick() {
   counter.value++
@@ -9,8 +8,8 @@ function onAddButtonClick() {
 </script>
 
 <template>
-  <div class="app" style="border: 1px solid red">
-    <h1>Vue3 app</h1>
+  <div class="about" style="border: 1px solid blue; margin: 10px">
+    <h1>About</h1>
     <div>{{ counter }}</div>
     <button @click="onAddButtonClick">加1</button>
   </div>

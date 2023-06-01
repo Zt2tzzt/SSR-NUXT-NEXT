@@ -414,7 +414,7 @@ module.exports = {
 pnpm add vue
 ```
 
-安装开发时依赖 *vue-loader*、*babel-loader*、*@babel/preset-env*、*webpack-merge*
+安装开发时依赖 *vue-loader*、*babel-loader*、*@babel/preset-env*
 
 ```shell
 pnpm add vue-loader babel-loader @babel/core @babel/preset-env webpack-merge -D
