@@ -4,6 +4,7 @@ import { ref } from 'vue';
 const counter = ref(100)
 const onAddButtonClick = () => {
   counter.value++
+  console.log('哈哈')
 }
 
 </script>
