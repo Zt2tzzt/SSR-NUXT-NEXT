@@ -596,7 +596,7 @@ pnpm start
 
 Nuxt 使用 h3，来实现部署可移植性；
 
-- h3 是一个极小的高性能的 http 框架 
+- h3 是一个极小的高性能的 http 框架
 - 比如：支持在 Serverless、Workers 和 Node.js 环境中运行。
 
 > Serverless：表示“无服务”。
@@ -616,86 +616,249 @@ Nuxt 是一个直观的 Web 框架：
 - Nuxt 框架，可以用来快速构建下一个 Vue.js 应用程序；
 - 支持 CSR、SSR、SSG 混合渲染模式等模式的应用。
 
+## 三、Nuxt 的发展史
 
+2016.10.25，Nuxt.js 诞生，由 Sebastien Chopin 创建；
 
+- 基于 Vue2 、Webpack2 、Node、Express。
 
+2018.1.9，Sebastien Chopin 发布 Nuxt.js 1.0 版本。
 
-Nuxt 的发展史。
+- 放弃了对 node < 8 的支持
 
+2018.9.21，Sebastien Chopin 发布 Nuxt.js 2.0 版本。
 
+- 开始使用 Webpack 4， 其它并无重大更改。
 
-Nuxt 有何特点？
+2021.8.12，发布 Nuxt.js 2.15.8 版本。
 
+2021.10.12，经过 16 个月的工作，Nuxt 3 beta 发布；
 
+- 引入了基于 Vue 3、Vite、Nitro（服务引擎） 。
 
-Nuxt.js 与 Nuxt3 有何不同？
+2022.4.20，六个月后，Pooya Parsa 宣布 Nuxt 3 的第一个候选版本，代号为“Mount Hope”
 
----
+2022.11.16，Pooya Parsa 宣布 Nuxt3 发布为第一个正式稳定版本。
 
-Nuxt3 环境搭建。
+[Nuxt3 官网地址](https://nuxt.com/)
 
-创建项目报错处理。
+## 四、Nuxt3 特点
 
----
+Vue 技术栈：
 
-Nuxt3 项目目录结构。
+- Nuxt3 是基于 Vue3 + Vue Router + Vite 等技术栈，
+- 拥有 Vue3 + Vite 开发体验（Fast）。
 
+自动导包：
 
+- Nuxt 会自动导入辅助函数、组合 API 和 Vue API，无需手动导入。
+- 基于规范的目录结构，提供对自己的组件、插件使用自动导入。
 
-package.json 中，脚本的含义：
+约定式路由（目录结构即路由）：
+
+- Nuxt 路由基于 vue-router；
+- 在 `pages` 目录中，创建的每个页面，会根据目录结构和文件名，自动生成路由。
+
+多种渲染模式（SSR、CSR、SSG等）:
+
+利于搜索引擎优化（SEO）：
+
+- 服务器端渲染模式，不但可以提高首屏渲染速度，还利于 SEO
+
+服务器引擎：
+
+- 在开发环境中，它基于 Node.js，使用 Rollup 服务和打包 。
+- 在生产环境中，使用 Nitro，将应用程序和服务器，构建到一个通用 `.output` 目录中。
+
+> Nitro 服务引擎，提供了跨平台部署的支持；
+>
+> - 包括 Node、Deno、Serverless、Workers 等平台上部署。
+
+## 五、Nuxt3 创建项目
+
+环境准备：
+
+- Node.js （最新 LTS 版本，或 16.11以上）
+- VSCode 插件：Volar、ESLint、Prettier
+
+命令行工具，创建项目（hello-nuxt)
+
+```shell
+npx nuxi init hello-nuxt
+
+pnpm dlx nuxi init hello-nuxt # 推荐
+
+npm install –g nuxi && nuxi init hello-nuxt
+```
+
+### 1.报错处理
+
+创建项目时，可能会报错错误，主要是网络不通导致：
+
+解决方案：
+
+1.执行 ping 命令，检查域名是否能连通；
+
+```shell
+ping raw.githubusercontent.com
+```
+
+2.如果访问不通，代表是网络不通。
+
+3.配置 host，本地解析域名
+
+- Mac 电脑 host 配置路径：`/etc/hosts`
+- Win 电脑 host 配置路由：`c:/Windows/System32/drivers/etc/hosts`
+
+4.在 host 文件中新增一行 ，编写如下配置：
+
+```txt
+185.199.108.133 raw.githubusercontent.com
+```
+
+5.重新 ping 域名，检查是否连通。
+
+创建项目成功后，安装依赖：
+
+```shell
+yarn install
+
+pnpm install --shamefully-hoist # 创建一个扁平的 node_modules 目录结构，类似 npm 和 yarn
+
+yarn dev
+```
+
+## 六、Nuxt3 项目目录结构
+
+Nuxt3 通常使用的目录如下：
+
+```shell
+assets # 资源目录
+components # 组件目录
+composables # 组合 API 目录
+layout # 布局目录
+pages # 定义页面文件夹，路由会根据该页面目录结构和文件名自动生成
+  index.vue # 项目的首页
+plugins # 插件目录
+public # 静态资源目录，不参与打包
+app.vue # 整个应用程序
+app.config.ts # 应用程序的配置
+nuxt.config.js # 可定制 Nuxt 框架的配置，比如 css ssr vite app modules 等等
+package.lock.json
+package.json
+README.md
+tsconfig.json # typescript 的配置文件
+```
+
+`package.json` 中，脚本的含义：
 
 demo-project\03-hello-nuxt\package.json
 
 ```json
 {
   "scripts": {
-    "build": "nuxt build", // 打包正式版本：使用 nitro 引擎，将项目打包到 .output 中
-    "dev": "nuxt dev", // 开发环境运行。
+    "build": "nuxt build", // 打包正式版本：会使用 nitro 引擎，将项目打包到 .output 中
+    "dev": "nuxt dev", // 开发环境运行项目。
     "generate": "nuxt generate", // 打包正式版本项目，但是会提前预渲染每个路由，相当于 nuxt build --rerander
     "preview": "nuxt preview", // 打包项目（build / generate）后，进行本地预览。
-    "postinstall": "nuxt prepare" // npm 生命周期钩子， 当执行完 npm install 后，自动执行，生成 .nuxt 目录，里面有 ts 的类型。
+    "postinstall": "nuxt prepare" // npm 生命周期钩子，当执行完 npm install 后，自动执行，生成 .nuxt 目录，里面有 ts 的类型。
   },
 }
 ```
 
----
+## 七、应用入口分析
 
-应用入口分析
+默认情况下，Nuxt 会将 `app.vue` 文件，视为项目入口；并为应用程序的每个路由呈现其内容，
 
----
+该文件常用于：
 
-Nuxt 配置
+- 定义页面布局 Layout 或自定义布局，如：`<NuxtLayout>`（一个内置组件）
+- 定义路由的占位，如：`<NuxtPage>`；
+- 编写全局样式；
+- 全局监听路由。
+- ...
 
-nuxt.config.ts 文件配置。
+## 八、nuxt.config.js
 
-配置 runtimeConfig 运行时配置；
+`nuxt.config.ts` 用于对 Nuxt 进行自定义配置。有如下配置：
 
-在 app.vue 中，访问该配置。
+### 1.runtimeConfig
 
-- app.vue 会在客户端和服务端各打包一份。
-- 所以在其中编写代码，要判断环境。
-- 还可以通过 `if (typeof window === 'object')`
+- `runtimeConfig`：运行时配置（运行的时候，才会去读取的配置），即定义环境变量。
+- 可通过 `.env` 文件中的环境变量来覆盖，优先级（`.env` > `runtimeConfig`）
+  - `.env` 的变量，会注入到 `process.env` 中，其中符合规则的变量，会覆盖 `runtimeConfig` 的变量.
+  - `.env` 一般用于某些终端启动应用时，动态指定配置，同时支持 dev 和 pro
+  
+demo-project\03-hello-nuxt\nuxt.config.ts
 
----
+```js
+// https://nuxt.com/docs/api/configuration/nuxt-config
+export default defineNuxtConfig({
+  runtimeConfig: {
+    // 配置属性采用驼峰的形式
+    // server 端可访问的配置，会被打包到 server_bundle.js 中
+    appKey: 'aabbcc',
 
-.env 文件配置
+    // server、client 端，可访问的配置。会被打包到 server_bundle.js 和 client_bundle.js 中。
+    public: {
+      baseURL: 'http://codercba.com'
+    }
+  }
+})
+```
 
-在项目根目录，创建 .env 文件，
+在项目根目录，创建 `.env` 文件，
 
-该配置文件中的配置，不会区分是开发环境还是生产环境：
+项目运行时，会通过 *dotenv* 库，读取其中的环境变量，配置：
+
+其中的配置，不会区分开发环境还是生产环境：
 
 在这里写的变量，都会放到 `process.env` 对象中。
 
-```env
+```shell
 NUXT_APP_KEY = 'DDDDD' # 会覆盖 nuxt.config.ts 中的 runtimeConfig 中的 appKey
+PORT=9000 # 项目会运行在 9000 端口上。
 ```
 
-会通过 dotenv 包，读取其中的环境变量
+在 `app.vue` 中，可访问到该配置。
 
-配置
+`app.vue` 会在客户端和服务端各打包一份。
 
-```env
-PORT=9000
+所以在其中编写代码，要判断环境。
+
+还可以通过 `if (typeof window === 'object')`
+
+demo-project\03-hello-nuxt\app.vue
+
+```vue
+<script setup>
+// 1.获取运行时配置（server and client）
+const runtimeConfig = useRuntimeConfig()
+
+if (process.server) {
+  console.log('运行在 server~')
+  console.log('runtimeConig.appKey:', runtimeConfig.appKey)
+  console.log('runtimeConig.public.baseURL:', runtimeConfig.public.baseURL)
+}
+
+if (process.client) {
+  console.log('运行在 client~')
+  console.log('runtimeConig.public.baseURL:', runtimeConfig.public.baseURL)
+}
+
+if (typeof window === 'object') {
+  console.log('运行在 client~')
+}
+
+// 监听全局路由
+
+</script>
+
+<template>
+  <div>
+    Hello Nuxt3
+    <!-- next/ui 组件库的组件 -->
+    <!-- <NuxtWelcome /> -->
+  </div>
+</template>
 ```
-
-项目会运行在 9000 端口上。
