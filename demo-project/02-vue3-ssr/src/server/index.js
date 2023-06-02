@@ -21,7 +21,6 @@ server.get('/*', async (req, res, next) => {
 
   // 创建 router
   const router = createRouter(createMemoryHistory())
-  console.log('')
   app.use(router)
   await router.push(req.url || '/') // 路由加载的是异步组件，返回的是 promise。
   await router.isReady() // 等待（异步）路由加载完成，再渲染页面

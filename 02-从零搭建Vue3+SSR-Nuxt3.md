@@ -1,6 +1,8 @@
-一、邂逅 Vue3 + SSR
+# 从零搭建Vue3+SSR & Nuxt3
 
-hydration
+## 一、邂逅 Vue3 + SSR
+
+### 1.hydration
 
 在 client/index.js 中，编写代码：
 
@@ -14,9 +16,9 @@ const app = createApp(App)
 app.mount('#app')
 ```
 
-创建 webpack.client.config.js 文件，在其中进行配置.
+创建 `webpack.client.config.js` 文件，在其中进行客户端的配置.
 
-消除警告，使用 DefinePlugin 插件，配置全局环境变量。
+消除警告，使用 webpack 提供的 `DefinePlugin` 插件，配置全局环境变量。
 
 demo-project\02-vue3-ssr\config\webpack.client.config.js
 
@@ -59,11 +61,13 @@ module.exports = {
       __VUE_PROD_DEVTOOLS__: false
     })
   ]
-  // externals: [nodeExternals()] 不需要该配置，现在打包的是 web 应用程序。
+  // externals: [nodeExternals()] 不需要该配置，现在打包的是客户端的 web 应用程序。
 }
 ```
 
-在 package.json 中，进行配置
+在 `package.json` 中，进行配置。
+
+demo-project\02-vue3-ssr\package.json
 
 ```json
 {
@@ -89,11 +93,13 @@ pnpm build:server
 
 demo-project\02-vue3-ssr\build\client\client_bundle.js
 
-并打包服务端代码。
+打包服务端代码。
 
-在 src\server\index.js 中，引入打包好的 client_bundle.js 文件。
+在 `src\server\index.js` 中，引入打包好的 `client_bundle.js` 文件。
 
 同时，要使用 express 的静态资源部署功能；
+
+demo-project\02-vue3-ssr\src\server\index.js
 
 ```js
 const express = require('express')
@@ -135,27 +141,52 @@ server.listen(9000, () => {
 })
 ```
 
----
+### 2.跨请求状态的污染
 
-跨请求状态的污染
+在 SPA 中，整个生命周期中只有一个 app 对象实例、一个 router 对象实例、一个 store 对象实例；
 
-为什么 app.js 中，要导出一个函数？
+用户在使用浏览器，访问 SPA 应用时，应用模块都会重新初始化，这是一种单例模式。
 
+然而，在 SSR 模式下，app 应用模块，通常只在服务器启动时，初始化一次；
 
+同一个应用模块，会在多个请求里被复用，单例状态的对象也一样，也会在多个请求之间被复用，比如：
 
-缺点是会消耗更多服务器资源。
+- 当某个用户，对共享的单例状态进行修改，那么这个状态可能会意外地泄露给另一个在请求的用户。
+- 这种情况称为：**跨请求状态污染**。
 
----
+为了避免“跨请求状态污染”，SSR 的解决方案是：
 
-配置文件抽取
+- 在每个请求中，为整个应用创建一个全新的实例，包括 router 和全局 store 等实例。
+- 所以在创建 app、router、store 对象时，都会使用一个函数来创建，保证每个请求，都会创建一个全新的实例。
 
-安装 *webpack-merge*
+这样也会有**缺点**：需要消耗更多的服务器的资源：
+
+这也解释了，为什么 app.js 中，要导出一个函数？
+
+demo-project\02-vue3-ssr\src\app.js
+
+```js
+import { createSSRApp } from 'vue';
+import App from './App.vue';
+
+// 导出一个函数，在其中中返回 app 实例。
+// 避免跨请求状态的污染。
+// 保证每个请求，都会返回一个新的 app 实例。
+export default function createApp() {
+  const app = createSSRApp(App)
+  return app
+}
+```
+
+### 3.配置文件抽取
+
+安装 *webpack-merge* 插件。
 
 ```shell
 pnpm add webpack-merge -D
 ```
 
-抽取 webpack.server.config.js 和 webpack.client.config.js 中的公共部分，到 webpack.base.config.js 中。
+抽取 `webpack.server.config.js` 和 `webpack.client.config.js` 中的公共部分，到 `webpack.base.config.js` 中。
 
 demo-project\02-vue3-ssr\config\webpack.base.config.js
 
@@ -237,27 +268,27 @@ module.exports = merge(baseConfig, {
 })
 ```
 
----
+### 4.Vue Router 配置
 
-Vue3 SSR + Vue Router
-
-安装 vue-router：
+安装 *vue-router*：
 
 ```shell
 pnpm add vue-router
 ```
 
-创建 router 和 views 文件夹。
+创建 views 文件夹。
 
-创建 Home.vue、About.vue 文件。
+在其中，创建 `Home.vue`、`About.vue` 文件。
 
 demo-project\02-vue3-ssr\src\views\Home.vue
 
 demo-project\02-vue3-ssr\src\views\About.vue
 
-同样的，为了防止跨请求状态的污染，导出一个函数。
+创建 router 文件夹。
 
-服务器或客户端渲染，路由模式是不确定的，需要传入到这个函数中
+在其中初始化 vue router，同样的，为了防止“跨请求状态的污染”，导出一个函数。
+
+- 在服务器、客户端渲染两种情况下，路由模式是不确定的，需要传入到这个函数中
 
 demo-project\02-vue3-ssr\src\router\index.js
 
@@ -276,7 +307,7 @@ const routes = [
 ]
 
 export default function (history) {
-  
+
   return createRouter({
     history,
     routes
@@ -284,7 +315,7 @@ export default function (history) {
 }
 ```
 
-在 App.vue 中，编写路由的占位。
+在 `App.vue` 中，编写路由的导航和占位。
 
 demo-project\02-vue3-ssr\src\App.vue
 
@@ -315,13 +346,12 @@ function onAddButtonClick() {
 
     <router-view></router-view>
   </div>
-
 </template>
 
 <style scoped></style>
 ```
 
-在 server/index.js 中，创建 router，传入路由模式：
+在 `server/index.js` 中，创建 router，传入路由模式：
 
 路由加载完成后，再渲染页面：
 
@@ -349,7 +379,7 @@ server.get('/*', async (req, res, next) => {
   // 创建 router
   const router = createRouter(createMemoryHistory)
   app.use(router)
-  await router.push(req.rul || '/') // 路由加载的是异步组件，返回的是 promise。
+  await router.push(req.url || '/') // 路由加载的是异步组件，返回的是 promise。
   await router.isReady() // 等待（异步）路由加载完成，再渲染页面
 
   const appHtmlString = await renderToString(app)
@@ -380,7 +410,7 @@ server.listen(9000, () => {
 })
 ```
 
-再 client/index.js 中，进行相同的操作：
+再 `client/index.js` 中，进行相同的操作：
 
 demo-project\02-vue3-ssr\src\client\index.js
 
@@ -390,10 +420,13 @@ import App from '../App.vue';
 import createRouter from '../router';
 import { createWebHistory } from 'vue-router';
 
+// 创建 app
 const app = createApp(App)
 
+// 创建 router
 const router = createRouter(createWebHistory())
 
+// 安装 router
 app.use(router)
 
 router.isReady().then(() => {
@@ -411,27 +444,21 @@ pnpm build:client
 pnpm start
 ```
 
----
+### 5.Pinia 配置
 
-Vue3 SSR + Pinia
-
-安装 pinia
+安装 *pinia*：
 
 ```shell
 pnpm add pinia
 ```
 
-同样的，再服务端和客户端，都要创建 pinia 对象。
+同样的，在服务端、客户端，都要创建 pinia 对象。
 
 服务端的 pinia，会把状态转成字符串的形式，存放在 window 对象上；
 
 在 hydration 时，注入到客户端 window 对象上，以便使用。
 
-
-
-创建 store 文件夹。
-
-创建 homeStore
+创建 store 文件夹，创建 `homeStore`
 
 demo-project\02-vue3-ssr\src\store\home.js
 
@@ -455,7 +482,7 @@ export const useHomeStore = defineStore('home', {
 })
 ```
 
-在 server 中，创建 pinia 并安装：
+在 `server/index.js` 中，创建 pinia 并安装：
 
 demo-project\02-vue3-ssr\src\server\index.js
 
@@ -473,7 +500,7 @@ server.get('/*', async (req, res, next) => {
 }
 ```
 
-在 client 中，创建 pinia 并安装：
+在 `client/index.js` 中，创建 pinia 并安装：
 
 demo-project\02-vue3-ssr\src\client\index.js
 
@@ -487,10 +514,9 @@ const app = createApp(App)
 // 创建 pinia
 const pinia = createPinia()
 app.use(pinia)
-
 ```
 
-在 Home.vue 中，读取变量；
+在 `Home.vue` 中，读取变量；
 
 demo-project\02-vue3-ssr\src\views\Home.vue
 
@@ -519,11 +545,11 @@ function onAddButtonClick() {
 <style scoped></style>
 ```
 
-同样的，在 App.vue 和 About.vue 中 引入 pinia 中的状态 count。
+同样的，在 `App.vue`、`Home.vue`、`About.vue` 中 引入 pinia 中的状态 `count`。
 
 demo-project\02-vue3-ssr\src\views\About.vue
 
-```js
+```vue
 <script setup>
 import { storeToRefs } from 'pinia';
 import { useHomeStore  } from '../store/home';
@@ -548,11 +574,49 @@ function onAddButtonClick() {
 <style scoped></style>
 ```
 
----
+执行命令：
 
-nuxt
+```shell
+pnpm build:server
+pnpm build:client
+pnpm start
+```
 
-什么是 Nuxt
+至此，Vue3 配置 SSR 完成。
+
+## 二、Nuxt 是什么？
+
+在了解 Nuxt 之前，思考创建一个现代应用程序，所需的技术：
+
+- 支持数据双向绑定和组件化（Nuxt 选择了 Vue.js）。
+- 支持前端路由（Nuxt 选择了 vue-router）。
+- 支持 HMR 和生产环境代码打包（Nuxt 支持 webpack5 和 Vite）。
+- 支持 JS 语法转换，兼容旧版浏览器（Nuxt 使用 esbuild）。
+- 支持开发环境服务器，也支持服务器端渲染，或 API 接口开发。
+
+Nuxt 使用 h3，来实现部署可移植性；
+
+- h3 是一个极小的高性能的 http 框架 
+- 比如：支持在 Serverless、Workers 和 Node.js 环境中运行。
+
+> Serverless：表示“无服务”。
+>
+> - 无需自己做过多配置，开箱即用的服务器；
+> - 小程序的云函数，就属于 Serverless 的概念。
+> - 腾讯云、Netify、Vercel 等平台，提供了这种服务器；
+>
+> workers：表示“节点”的概念：
+>
+> - 如 CDN，国外有 CloudFlare 平台；
+> - 是 Serverless 概念中的一种。
+
+Nuxt 是一个直观的 Web 框架：
+
+- 自 2016 年 10 月以来，Nuxt 专门负责集成上述所描述的事情，并提供前端和后端的功能。
+- Nuxt 框架，可以用来快速构建下一个 Vue.js 应用程序；
+- 支持 CSR、SSR、SSG 混合渲染模式等模式的应用。
+
+
 
 
 
