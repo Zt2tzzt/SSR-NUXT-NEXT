@@ -1,16 +1,20 @@
 <script setup>
-import { ref } from 'vue'
+import { storeToRefs } from 'pinia';
+import { useHomeStore  } from '../store/home';
 
-const counter = ref(100)
+const homeStore = useHomeStore()
+
+const { count } = storeToRefs(homeStore)
+
 function onAddButtonClick() {
-  counter.value++
+  count.value++
 }
 </script>
 
 <template>
   <div class="about" style="border: 1px solid blue; margin: 10px">
     <h1>About</h1>
-    <div>{{ counter }}</div>
+    <div>{{ count }}</div>
     <button @click="onAddButtonClick">加1</button>
   </div>
 </template>

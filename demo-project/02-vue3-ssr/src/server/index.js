@@ -1,14 +1,31 @@
 const express = require('express')
 import createApp from '../app';
 import { renderToString } from 'vue/server-renderer';
+import createRouter from '../router/index';
+// 在 node 环境中，要用 createMemoryHistory
+import { createMemoryHistory } from 'vue-router';
+import { createPinia } from 'pinia';
 
 const server = express()
 
 // express 部署静态资源
 server.use(express.static('build'))
 
-server.get('/', async (req, res, next) => {
+server.get('/*', async (req, res, next) => {
+  // 创建 app
   const app = createApp()
+
+  // 创建 pinia
+  const pinia = createPinia()
+  app.use(pinia)
+
+  // 创建 router
+  const router = createRouter(createMemoryHistory())
+  console.log('')
+  app.use(router)
+  await router.push(req.url || '/') // 路由加载的是异步组件，返回的是 promise。
+  await router.isReady() // 等待（异步）路由加载完成，再渲染页面
+
   const appHtmlString = await renderToString(app)
 
   res.send(`

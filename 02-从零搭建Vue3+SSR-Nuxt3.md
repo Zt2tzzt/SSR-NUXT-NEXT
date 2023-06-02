@@ -288,3 +288,350 @@ export default function (history) {
 
 demo-project\02-vue3-ssr\src\App.vue
 
+```vue
+<script setup>
+import { ref } from 'vue'
+
+const counter = ref(100)
+function onAddButtonClick() {
+  counter.value++
+}
+</script>
+
+<template>
+  <div class="app" style="border: 1px solid red">
+    <h1>Vue3 app</h1>
+    <div>{{ counter }}</div>
+    <button @click="onAddButtonClick">加1</button>
+
+    <div>
+      <router-link to="/">
+        <button>home</button>
+      </router-link>
+      <router-link to="/about">
+        <button>about</button>
+      </router-link>
+    </div>
+
+    <router-view></router-view>
+  </div>
+
+</template>
+
+<style scoped></style>
+```
+
+在 server/index.js 中，创建 router，传入路由模式：
+
+路由加载完成后，再渲染页面：
+
+无论请求怎样的路径，都会来到这个服务里，所以更改请求路径为 `/*`
+
+demo-project\02-vue3-ssr\src\server\index.js
+
+```js
+const express = require('express')
+import createApp from '../app';
+import { renderToString } from 'vue/server-renderer';
+import createRouter from '../router/index';
+// 在 node 环境中，要用 createMemoryHistory
+import { createMemoryHistory } from 'vue-router';
+
+const server = express()
+
+// express 部署静态资源
+server.use(express.static('build'))
+
+server.get('/*', async (req, res, next) => {
+  // 创建 app
+  const app = createApp()
+
+  // 创建 router
+  const router = createRouter(createMemoryHistory)
+  app.use(router)
+  await router.push(req.rul || '/') // 路由加载的是异步组件，返回的是 promise。
+  await router.isReady() // 等待（异步）路由加载完成，再渲染页面
+
+  const appHtmlString = await renderToString(app)
+
+  res.send(`
+    <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+      </head>
+      <body>
+        <h1>Vue3 Serve Side Render</h1>
+        <div id="app">
+          ${appHtmlString}
+        </div>
+
+        <script src="/client/client_bundle.js"></script>
+      </body>
+    </html>`
+  )
+})
+
+server.listen(9000, () => {
+  console.log('start node server on port 9000 ~')
+})
+```
+
+再 client/index.js 中，进行相同的操作：
+
+demo-project\02-vue3-ssr\src\client\index.js
+
+```js
+import { createApp } from 'vue';
+import App from '../App.vue';
+import createRouter from '../router';
+import { createWebHistory } from 'vue-router';
+
+const app = createApp(App)
+
+const router = createRouter(createWebHistory())
+
+app.use(router)
+
+router.isReady().then(() => {
+  app.mount('#app')
+})
+```
+
+执行命令：
+
+```shell
+pnpm build:server
+
+pnpm build:client
+
+pnpm start
+```
+
+---
+
+Vue3 SSR + Pinia
+
+安装 pinia
+
+```shell
+pnpm add pinia
+```
+
+同样的，再服务端和客户端，都要创建 pinia 对象。
+
+服务端的 pinia，会把状态转成字符串的形式，存放在 window 对象上；
+
+在 hydration 时，注入到客户端 window 对象上，以便使用。
+
+
+
+创建 store 文件夹。
+
+创建 homeStore
+
+demo-project\02-vue3-ssr\src\store\home.js
+
+```js
+import { defineStore } from 'pinia';
+
+export const useHomeStore = defineStore('home', {
+  state() {
+    return {
+      count: 100
+    }
+  },
+  actions: {
+    increment() {
+      this.count++
+    },
+    decrement() {
+      this.count--
+    }
+  }
+})
+```
+
+在 server 中，创建 pinia 并安装：
+
+demo-project\02-vue3-ssr\src\server\index.js
+
+```js
+import { createPinia } from 'pinia';
+//...
+
+server.get('/*', async (req, res, next) => {
+  // 创建 app
+  const app = createApp()
+
+  // 创建 pinia
+  const pinia = createPinia()
+  app.use(pinia)
+}
+```
+
+在 client 中，创建 pinia 并安装：
+
+demo-project\02-vue3-ssr\src\client\index.js
+
+```js
+//...
+import { createPinia } from 'pinia';
+
+// 创建 app
+const app = createApp(App)
+
+// 创建 pinia
+const pinia = createPinia()
+app.use(pinia)
+
+```
+
+在 Home.vue 中，读取变量；
+
+demo-project\02-vue3-ssr\src\views\Home.vue
+
+```vue
+<script setup>
+import { storeToRefs } from 'pinia';
+import { useHomeStore  } from '../store/home';
+
+const homeStore = useHomeStore()
+
+const { count } = storeToRefs(homeStore)
+
+function onAddButtonClick() {
+  count.value++
+}
+</script>
+
+<template>
+  <div class="home" style="border: 1px solid green; margin: 10px">
+    <h1>Home</h1>
+    <div>{{ count }}</div>
+    <button @click="onAddButtonClick">加1</button>
+  </div>
+</template>
+
+<style scoped></style>
+```
+
+同样的，在 App.vue 和 About.vue 中 引入 pinia 中的状态 count。
+
+demo-project\02-vue3-ssr\src\views\About.vue
+
+```js
+<script setup>
+import { storeToRefs } from 'pinia';
+import { useHomeStore  } from '../store/home';
+
+const homeStore = useHomeStore()
+
+const { count } = storeToRefs(homeStore)
+
+function onAddButtonClick() {
+  count.value++
+}
+</script>
+
+<template>
+  <div class="about" style="border: 1px solid blue; margin: 10px">
+    <h1>About</h1>
+    <div>{{ count }}</div>
+    <button @click="onAddButtonClick">加1</button>
+  </div>
+</template>
+
+<style scoped></style>
+```
+
+---
+
+nuxt
+
+什么是 Nuxt
+
+
+
+Nuxt 的发展史。
+
+
+
+Nuxt 有何特点？
+
+
+
+Nuxt.js 与 Nuxt3 有何不同？
+
+---
+
+Nuxt3 环境搭建。
+
+创建项目报错处理。
+
+---
+
+Nuxt3 项目目录结构。
+
+
+
+package.json 中，脚本的含义：
+
+demo-project\03-hello-nuxt\package.json
+
+```json
+{
+  "scripts": {
+    "build": "nuxt build", // 打包正式版本：使用 nitro 引擎，将项目打包到 .output 中
+    "dev": "nuxt dev", // 开发环境运行。
+    "generate": "nuxt generate", // 打包正式版本项目，但是会提前预渲染每个路由，相当于 nuxt build --rerander
+    "preview": "nuxt preview", // 打包项目（build / generate）后，进行本地预览。
+    "postinstall": "nuxt prepare" // npm 生命周期钩子， 当执行完 npm install 后，自动执行，生成 .nuxt 目录，里面有 ts 的类型。
+  },
+}
+```
+
+---
+
+应用入口分析
+
+---
+
+Nuxt 配置
+
+nuxt.config.ts 文件配置。
+
+配置 runtimeConfig 运行时配置；
+
+在 app.vue 中，访问该配置。
+
+- app.vue 会在客户端和服务端各打包一份。
+- 所以在其中编写代码，要判断环境。
+- 还可以通过 `if (typeof window === 'object')`
+
+---
+
+.env 文件配置
+
+在项目根目录，创建 .env 文件，
+
+该配置文件中的配置，不会区分是开发环境还是生产环境：
+
+在这里写的变量，都会放到 `process.env` 对象中。
+
+```env
+NUXT_APP_KEY = 'DDDDD' # 会覆盖 nuxt.config.ts 中的 runtimeConfig 中的 appKey
+```
+
+会通过 dotenv 包，读取其中的环境变量
+
+配置
+
+```env
+PORT=9000
+```
+
+项目会运行在 9000 端口上。
