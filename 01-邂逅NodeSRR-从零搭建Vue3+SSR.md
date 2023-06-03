@@ -57,22 +57,22 @@ SPA 应用，默认只返回一个空 HTML 页面；
 
 只需加载一次；
 
-- SPA 应用程序，只需在第一次请求时，加载页面；页面切换不需重新加载；因此，SPA 页面加载速度要比传统 Web 应用程序更快
-- 而传统的 Web 应用程序，必须在每次请求时都得加载页面，需要花费更多时间。
+- 第一次请求时，加载页面；页面切换无需再加载；页面加载四余度更快；
+- 传统的 Web 应用程序，在每次请求时，都得加载页面；
 
 更好的用户体验；
 
-- SPA 提供类似于桌面，或移动应用程序的体验。用户切换页面不必重新加载新页面；只是内容发生了变化，使体验变得更加流畅
+- 提供类似于桌面、移动应用程序的体验。切换页面无需重新加载；仅内容发生了变化。使体验变得更加流畅。
 
 轻松的构建功能丰富的 Web 应用程序。
 
 ### 2.SPA 缺点
 
-SPA 应用，默认只返回一个空 HTML 页面，不利于 **SEO（search engine optimization)**；这是**致命的缺点**。
+不利于 **SEO（search engine optimization)**；这是**致命的缺点**。第一次加载页面，仅返回一个空 HTML 页面，
 
-首屏加载的资源过大时，也会影响首屏的渲染；
+首屏加载的资源过大时，也会影响首屏的渲染；（相对于上面的优点1、2，有利有弊）
 
-不利于构建复杂的项目，复杂 Web 应用程序的大文件可能变得难以维护；
+不利于构建复杂的项目，复杂 Web 应用程序的大文件可能变得难以维护；（相对于上面的优点3，有利有弊）
 
 ## 三、爬虫工作流程
 
@@ -86,7 +86,7 @@ SPA 应用，默认只返回一个空 HTML 页面，不利于 **SEO（search eng
 
 阶段二：索引编制：
 
-- 爬虫程序，会分析网页上的文本、图片和视频文件；
+- 分析网页上的文本、图片和视频文件；
 - 并将信息存储在大型数据库（索引区）中。
 - 例如 `<title>` 元素和 `alt` 属性、图片、视频...；
 - 爬虫会对内容类似的网页归类分组。
@@ -197,7 +197,7 @@ SSR 应用的页面，是在服务端渲染的；
 - Vue Nuxt；
 - React Next.js
 
-SSR 应用，也称同构应用。
+SSR 应用，也称**同构应用**。
 
 - “服务端打包的应用程序”和“客户端打包的应用程序”同时构建的应用。
 
@@ -222,12 +222,12 @@ SSR 应用，也称同构应用。
 - 浏览器显示静态页面内容，要比加载 JS 后，动态生成的内容快得多。
 - 当用户访问首页时，可立即返回静态页面内容，而不需要等待浏览器先加载完整个应用程序。
 
-更好的 SEO
+更好的 SEO：
 
 - 爬虫可直接爬取服务器端返回的静态 HTML 页面；
 - 有利于爬虫快速抓取网页内容，并编入索引；
 
-SSR 应用程序，在 Hydration 后，依然可以保留 Web 应用程序的交互性。
+保留 Web 应用程序的交互性（通过 Hydration）。
 
 - 比如：前端路由、响应式数据、虚拟 DOM 等。
 
@@ -235,7 +235,7 @@ SSR 应用程序，在 Hydration 后，依然可以保留 Web 应用程序的交
 
 SSR 通常需要对服务器进行更多 API 调用，会消耗更多的服务器资源，成本高。
 
-增加增加开发者心智负担，开发者要关心：哪些代码运行在服务器端，哪些代码运行在浏览器端；
+增加开发者心智负担，开发者要关心：哪些代码运行在服务器端，哪些代码运行在浏览器端；
 
 SSR 配置站点的缓存，通常会比 SPA 站点要复杂一点。
 
@@ -295,7 +295,7 @@ pnpm add express
 
 安装开发时依赖 *nodemon*、*webpack*、*webpack-node-externals*；
 
-- webpack-node-externals：用于排除掉 node_modules 中所以的模块
+- webpack-node-externals：用于排除掉 node_modules 中的模块
 
 ```shell
 pnpm add webpack webpack-cli webpack-node-externals nodemon -D
@@ -366,11 +366,11 @@ module.exports = {
 pnpm build:server
 ```
 
-发现打包的结果太大；
+发现打包的文件太大；
 
 因为打包的是 node 环境（`target: "node"`）；
 
-所以要在 `webpack.config.js` 中，配置 webpack-node-externals，排除 node 环境的打包。
+所以要在 `webpack.config.js` 中，配置 *webpack-node-externals* 插件，排除 node 环境的打包。
 
 demo-project\01-node-server\src\config\webpack.config.js
 
@@ -402,7 +402,7 @@ module.exports = {
 }
 ```
 
-### 2.Vue3 App 搭建
+### 2.Vue3 App 搭建（client）
 
 主要目的是：将 vue3 代码（App.vue）转成字符串，放入到 Node Server 中，并返回给客户端。
 
@@ -417,7 +417,7 @@ pnpm add vue
 安装开发时依赖 *vue-loader*、*babel-loader*、*@babel/preset-env*
 
 ```shell
-pnpm add vue-loader babel-loader @babel/core @babel/preset-env webpack-merge -D
+pnpm add vue-loader babel-loader @babel/core @babel/preset-env -D
 ```
 
 编写一个 `App.vue` 文件。
@@ -453,7 +453,7 @@ import { createSSRApp } from 'vue';
 import App from './App.vue';
 
 // 导出一个函数，在其中返回 app 实例。这么做的原因是：
-// - 避免跨请求状态的污染。
+// - 避免“跨请求状态的污染”。
 // - 保证每个请求，都会返回一个新的 app 实例。
 export default function createApp() {
   const app = createSSRApp(App)
@@ -526,7 +526,7 @@ server.listen(9000, () => {
 在 `webpack.config.js` 配置文件中，
 
 - 配置 loader；
-- 配置 `VueLoaderPlugin`
+- 配置 `VueLoaderPlugin` 插件。
 
 修改 `webpack.config.js` 名称为 `webpack.server.config.js`；
 
@@ -584,6 +584,7 @@ pnpm start
 
 静态资源被展示，但不能点击按钮交互。
 
-至此，同构应用的服务端搭建，已经完成；
+至此，同构应用的，服务端搭建，已经完成；
 
 接下来要进行 hydration。也就是搭建客户端，新建 client 文件夹。
+
