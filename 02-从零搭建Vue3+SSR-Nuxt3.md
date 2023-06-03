@@ -4,7 +4,7 @@
 
 ### 1.hydration
 
-在 client/index.js 中，编写代码：
+在 `client/index.js` 中，编写代码：
 
 demo-project\02-vue3-ssr\src\client\index.js
 
@@ -18,7 +18,9 @@ app.mount('#app')
 
 创建 `webpack.client.config.js` 文件，在其中进行客户端的配置.
 
-消除警告，使用 webpack 提供的 `DefinePlugin` 插件，配置全局环境变量。
+运行时项目，消除浏览器中的警告：
+
+使用 webpack 提供的 `DefinePlugin` 插件，配置全局环境变量。
 
 demo-project\02-vue3-ssr\config\webpack.client.config.js
 
@@ -85,19 +87,19 @@ demo-project\02-vue3-ssr\package.json
 
 ```shell
 pnpm build:client
-
-pnpm build:server
 ```
 
-生成打包文件，
+生成客户端打包文件，
 
 demo-project\02-vue3-ssr\build\client\client_bundle.js
+
+---
 
 打包服务端代码。
 
 在 `src\server\index.js` 中，引入打包好的 `client_bundle.js` 文件。
 
-同时，要使用 express 的静态资源部署功能；
+同时，使用 express 服务器的静态资源部署功能；
 
 demo-project\02-vue3-ssr\src\server\index.js
 
@@ -141,27 +143,39 @@ server.listen(9000, () => {
 })
 ```
 
+执行命令：
+
+```shell
+pnpm build:server
+```
+
+生成服务端打包文件，
+
+demo-project\02-vue3-ssr\build\server\server_bundle.js
+
 ### 2.跨请求状态的污染
 
-在 SPA 中，整个生命周期中只有一个 app 对象实例、一个 router 对象实例、一个 store 对象实例；
+在 SPA 中，整个生命周期只有一个 app 对象实例、一个 router 对象实例、一个 store 对象实例；
 
-用户在使用浏览器，访问 SPA 应用时，应用模块都会重新初始化，这是一种单例模式。
+用户在使用浏览器，访问 SPA 应用时，应用模块，都会重新初始化，这是一种**单例模式**。
 
 然而，在 SSR 模式下，app 应用模块，通常只在服务器启动时，初始化一次；
 
-同一个应用模块，会在多个请求里被复用，单例状态的对象也一样，也会在多个请求之间被复用，比如：
+同一个应用模块，会在多个请求里被复用；
 
-- 当某个用户，对共享的单例状态进行修改，那么这个状态可能会意外地泄露给另一个在请求的用户。
+单例状态的对象也一样，也会在多个请求之间被复用，比如：
+
+- 当某个用户，对共享的单例状态，进行修改，那么这个状态可能会意外地泄露给另一个在请求的用户。
 - 这种情况称为：**跨请求状态污染**。
 
 为了避免“跨请求状态污染”，SSR 的解决方案是：
 
-- 在每个请求中，为整个应用创建一个全新的实例，包括 router 和全局 store 等实例。
+- 在每个请求中，为整个应用创建一个全新的实例，比如全新的 app、router、store 实例。
 - 所以在创建 app、router、store 对象时，都会使用一个函数来创建，保证每个请求，都会创建一个全新的实例。
 
 这样也会有**缺点**：需要消耗更多的服务器的资源：
 
-这也解释了，为什么 app.js 中，要导出一个函数？
+这也解释了，为什么 `app.js` 中，要导出一个函数？
 
 demo-project\02-vue3-ssr\src\app.js
 
@@ -170,7 +184,7 @@ import { createSSRApp } from 'vue';
 import App from './App.vue';
 
 // 导出一个函数，在其中中返回 app 实例。
-// 避免跨请求状态的污染。
+// 避免“跨请求状态的污染”。
 // 保证每个请求，都会返回一个新的 app 实例。
 export default function createApp() {
   const app = createSSRApp(App)
@@ -351,11 +365,11 @@ function onAddButtonClick() {
 <style scoped></style>
 ```
 
-在 `server/index.js` 中，创建 router，传入路由模式：
+在 `server/index.js` 中，创建 router，传入路由模式 `createMemoryHistory`：
 
 路由加载完成后，再渲染页面：
 
-无论请求怎样的路径，都会来到这个服务里，所以更改请求路径为 `/*`
+无论请求怎样的路径，都会来到这个服务里，所以更改请求路径为 `/*`；
 
 demo-project\02-vue3-ssr\src\server\index.js
 
@@ -379,6 +393,7 @@ server.get('/*', async (req, res, next) => {
   // 创建 router
   const router = createRouter(createMemoryHistory)
   app.use(router)
+  
   await router.push(req.url || '/') // 路由加载的是异步组件，返回的是 promise。
   await router.isReady() // 等待（异步）路由加载完成，再渲染页面
 
@@ -410,7 +425,7 @@ server.listen(9000, () => {
 })
 ```
 
-再 `client/index.js` 中，进行相同的操作：
+在 `client/index.js` 中，进行相同的操作：
 
 demo-project\02-vue3-ssr\src\client\index.js
 
@@ -454,11 +469,11 @@ pnpm add pinia
 
 同样的，在服务端、客户端，都要创建 pinia 对象。
 
-服务端的 pinia，会把状态转成字符串的形式，存放在 window 对象上；
+服务端的 pinia，会把状态转成字符串的形式，存放在 `window` 对象上；
 
-在 hydration 时，注入到客户端 window 对象上，以便使用。
+在 hydration 时，注入到客户端 `window` 对象上，以便使用。
 
-创建 store 文件夹，创建 `homeStore`
+创建 store 文件夹，创建 `homeStore`；
 
 demo-project\02-vue3-ssr\src\store\home.js
 
@@ -545,7 +560,9 @@ function onAddButtonClick() {
 <style scoped></style>
 ```
 
-同样的，在 `App.vue`、`Home.vue`、`About.vue` 中 引入 pinia 中的状态 `count`。
+同样的，在 `App.vue`、`Home.vue`、`About.vue` 中：
+
+引入 pinia 中的状态 `count`。
 
 demo-project\02-vue3-ssr\src\views\About.vue
 
@@ -578,7 +595,9 @@ function onAddButtonClick() {
 
 ```shell
 pnpm build:server
+
 pnpm build:client
+
 pnpm start
 ```
 
@@ -596,8 +615,8 @@ pnpm start
 
 Nuxt 使用 h3，来实现部署可移植性；
 
-- h3 是一个极小的高性能的 http 框架
-- 比如：支持在 Serverless、Workers 和 Node.js 环境中运行。
+- h3 是一个极小的高性能的 http 框架。
+- 比如：支持在 Serverless、Workers、Node.js 环境中运行。
 
 > Serverless：表示“无服务”。
 >
@@ -612,9 +631,9 @@ Nuxt 使用 h3，来实现部署可移植性；
 
 Nuxt 是一个直观的 Web 框架：
 
-- 自 2016 年 10 月以来，Nuxt 专门负责集成上述所描述的事情，并提供前端和后端的功能。
-- Nuxt 框架，可以用来快速构建下一个 Vue.js 应用程序；
-- 支持 CSR、SSR、SSG 混合渲染模式等模式的应用。
+- 自 2016 年 10 月以来，Nuxt 专门负责集成上述功能，提供前后端的功能。
+- Nuxt 框架，可用来快速构建下一个 Vue.js 应用程序；
+- 支持 CSR、SSR、SSG 混合渲染模式等，模式的应用。
 
 ## 三、Nuxt 的发展史
 
@@ -651,7 +670,7 @@ Vue 技术栈：
 
 自动导包：
 
-- Nuxt 会自动导入辅助函数、组合 API 和 Vue API，无需手动导入。
+- Nuxt 会自动导入辅助函数、Composition API、Vue API；
 - 基于规范的目录结构，提供对自己的组件、插件使用自动导入。
 
 约定式路由（目录结构即路由）：
@@ -659,7 +678,7 @@ Vue 技术栈：
 - Nuxt 路由基于 vue-router；
 - 在 `pages` 目录中，创建的每个页面，会根据目录结构和文件名，自动生成路由。
 
-多种渲染模式（SSR、CSR、SSG等）:
+多种渲染模式（SSR、CSR、SSG，混合渲染模式等）:
 
 利于搜索引擎优化（SEO）：
 
@@ -678,7 +697,7 @@ Vue 技术栈：
 
 环境准备：
 
-- Node.js （最新 LTS 版本，或 16.11以上）
+- Node.js （最新 LTS 版本，或 16.11 以上）
 - VSCode 插件：Volar、ESLint、Prettier
 
 命令行工具，创建项目（hello-nuxt)
@@ -693,11 +712,11 @@ npm install –g nuxi && nuxi init hello-nuxt
 
 ### 1.报错处理
 
-创建项目时，可能会报错错误，主要是网络不通导致：
+创建项目时，可能会报错，主要是网络不通导致：
 
-解决方案：
+解决步骤：
 
-1.执行 ping 命令，检查域名是否能连通；
+1.执行 ping 命令，检查下面的域名，是否能连通；
 
 ```shell
 ping raw.githubusercontent.com
@@ -737,7 +756,7 @@ assets # 资源目录
 components # 组件目录
 composables # 组合 API 目录
 layout # 布局目录
-pages # 定义页面文件夹，路由会根据该页面目录结构和文件名自动生成
+pages # 定义页面文件夹，路由会根据该页面目录结构，和文件名自动生成
   index.vue # 项目的首页
 plugins # 插件目录
 public # 静态资源目录，不参与打包
@@ -772,7 +791,7 @@ demo-project\03-hello-nuxt\package.json
 
 该文件常用于：
 
-- 定义页面布局 Layout 或自定义布局，如：`<NuxtLayout>`（一个内置组件）
+- 定义页面布局 Layout，或自定义布局，如：`<NuxtLayout>`（一个内置组件）
 - 定义路由的占位，如：`<NuxtPage>`；
 - 编写全局样式；
 - 全局监听路由。
@@ -784,11 +803,8 @@ demo-project\03-hello-nuxt\package.json
 
 ### 1.runtimeConfig
 
-- `runtimeConfig`：运行时配置（运行的时候，才会去读取的配置），即定义环境变量。
-- 可通过 `.env` 文件中的环境变量来覆盖，优先级（`.env` > `runtimeConfig`）
-  - `.env` 的变量，会注入到 `process.env` 中，其中符合规则的变量，会覆盖 `runtimeConfig` 的变量.
-  - `.env` 一般用于某些终端启动应用时，动态指定配置，同时支持 dev 和 pro
-  
+`runtimeConfig`：运行时配置（运行的时候，才会去读取的配置），即定义环境变量。
+
 demo-project\03-hello-nuxt\nuxt.config.ts
 
 ```js
@@ -807,11 +823,14 @@ export default defineNuxtConfig({
 })
 ```
 
+通过 `.env` 文件中的环境变量，来覆盖，优先级（`.env` > `runtimeConfig`）
+
+- `.env` 的变量，会注入到 `process.env` 中，其中符合规则的变量，会覆盖 `runtimeConfig` 的变量.
+- `.env` 一般用于：某些终端启动应用时，动态指定配置，同时支持 dev 和 pro 环境。
+
 在项目根目录，创建 `.env` 文件，
 
 项目运行时，会通过 *dotenv* 库，读取其中的环境变量，配置：
-
-其中的配置，不会区分开发环境还是生产环境：
 
 在这里写的变量，都会放到 `process.env` 对象中。
 
@@ -820,13 +839,9 @@ NUXT_APP_KEY = 'DDDDD' # 会覆盖 nuxt.config.ts 中的 runtimeConfig 中的 ap
 PORT=9000 # 项目会运行在 9000 端口上。
 ```
 
-在 `app.vue` 中，可访问到该配置。
+`app.vue` 中，可访问到 `runtimeConfig` 配置。
 
-`app.vue` 会在客户端和服务端各打包一份。
-
-所以在其中编写代码，要判断环境。
-
-还可以通过 `if (typeof window === 'object')`
+`app.vue` 会在客户端和服务端各打包一份。所以在其中编写代码，要判断环境。
 
 demo-project\03-hello-nuxt\app.vue
 
@@ -835,22 +850,21 @@ demo-project\03-hello-nuxt\app.vue
 // 1.获取运行时配置（server and client）
 const runtimeConfig = useRuntimeConfig()
 
+// 判断环境，方式一
 if (process.server) {
   console.log('运行在 server~')
   console.log('runtimeConig.appKey:', runtimeConfig.appKey)
   console.log('runtimeConig.public.baseURL:', runtimeConfig.public.baseURL)
 }
-
 if (process.client) {
   console.log('运行在 client~')
   console.log('runtimeConig.public.baseURL:', runtimeConfig.public.baseURL)
 }
 
+// 判断环境，方式二
 if (typeof window === 'object') {
   console.log('运行在 client~')
 }
-
-// 监听全局路由
 
 </script>
 
