@@ -802,7 +802,9 @@ demo-project\03-hello-nuxt\package.json
 
 ### 1.runtimeConfig
 
-`runtimeConfig`：运行时配置（运行的时候，才会去读取的配置），即定义环境变量。
+`runtimeConfig`：**运行时配置**（运行的时候，才会去读取的配置），即定义环境变量。
+
+详见[官方文档1](https://nuxt.com/docs/api/configuration/nuxt-config#runtimeconfig)、[官方文档2](https://nuxt.com/docs/getting-started/configuration#environment-variables-and-private-tokens)
 
 demo-project\03-hello-nuxt\nuxt.config.ts
 
