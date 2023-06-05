@@ -101,7 +101,7 @@ SPA 应用，默认只返回一个空 HTML 页面；
 
 ## 四、搜索引擎优化（SEO）
 
-要怎样进行搜索引擎优化（SEO，search engine optimization）?
+搜索引擎优化（SEO，search engine optimization）的细节：
 
 1.多使用语义性 HTML 标记：
 
@@ -115,7 +115,7 @@ SPA 应用，默认只返回一个空 HTML 页面；
 
 - 每个页面对应的 `<title>`，同一网站，所有页面，都有内链可以指向首页。
 
-3.确保链接可供抓取，如下所示：
+3.内部链接确保可供抓取，如下所示：
 
 - ✔ `<a href="https://example.com">`
 - ✔ `<a href="/relative/path/file">`
@@ -170,7 +170,7 @@ SSG 应用一般在构建阶段，就确定了网站的内容。
 
 ### 1.SSG 优点
 
-访问速度快，因为每个页面，在构建阶段就已经生成好了；通常要比 SSR 更好的性能。
+通常有比 SSR 更好的性能，访问速度快，因为每个页面，在构建阶段就已经生成好了；。
 
 有利于 SEO，因为直接给浏览器返回静态的 HTML 文件；
 
@@ -404,7 +404,7 @@ module.exports = {
 
 ### 2.Vue3 App 搭建（client）
 
-主要目的是：将 vue3 代码（App.vue）转成字符串，放入到 Node Server 中，并返回给客户端。
+主要目的是：将 vue3 代码（`App.vue`）转成字符串，放入到 Node Server 中，并返回给客户端。
 
 拷贝 01-node-server 项目，重命名为 02-vue3-ssr 项目。
 
@@ -587,4 +587,3 @@ pnpm start
 至此，同构应用的，服务端搭建，已经完成；
 
 接下来要进行 hydration。也就是搭建客户端，新建 client 文件夹。
-

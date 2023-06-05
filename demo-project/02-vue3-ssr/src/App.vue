@@ -1,5 +1,4 @@
 <script setup>
-
 import { storeToRefs } from 'pinia';
 import { useHomeStore  } from './store/home';
 
