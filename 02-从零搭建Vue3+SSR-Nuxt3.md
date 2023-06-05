@@ -615,7 +615,7 @@ pnpm start
 
 Nuxt 使用 h3，来实现部署可移植性；
 
-- h3 是一个极小的高性能的 http 框架。
+- h3 是一个极小的，高性能的 http 框架。
 - 比如：支持在 Serverless、Workers、Node.js 环境中运行。
 
 > Serverless：表示“无服务”。
@@ -670,19 +670,18 @@ Vue 技术栈：
 
 自动导包：
 
-- Nuxt 会自动导入辅助函数、Composition API、Vue API；
-- 基于规范的目录结构，提供对自己的组件、插件使用自动导入。
+- 自动导入辅助函数、Composition API、Vue API；
+- 自动导入基于规范的目录结构，提供对自己的组件、插件使用自动导入。
 
 约定式路由（目录结构即路由）：
 
-- Nuxt 路由基于 vue-router；
-- 在 `pages` 目录中，创建的每个页面，会根据目录结构和文件名，自动生成路由。
+- 基于 vue-router；在 `pages` 目录中，创建的每个页面，会根据目录结构和文件名，自动生成路由。
 
 多种渲染模式（SSR、CSR、SSG，混合渲染模式等）:
 
 利于搜索引擎优化（SEO）：
 
-- 服务器端渲染模式，不但可以提高首屏渲染速度，还利于 SEO
+- 服务器端渲染模式，不但可以提高首屏渲染速度，还利于 SEO；
 
 服务器引擎：
 
@@ -697,7 +696,7 @@ Vue 技术栈：
 
 环境准备：
 
-- Node.js （最新 LTS 版本，或 16.11 以上）
+- Node.js（最新 LTS 版本，或 16.11 以上）
 - VSCode 插件：Volar、ESLint、Prettier
 
 命令行工具，创建项目（hello-nuxt)
@@ -756,7 +755,7 @@ assets # 资源目录
 components # 组件目录
 composables # 组合 API 目录
 layout # 布局目录
-pages # 定义页面文件夹，路由会根据该页面目录结构，和文件名自动生成
+pages # 定义页面文件夹，路由会根据该目录结构，和文件名自动生成
   index.vue # 项目的首页
 plugins # 插件目录
 public # 静态资源目录，不参与打包
@@ -836,7 +835,8 @@ export default defineNuxtConfig({
 
 ```shell
 NUXT_APP_KEY = 'DDDDD' # 会覆盖 nuxt.config.ts 中的 runtimeConfig 中的 appKey
-PORT=9000 # 项目会运行在 9000 端口上。
+
+PORT= 9000 # 项目会运行在 9000 端口上。
 ```
 
 `app.vue` 中，可访问到 `runtimeConfig` 配置。
