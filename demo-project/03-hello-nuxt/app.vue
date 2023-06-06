@@ -1,6 +1,7 @@
 <script setup>
 // 1.获取运行时配置（server and client）
 const runtimeConfig = useRuntimeConfig()
+import avatarPng from '@/assets/images/avatar.png';
 
 if (process.server) {
   console.log('运行在 server~')
@@ -53,6 +54,31 @@ useHead({
   ],
 })
 
+function goToCategory() {
+  return navigateTo('/category')
+}
+
+function goToCart() {
+  return navigateTo({
+    path: '/cart',
+    query: {
+      id: 100
+    }
+  }, {
+    replace: true
+  })
+}
+
+function goToJd() {
+  return navigateTo('https://www.jd.com', {external: true})
+}
+
+const router = useRouter()
+router.beforeEach((to, form) => {
+  console.log('to:', to)
+  console.log('form:', form)
+})
+
 </script>
 
 <template>
@@ -61,6 +87,41 @@ useHead({
     <!-- <Head>
       <Meta name="key" content="key key key"></Meta>
     </Head> -->
+
+    <!-- 资源导入，图片 -->
+    <img :src="avatarPng" alt="">
+    <div class="bg-publick"></div>
+
+    <!-- 资源导入：字体图标 -->
+    <i class="iconfont icon-shouye"></i>
+
+    <h3>组件导航</h3>
+    <NuxtLink to="/">
+      <button>home</button>
+    </NuxtLink>
+    
+    <NuxtLink :to="{
+      path: '/category',
+      query: {
+        id: 10
+      }
+    }">
+      <button>category</button>
+    </NuxtLink>
+
+    <NuxtLink to="/cart">
+      <button>cart</button>
+    </NuxtLink>
+
+    <NuxtLink to="https://www.jd.com" target="_blank">
+      <button>js.com</button>
+    </NuxtLink>
+
+    <h3>编程导航</h3>
+    <button @click="goToCategory">category</button>
+    <button @click="goToCart">cart</button>
+    <button @click="goToJd">JD.com</button>
+
     <!-- next/ui 组件库的组件 -->
     <!-- <NuxtWelcome /> -->
     <NuxtPage></NuxtPage>
@@ -70,5 +131,16 @@ useHead({
 <style>
 .global-style {
   color: red;
+}
+
+.iconfont {
+  font-size: 30px;
+}
+
+.bg-publick {
+  width: 200px;
+  height: 200px;
+  border: 1px solid red;
+  background-image: url(@/assets/images/avatar.png);
 }
 </style>

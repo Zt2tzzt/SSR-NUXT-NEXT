@@ -435,3 +435,311 @@ demo-project\03-hello-nuxt\pages\index.vue
 ---
 
 资源导入：
+
+访问 public 资源：
+
+在 public 目录下，放入一张图片。
+
+在 app.vue 中，引入。
+
+demo-project\03-hello-nuxt\app.vue
+
+```vue
+<template>
+  <div>
+    <img src="/user.png" alt="">
+    <div class="bg-publick"></div>
+  </div>
+</template>
+
+<style>
+
+.bg-publick {
+  width: 200px;
+  height: 200px;
+  border: 1px solid red;
+  background-image: url(/user.png);
+}
+</style>
+```
+
+访问 assets 里的资源。
+
+demo-project\03-hello-nuxt\app.vue
+
+```vue
+<template>
+  <div>
+    <img src="@/assets/images/avatar.png" alt="">
+    <div class="bg-publick"></div>
+  </div>
+</template>
+
+<style>
+
+.bg-publick {
+  width: 200px;
+  height: 200px;
+  border: 1px solid red;
+  background-image: url(@/assets/images/avatar.png);
+}
+</style>
+```
+
+使用 import 导入的方式：
+
+demo-project\03-hello-nuxt\app.vue
+
+```vue
+<script setup>
+import avatarPng from '@/assets/images/avatar.png';
+</script>
+
+<template>
+  <img :src="avatarPng" alt="">
+</template>
+```
+
+也可以使用 base64, 网络 url 等形式的图片。
+
+---
+
+字体图标
+
+在 iconfont 上，下载字体图标。
+
+放入到 assets/iconfont 目录下。
+
+在 `nuxt.config.js` 里进行配置：
+
+```js
+export default defineNuxtConfig({
+  css: [
+    '@/assets/iconfont/iconfont.css'
+  ]
+})
+```
+
+在 app.vue 中，使用字体图标。
+
+```html
+<!-- 资源导入：字体图标 -->
+<i class="iconfont icon-shouye"></i>
+```
+
+---
+
+新建页面
+
+在 pages 目录下，创建一个页面 category.vue。
+
+demo-project\03-hello-nuxt\pages\category.vue
+
+```vue
+<script setup lang="ts">
+</script>
+
+<template>
+  <div class="category">
+    <h1>category</h1>
+  </div>
+</template>
+
+<style scoped lang="less">
+</style>
+```
+
+> 在 Nuxt 中，`<NuxtPage>` 是对 `<router-view>` 的封装。
+>
+> `<NuxtLink>` 是对 `<router-link>` 的封装。
+
+在 `app.vue` 中，编写路由的按钮。
+
+demo-project\03-hello-nuxt\app.vue
+
+```vue
+<template>
+  <div>
+    <NuxtLink to="/">
+      <button>home</button>
+    </NuxtLink>
+    
+    <NuxtLink to="/category">
+      <button>category</button>
+    </NuxtLink>
+
+    <NuxtPage></NuxtPage>
+  </div>
+</template>
+```
+
+
+
+另一种创建页面的方式：
+
+在 `pages/cart` 目录下，创建 `index.vue`
+
+demo-project\03-hello-nuxt\pages\cart\index.vue
+
+```vue
+<script setup lang="ts">
+</script>
+
+<template>
+  <div class="cart">
+    <h1>cart</h1>
+  </div>
+</template>
+
+<style scoped lang="less">
+</style>
+```
+
+在 `app.vue` 中，编写路由的按钮。
+
+demo-project\03-hello-nuxt\app.vue
+
+```vue
+<template>
+  <div>
+    <!-- 资源导入，图片 -->
+    <img :src="avatarPng" alt="">
+    <div class="bg-publick"></div>
+
+    <!-- 资源导入：字体图标 -->
+    <i class="iconfont icon-shouye"></i>
+    <NuxtLink to="/">
+      <button>home</button>
+    </NuxtLink>
+    
+    <i class="iconfont icon-huoche"></i>
+    <NuxtLink to="/category">
+      <button>category</button>
+    </NuxtLink>
+
+    <i class="iconfont icon-cart"></i>
+    <NuxtLink to="/cart">
+      <button>cart</button>
+    </NuxtLink>
+
+    <NuxtPage></NuxtPage>
+  </div>
+</template>
+```
+
+
+
+使用命令创建页面
+
+```shell
+npx nuxi add page profile # 创建 profile.vue 页面
+
+npx nuxi add page find/index.vue # 在 pages/find 目录下，创建 index.vue 页面。
+```
+
+---
+
+组件导航。
+
+
+
+NuxtLink 组件的 to 属性，支持接受一个对象。
+
+demo-project\03-hello-nuxt\app.vue
+
+```vue
+<NuxtLink :to="{
+  path: '/category',
+  query: {
+    id: 10
+  }
+}">
+  <button>category</button>
+</NuxtLink>
+```
+
+NuxtLink 组件的 to 属性，支持接收一个外部的地址。
+
+- 推荐添加 external 属性；
+- 默认 Nuxt 会帮助添加。
+
+demo-project\03-hello-nuxt\app.vue
+
+```vue
+<NuxtLink to="https://www.jd.com" target="_blank" external>
+  <button>js.com</button>
+</NuxtLink>
+```
+
+渲染出的 `<a>` 会加入如下属性：表示不要把本站点的信息，带入到外部站点。
+
+```html
+<a href="http://www.jd.com" rel="noopener noreferrer" target="_blank"></a>
+```
+
+测试 activeClass、replace 属性。
+
+
+
+`<a>` 标签也能用于组件导航，但不推荐，会造成页面刷新。
+
+---
+
+编程导航。
+
+
+
+```vue
+<template>
+  <h3>编程导航</h3>
+  <button @click="goToCategory">category</button>
+  <button @click="goToCart">cart</button>
+  <button @click="goToJd">JD.com</button>
+</template>
+
+<script>
+function goToCategory() {
+  return navigateTo('/category')
+}
+
+function goToCart() {
+  return navigateTo({
+    path: '/cart',
+    query: {
+      id: 100
+    }
+  }, {
+    replace: true
+  })
+}
+
+function goToJd() {
+  return navigateTo('https://www.jd.com', {external: true})
+}
+</script>
+```
+
+
+
+useRouter 的使用。
+
+推荐用 navigateTo，支持性更好。
+
+
+
+路由守卫的使用。
+
+在 app.vue 中，使用 beforeEach 路由首位。
+
+demo-project\03-hello-nuxt\app.vue
+
+```vue
+<script setup>
+const router = useRouter()
+router.beforeEach((to, form) => {
+  console.log('to:', to)
+  console.log('form:', form)
+})
+</script>
+```
+

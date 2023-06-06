@@ -58,6 +58,7 @@ export default defineNuxtConfig({
   } */
   css: [
     '@/assets/styles/main.css',
-    '@/assets/styles/main.less'
+    '@/assets/styles/main.less',
+    '@/assets/iconfont/iconfont.css'
   ]
 })
