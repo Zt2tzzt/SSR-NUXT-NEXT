@@ -109,7 +109,7 @@ router.beforeEach((to, form) => {
       <button>category</button>
     </NuxtLink>
 
-    <NuxtLink to="/cart">
+    <NuxtLink to="/cart" active-class="haha" :replace="true">
       <button>cart</button>
     </NuxtLink>
 
@@ -130,6 +130,10 @@ router.beforeEach((to, form) => {
 
 <style>
 .global-style {
+  color: red;
+}
+
+.haha button {
   color: red;
 }
 

@@ -1,10 +1,18 @@
-Nuxt 配置
+# Nuxt3配置 & 渲染模式 & 内置组件 & 样式和字体图标 & 路由导航
 
-nuxt.config.js
+## 一、nuxt.config.js
 
-appConfig 配置。
+### 1.appConfig 配置
 
-在 nuxt.config.js 中，配置 appConfig
+用于定义在构建时确定的公共变量，
+
+- 比如：theme
+
+`nuxt.config.js` 中的 `appConfig` 配置，会和 `app.config.ts` 的配置合并
+
+- 优先级 `app.config.ts` > `appConfig`
+
+在 `nuxt.config.js` 中，配置 `appConfig`
 
 demo-project\03-hello-nuxt\nuxt.config.ts
 
@@ -20,7 +28,7 @@ export default defineNuxtConfig({
 
 ```
 
-在 app.vue 中，读取 appConfig 的配置。
+在 `app.vue` 中，读取 `appConfig` 的配置。
 
 demo-project\03-hello-nuxt\app.vue
 
@@ -28,18 +36,19 @@ demo-project\03-hello-nuxt\app.vue
 <script setup>
 // 获取 appConfig
 const appConfig = useAppConfig() //不需要导包
+
 // 在 server 和 client 两端，都可以使用。
 console.log('appConfig.title:', appConfig.title)
 console.log('appConfig.theme.primary:', appConfig.theme.primary)
-  
-// 生命周期，只会在客户端运行。
+
+// 生命周期钩子，只会在客户端运行。
 onMounted(() => {
   document.title = appConfig.title
 })
 </script>
 ```
 
-将 appConfig 的配置，抽取到 app.config.ts 文件中。
+将 appConfig 的配置，抽取到 `app.config.ts` 文件中。
 
 demo-project\03-hello-nuxt\app.config.ts
 
@@ -52,13 +61,30 @@ export default defineAppConfig({
 })
 ```
 
----
+#### 1.与 runtimeConfig 区别
 
-app 配置
+runtimeConfig 和 appConfig 都用于为应用程序定义变量；
+
+`runtimeConfig`：定义环境变量，
+
+- 比如：项目运行时，需要指定的私有或公共 token。
+
+`appConfig`：定义公共变量。
+
+- 比如：项目构建时，确定的公共 token、网站配置。
+
+![runtimeConfig-vs-appConfig](NodeAssets/runtimeConfig-VS-appConfig.jpg)
+
+### 2.app 配置
+
+用于给每个页面设置 head 信息，
+
+- 也支持用 `useHead` 函数，进行配置，
+- 也支持内置组件，进行配置。
 
 这些配置，对所有后端渲染的页面生效。
 
-在 nuxt.config.ts 中，配置 app
+在 `nuxt.config.ts` 中，配置 `app`
 
 demo-project\03-hello-nuxt\nuxt.config.ts
 
@@ -102,7 +128,7 @@ export default defineNuxtConfig({
 })
 ```
 
-在 app.vue 页面中，覆盖该配置：
+在 `app.vue` 页面中，使用 `useHead` 覆盖以上配置：
 
 详见[官方文档](https://nuxt.com/docs/api/composables/use-head)。
 
@@ -135,7 +161,7 @@ useHead({
 </script>
 ```
 
-在 app.vue 中，也可以使用 Nuxt 的内置组件，来覆盖这些配置。
+在 `app.vue` 中，也可以使用 Nuxt 的内置组件，来进行配置。
 
 demo-project\03-hello-nuxt\app.vue
 
@@ -154,24 +180,33 @@ demo-project\03-hello-nuxt\app.vue
 
 优先级：内置组件 > useHead ? nuxt.config.js
 
----
+### 3.ssr 配置
 
-ssr 配置
+指定应用渲染模式
 
-指定渲染模式。
+demo-project\03-hello-nuxt\nuxt.config.ts
 
----
+```typescript
+export default defineNuxtConfig({
+  ssr: false // 默认为 true
+})
+```
 
-router 配置
+### 4.router 配置
 
-指定路由的模式，在 SSR 应用中，只能使用 history 模式。
+配置路由相关的信息；
 
-将 ssr: false，才能使用 Hash 模式。
+- 比如：在客户端渲染，可以配置 hash 路由。
+
+在 SSR 模式下，只能使用 history 模式。
+
+配置 `ssr: false`，才能使用 Hash 模式。
 
 demo-project\03-hello-nuxt\nuxt.config.ts
 
 ```js
 export default defineNuxtConfig({
+  ssr: false,
   router: {
     options: {
       hashMode: true
@@ -180,19 +215,27 @@ export default defineNuxtConfig({
 })
 ```
 
----
+## 二、Nuxt3 内置组件
 
-runtimeConfig 和 appConfig 有什么不同？
+Nuxt3 框架也提供一些内置的组件，常用的如下：
 
----
-
-Nuxt3 内置组件
+- SEO 组件： `<Html>`、`<Body>`、`<Head>`、`<Title>`、`<Meta>`、`<Style>`、`<Link>`、`<NoScript>`、`<Base>`
+- `<NuxtWelcome>`：欢迎页面组件，该组件是 @nuxt/ui 的一部分 。
+- `<NuxtLayout>`：Nuxt 自带的页面布局组件。
+- `<NuxtPage>`：Nuxt 自带的路由占位组件
+  - 用于显示位于目录中的顶级或嵌套页面 `pages/`；
+  - 是对 `<router-view>` 的封装。
+- `<ClientOnly>`：该组件中，默认插槽的内容，只在客户端渲染
+  - 而 `fallback` 插槽的内容，只在服务器端渲染
+- `<NuxtLink>`：Nuxt 自带的页面导航组件
+  - 是 Vue Router `<RouterLink>` 组件和 HTML `<a>` 标签的封装。
+- ...
 
 详见[官方文档](https://nuxt.com/docs/getting-started/seo-meta#components)。
 
-NuxtPage 组件
+### 1.NuxtPage 组件
 
-创建 pages 目录，在其中创建 index.vue 页面。
+创建 `/pages` 目录，在其中创建 `index.vue` 页面。
 
 demo-project\03-hello-nuxt\pages\index.vue
 
@@ -215,7 +258,7 @@ demo-project\03-hello-nuxt\pages\index.vue
 
 此时页面会报错，这是因为，创建的页面，自动生成了路由。
 
-在 app.vue 中，添加路由占位。
+在 `app.vue` 中，添加路由占位。
 
 demo-project\03-hello-nuxt\app.vue
 
@@ -228,11 +271,11 @@ demo-project\03-hello-nuxt\app.vue
 </template>
 ```
 
-
-
-ClientOnly 组件
+### 2.ClientOnly 组件
 
 指定内容只在客户端渲染。
+
+浏览器请求下来的 html 静态资源，不会包含其中的内容。而是由加载的 JS 来渲染。
 
 demo-project\03-hello-nuxt\pages\index.vue
 
@@ -256,11 +299,9 @@ demo-project\03-hello-nuxt\pages\index.vue
 </template>
 ```
 
----
+## 三、全局样式
 
-全局样式
-
-在 app.vue 中，编写全局样式。
+方式一：在 `app.vue` 中，编写全局样式。
 
 demo-project\03-hello-nuxt\app.vue
 
@@ -285,11 +326,7 @@ demo-project\03-hello-nuxt\pages\index.vue
 </template>
 ```
 
-
-
-另一种方式：
-
-在 assets 目录i下，创建 styles 目录。
+方式二：在 `assets` 目录i下，创建 `styles` 目录。
 
 demo-project\03-hello-nuxt\assets\styles\main.css
 
@@ -300,7 +337,7 @@ demo-project\03-hello-nuxt\assets\styles\main.css
 }
 ```
 
-在 nuxt.config.js 中，配置 css 选项：
+在 `nuxt.config.ts` 中，配置 `css` 选项：
 
 demo-project\03-hello-nuxt\nuxt.config.ts
 
@@ -313,9 +350,7 @@ export default defineNuxtConfig({
 })
 ```
 
-
-
-对 less 的支持：
+### 1.sass、less支持
 
 安装 less
 
@@ -323,7 +358,7 @@ export default defineNuxtConfig({
 pnpm add less
 ```
 
-在 assets 目录i下，编写 main.less
+在 assets 目录i下，编写 `main.less`
 
 demo-project\03-hello-nuxt\assets\styles\main.less
 
@@ -336,7 +371,7 @@ demo-project\03-hello-nuxt\assets\styles\main.less
 }
 ```
 
-在 nuxt.config.js 中，配置 css 选项：
+在 `nuxt.config.js` 中，配置 css 选项：
 
 demo-project\03-hello-nuxt\nuxt.config.ts
 
@@ -357,30 +392,18 @@ demo-project\03-hello-nuxt\pages\index.vue
 ```vue
 <template>
   <div class="home">
-    <h1>home</h1>
-    <p>我是 Home Page</p>
-
-    <ClientOnly fallback-tag="h3" fallback="Loading...">
-      <p class="global-style">我只会在 client 渲染~</p>
-    </ClientOnly>
-
-    <ClientOnly>
-      <p class="global-style1">我只会在 client 渲染~</p>
-      <template #fallback>
-        <h3>Loading...</h3>
-      </template>
-    </ClientOnly>
-
     <p class="global-style2">哈哈哈哈哈哈哈哈哈哈哈</p>
   </div>
 </template>
 ```
 
+### 2.全局变量
 
+#### 1.手动导入
 
 手动导入全局变量的使用：
 
-在 assets 中，编写样式的变量。
+在 `assets` 中，编写样式的变量。
 
 demo-project\03-hello-nuxt\assets\styles\variable.less
 
@@ -401,7 +424,7 @@ demo-project\03-hello-nuxt\pages\index.vue
 
 ```vue
 <template>
-	<div>
+  <div>
     <p class="style-variable">样式变量应用。</p>
   </div>
 </template>
@@ -410,9 +433,9 @@ demo-project\03-hello-nuxt\pages\index.vue
 @import url('@/assets/styles/variable.less');
 
 // scss 的语法
-// @use 和 @import
-// as vb: 给这个模块起一个命名空间
-// as * : 可以省略命名空间
+// @use 有名命空间，@import 没有。
+// - as vb: 给这个模块起一个命名空间
+// - as * : 可以省略命名空间
 // @use "~/assets/styles/variable.less" as bv;
 // @use "~/assets/styles/variable.less" as *;
 
@@ -424,7 +447,7 @@ demo-project\03-hello-nuxt\pages\index.vue
 </style>
 ```
 
-
+#### 2.自动导入
 
 自动导入全局变量：
 
@@ -432,15 +455,20 @@ demo-project\03-hello-nuxt\pages\index.vue
 
 会在每个 scss 作用域，自动导入变量。
 
----
+## 四、资源导入
 
-资源导入：
+### 1.public 目录
+
+- 其中的静态资源，可在应用程序上，直接通过 URL 直接访问
+- 比如：`public/img/` 中的图像资源
+  - 可用 `/img/nuxt.png`，如右图
+  - 也支持在 css 背景中使用。
 
 访问 public 资源：
 
 在 public 目录下，放入一张图片。
 
-在 app.vue 中，引入。
+在 `app.vue` 中，访问该资源。
 
 demo-project\03-hello-nuxt\app.vue
 
@@ -462,6 +490,12 @@ demo-project\03-hello-nuxt\app.vue
 }
 </style>
 ```
+
+### 2.assets 目录
+
+- assets 经常用于存放如：样式表、字体、SVG 的资源。
+- 可用 `~/assets/` 路径引用位于 assets 目录中的资产文件。
+- `~/assets/` 路径也支持在背景中使用。
 
 访问 assets 里的资源。
 
@@ -486,7 +520,7 @@ demo-project\03-hello-nuxt\app.vue
 </style>
 ```
 
-使用 import 导入的方式：
+使用 `import` 导入的方式：
 
 demo-project\03-hello-nuxt\app.vue
 
@@ -502,15 +536,20 @@ import avatarPng from '@/assets/images/avatar.png';
 
 也可以使用 base64, 网络 url 等形式的图片。
 
----
+## 五、字体图标
 
-字体图标
+字体图标使用步骤：
+
+1. 将字体图标，存放在 assets 目录下。
+2. 字体文件可以使用 `~/assets/` 路径引用。
+3. 在 `nuxt.config.ts` 配置文件中，导入全局样式。
+4. 在页面中使用字体图标。
 
 在 iconfont 上，下载字体图标。
 
-放入到 assets/iconfont 目录下。
+放入到 `assets/iconfont` 目录下。
 
-在 `nuxt.config.js` 里进行配置：
+在 `nuxt.config.js` 里，进行配置：
 
 ```js
 export default defineNuxtConfig({
@@ -520,18 +559,20 @@ export default defineNuxtConfig({
 })
 ```
 
-在 app.vue 中，使用字体图标。
+在 `app.vue` 中，使用字体图标。
 
 ```html
 <!-- 资源导入：字体图标 -->
 <i class="iconfont icon-shouye"></i>
 ```
 
----
+## 六、新建页面
 
-新建页面
+Nuxt 项目中，应在 `/pages` 目录下创建页面。
 
-在 pages 目录下，创建一个页面 category.vue。
+Nuxt 会根据该页面的目录结构、和其文件名，来自动生成约定式的路由。
+
+方式一：在 `/pages` 目录下，创建一个页面 `category.vue`。
 
 demo-project\03-hello-nuxt\pages\category.vue
 
@@ -553,7 +594,7 @@ demo-project\03-hello-nuxt\pages\category.vue
 >
 > `<NuxtLink>` 是对 `<router-link>` 的封装。
 
-在 `app.vue` 中，编写路由的按钮。
+在 `app.vue` 中，编写路由的按钮，路由的占位。
 
 demo-project\03-hello-nuxt\app.vue
 
@@ -563,21 +604,18 @@ demo-project\03-hello-nuxt\app.vue
     <NuxtLink to="/">
       <button>home</button>
     </NuxtLink>
-    
+
     <NuxtLink to="/category">
       <button>category</button>
     </NuxtLink>
 
+    <!-- 路由的占位 -->
     <NuxtPage></NuxtPage>
   </div>
 </template>
 ```
 
-
-
-另一种创建页面的方式：
-
-在 `pages/cart` 目录下，创建 `index.vue`
+方式二：在 `pages/cart` 目录下，创建 `index.vue`.
 
 demo-project\03-hello-nuxt\pages\cart\index.vue
 
@@ -602,22 +640,6 @@ demo-project\03-hello-nuxt\app.vue
 ```vue
 <template>
   <div>
-    <!-- 资源导入，图片 -->
-    <img :src="avatarPng" alt="">
-    <div class="bg-publick"></div>
-
-    <!-- 资源导入：字体图标 -->
-    <i class="iconfont icon-shouye"></i>
-    <NuxtLink to="/">
-      <button>home</button>
-    </NuxtLink>
-    
-    <i class="iconfont icon-huoche"></i>
-    <NuxtLink to="/category">
-      <button>category</button>
-    </NuxtLink>
-
-    <i class="iconfont icon-cart"></i>
     <NuxtLink to="/cart">
       <button>cart</button>
     </NuxtLink>
@@ -627,8 +649,6 @@ demo-project\03-hello-nuxt\app.vue
 </template>
 ```
 
-
-
 使用命令创建页面
 
 ```shell
@@ -637,13 +657,26 @@ npx nuxi add page profile # 创建 profile.vue 页面
 npx nuxi add page find/index.vue # 在 pages/find 目录下，创建 index.vue 页面。
 ```
 
----
+## 七、组件导航
 
-组件导航。
+`<NuxtLink>` 是 Nuxt 内置组件，用来实现页面导航，是对 `<router-link>` 的扩展：
 
+底层是一个 `<a>` 标签，因此使用 `<a href='xxx'>` 也支持路由导航。
 
+- 会触发浏览器默认刷新事件，而 `<NuxtLink>` 不会；
 
-NuxtLink 组件的 to 属性，支持接受一个对象。
+Hydration 后（已激活，可交互），页面导航，会通过前端路由来实现。这可以防止整页刷新。
+
+`<NuxtLink>` 组件属性：
+
+- `to`：支持路由路径、路由对象、URL；
+- `href`：to的别名；
+- `replace`：默认为false，是否替换当前路由；
+- `activeClass`：激活链接的类名；
+- `target`：和 a 标签的 target 一样，指定何种方式显示新页面；
+- ...
+
+`<NuxtLink>` 组件的 `to` 属性，支持接收一个对象。
 
 demo-project\03-hello-nuxt\app.vue
 
@@ -658,10 +691,9 @@ demo-project\03-hello-nuxt\app.vue
 </NuxtLink>
 ```
 
-NuxtLink 组件的 to 属性，支持接收一个外部的地址。
+`<NuxtLink>` 组件的 `to` 属性，支持接收一个外部的地址。
 
-- 推荐添加 external 属性；
-- 默认 Nuxt 会帮助添加。
+- 推荐添加 `external` 属性；默认 Nuxt 会帮助添加。
 
 demo-project\03-hello-nuxt\app.vue
 
@@ -671,23 +703,56 @@ demo-project\03-hello-nuxt\app.vue
 </NuxtLink>
 ```
 
-渲染出的 `<a>` 会加入如下属性：表示不要把本站点的信息，带入到外部站点。
+渲染出的 `<a>` 会加入如下属性：表示不会把本站点的信息，带入到外部站点。
 
 ```html
 <a href="http://www.jd.com" rel="noopener noreferrer" target="_blank"></a>
 ```
 
-测试 activeClass、replace 属性。
+测试 `activeClass`、`replace` 属性。
 
+demo-project\03-hello-nuxt\app.vue
 
+```vue
+<template>
+  <div>
+    <NuxtLink to="/cart">
+      <button>cart</button>
+    </NuxtLink>
+  </div>
+</template>
 
-`<a>` 标签也能用于组件导航，但不推荐，会造成页面刷新。
+<script setup>
+  .haha button {
+  color: red;
+}
+</script>
+```
 
----
+## 八、编程导航
 
-编程导航。
+### 1.navigateTo
 
+Nuxt3 支持编程导航，通常使用 `navigateTo` 函数。
 
+`navigateTo` 函数，在服务器端、客户端、插件、中间件中都可用，
+
+编程导航不利于SEO。
+
+可直接调用，以执行页面导航，例如：
+
+- 当用户触发该 `goToProfile()` 方法时，我们通过 navigateTo 函数来实现动态导航。
+- 建议： goToProfile 方法总是返回 navigateTo 函数（该函数不需要导入）或 返回异步函数。
+
+`navigateTo(to, options)` 函数:
+
+- `to`: 可以是字符串、外部 url、路由对象。：
+- `options`: 导航配置，可选
+  - `replace`：替换当前路由页面
+  - `external`：默认为 `false`，不允许导航到外部连接，`true` 则允许。
+  - ...
+
+demo-project\03-hello-nuxt\app.vue
 
 ```vue
 <template>
@@ -719,17 +784,27 @@ function goToJd() {
 </script>
 ```
 
+### 2.useRouter/this.$router
 
+Nuxt3 也支持 Vue3 的 `useRouter`，或者 Options API 的 `this.$router`。
 
-useRouter 的使用。
+`useRouter` 常用的 API
 
-推荐用 navigateTo，支持性更好。
+- `back`：页面返回，同 `router.go(-1)`
+- `forward`：页面前进，同 `router.go(1)`
+- `go`：页面返回或前进，如 `router.go(-1)` or `router.go(1)`
+- `push`：以编程方式导航到新页面。
+- `replace`：以编程方式导航到新页面，但会替换当前路由。
+- `beforeEach`：路由守卫钩子，每次导航前执行（用于全局监听）
+- `afterEac`：路由守卫钩子，每次导航后执行（用于全局监听）
 
+- .....
 
+> 建议改用 `navigateTo` 。支持性更好
 
 路由守卫的使用。
 
-在 app.vue 中，使用 beforeEach 路由首位。
+在 `app.vue` 中，使用 `beforeEach` 路由首位。
 
 demo-project\03-hello-nuxt\app.vue
 
@@ -742,4 +817,3 @@ router.beforeEach((to, form) => {
 })
 </script>
 ```
-
