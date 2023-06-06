@@ -8,11 +8,11 @@
 
 - 比如：theme
 
-`nuxt.config.js` 中的 `appConfig` 配置，会和 `app.config.ts` 的配置合并
+`nuxt.config.ts` 中的 `appConfig` 配置，会和 `app.config.ts` 的配置合并。
 
-- 优先级 `app.config.ts` > `appConfig`
+- 优先级 `app.config.ts` > `nuxt.config.ts -> appConfig`；
 
-在 `nuxt.config.js` 中，配置 `appConfig`
+`nuxt.config.js` 中，配置 `appConfig`；
 
 demo-project\03-hello-nuxt\nuxt.config.ts
 
@@ -25,7 +25,6 @@ export default defineNuxtConfig({
     }
   }
 })
-
 ```
 
 在 `app.vue` 中，读取 `appConfig` 的配置。
@@ -48,7 +47,7 @@ onMounted(() => {
 </script>
 ```
 
-将 appConfig 的配置，抽取到 `app.config.ts` 文件中。
+将 `nuxt.config.ts` 中的 `appConfig` 的配置，抽取到 `app.config.ts` 文件中。
 
 demo-project\03-hello-nuxt\app.config.ts
 
@@ -77,14 +76,14 @@ runtimeConfig 和 appConfig 都用于为应用程序定义变量；
 
 ### 2.app 配置
 
-用于给每个页面设置 head 信息，
+用于给每个页面设置 head 信息，做 SEO 优化，
 
 - 也支持用 `useHead` 函数，进行配置，
 - 也支持内置组件，进行配置。
 
 这些配置，对所有后端渲染的页面生效。
 
-在 `nuxt.config.ts` 中，配置 `app`
+在 `nuxt.config.ts` 中，配置 `app`；
 
 demo-project\03-hello-nuxt\nuxt.config.ts
 
@@ -161,7 +160,7 @@ useHead({
 </script>
 ```
 
-在 `app.vue` 中，也可以使用 Nuxt 的内置组件，来进行配置。
+在 `app.vue` 中，也可以使用 Nuxt 的**内置组件**，来进行配置。
 
 demo-project\03-hello-nuxt\app.vue
 
@@ -178,9 +177,9 @@ demo-project\03-hello-nuxt\app.vue
 </template>
 ```
 
-优先级：内置组件 > useHead ? nuxt.config.js
+优先级：内置组件 > useHead > nuxt.config.js
 
-### 3.ssr 配置
+### 3.ssr 渲染模式配置
 
 指定应用渲染模式
 
@@ -222,11 +221,11 @@ Nuxt3 框架也提供一些内置的组件，常用的如下：
 - SEO 组件： `<Html>`、`<Body>`、`<Head>`、`<Title>`、`<Meta>`、`<Style>`、`<Link>`、`<NoScript>`、`<Base>`
 - `<NuxtWelcome>`：欢迎页面组件，该组件是 @nuxt/ui 的一部分 。
 - `<NuxtLayout>`：Nuxt 自带的页面布局组件。
-- `<NuxtPage>`：Nuxt 自带的路由占位组件
-  - 用于显示位于目录中的顶级或嵌套页面 `pages/`；
+- `<NuxtPage>`：Nuxt 自带的路由占位组件。
+  - 用于显示位于目录中的顶级或嵌套页面 `/pages`；
   - 是对 `<router-view>` 的封装。
-- `<ClientOnly>`：该组件中，默认插槽的内容，只在客户端渲染
-  - 而 `fallback` 插槽的内容，只在服务器端渲染
+- `<ClientOnly>`：该组件中，默认插槽的内容，只在客户端渲染。
+  - 而 `fallback` 插槽的内容，只在服务器端渲染。
 - `<NuxtLink>`：Nuxt 自带的页面导航组件
   - 是 Vue Router `<RouterLink>` 组件和 HTML `<a>` 标签的封装。
 - ...
@@ -241,7 +240,6 @@ demo-project\03-hello-nuxt\pages\index.vue
 
 ```vue
 <script setup lang="ts">
-
 </script>
 
 <template>
@@ -252,7 +250,6 @@ demo-project\03-hello-nuxt\pages\index.vue
 </template>
 
 <style scoped lang="less">
-
 </style>
 ```
 
@@ -350,12 +347,12 @@ export default defineNuxtConfig({
 })
 ```
 
-### 1.sass、less支持
+### 1.sass、less 支持
 
 安装 less
 
 ```shell
-pnpm add less
+pnpm add sass less -D
 ```
 
 在 assets 目录i下，编写 `main.less`
@@ -459,14 +456,15 @@ demo-project\03-hello-nuxt\pages\index.vue
 
 ### 1.public 目录
 
-- 其中的静态资源，可在应用程序上，直接通过 URL 直接访问
-- 比如：`public/img/` 中的图像资源
-  - 可用 `/img/nuxt.png`，如右图
-  - 也支持在 css 背景中使用。
+其中的静态资源，可在应用程序上，直接通过 URL 直接访问
+
+- 比如：`public/img/` 中的图像资源，可用 `/img/nuxt.png` 引入；
+
+- 也支持在 css 背景中使用。
 
 访问 public 资源：
 
-在 public 目录下，放入一张图片。
+在 public 目录下，放入一张图片 `user.png`。
 
 在 `app.vue` 中，访问该资源。
 
@@ -493,7 +491,8 @@ demo-project\03-hello-nuxt\app.vue
 
 ### 2.assets 目录
 
-- assets 经常用于存放如：样式表、字体、SVG 的资源。
+assets 经常用于存放样式表、字体、SVG 的资源。
+
 - 可用 `~/assets/` 路径引用位于 assets 目录中的资产文件。
 - `~/assets/` 路径也支持在背景中使用。
 
@@ -590,7 +589,9 @@ demo-project\03-hello-nuxt\pages\category.vue
 </style>
 ```
 
-> 在 Nuxt 中，`<NuxtPage>` 是对 `<router-view>` 的封装。
+> 在 Nuxt 中：
+>
+> `<NuxtPage>` 是对 `<router-view>` 的封装。
 >
 > `<NuxtLink>` 是对 `<router-link>` 的封装。
 
@@ -659,11 +660,9 @@ npx nuxi add page find/index.vue # 在 pages/find 目录下，创建 index.vue �
 
 ## 七、组件导航
 
-`<NuxtLink>` 是 Nuxt 内置组件，用来实现页面导航，是对 `<router-link>` 的扩展：
+`<NuxtLink>` 是 Nuxt 是内置组件，用来实现页面导航；它是对 vue-router 的 `<router-link>` 的扩展：
 
-底层是一个 `<a>` 标签，因此使用 `<a href='xxx'>` 也支持路由导航。
-
-- 会触发浏览器默认刷新事件，而 `<NuxtLink>` 不会；
+底层是一个 `<a>` 标签，因此使用 `<a href='xxx'>` 也支持路由导航（会触发浏览器刷新事件，而 `<NuxtLink>` 不会）；
 
 Hydration 后（已激活，可交互），页面导航，会通过前端路由来实现。这可以防止整页刷新。
 
@@ -737,18 +736,18 @@ Nuxt3 支持编程导航，通常使用 `navigateTo` 函数。
 
 `navigateTo` 函数，在服务器端、客户端、插件、中间件中都可用，
 
-编程导航不利于SEO。
+编程导航不利于 SEO。
 
-可直接调用，以执行页面导航，例如：
+可直接调用，以执行页面导航，例如下方案例：
 
-- 当用户触发该 `goToProfile()` 方法时，我们通过 navigateTo 函数来实现动态导航。
-- 建议： goToProfile 方法总是返回 navigateTo 函数（该函数不需要导入）或 返回异步函数。
+- 当触发 `goToCategory()` 方法时，通过 `navigateTo` 函数，来实现动态导航。
+- 建议：方法中，总是 `return navigateTo` 函数（该函数是异步的）或使用 `await navigateTo`；
 
 `navigateTo(to, options)` 函数:
 
-- `to`: 可以是字符串、外部 url、路由对象。：
-- `options`: 导航配置，可选
-  - `replace`：替换当前路由页面
+- `to`: 可以是字符串、外部 url、路由对象：
+- `options`: 导航配置，可选：
+  - `replace`：替换当前路由页面。
   - `external`：默认为 `false`，不允许导航到外部连接，`true` 则允许。
   - ...
 
@@ -811,6 +810,7 @@ demo-project\03-hello-nuxt\app.vue
 ```vue
 <script setup>
 const router = useRouter()
+
 router.beforeEach((to, form) => {
   console.log('to:', to)
   console.log('form:', form)
