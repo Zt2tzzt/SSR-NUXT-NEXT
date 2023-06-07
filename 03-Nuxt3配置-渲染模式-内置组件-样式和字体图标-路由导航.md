@@ -127,7 +127,7 @@ export default defineNuxtConfig({
 })
 ```
 
-在 `app.vue` 页面中，使用 `useHead` 覆盖以上配置：
+在 `app.vue` 页面中，使用 `useHead`，为单个页面，覆盖以上配置：
 
 详见[官方文档](https://nuxt.com/docs/api/composables/use-head)。
 
@@ -323,7 +323,7 @@ demo-project\03-hello-nuxt\pages\index.vue
 </template>
 ```
 
-方式二：在 `assets` 目录i下，创建 `styles` 目录。
+方式二：在 `/assets` 目录i下，创建 `/styles` 目录，在其中创建 `main.css`。
 
 demo-project\03-hello-nuxt\assets\styles\main.css
 
@@ -355,7 +355,7 @@ export default defineNuxtConfig({
 pnpm add sass less -D
 ```
 
-在 assets 目录i下，编写 `main.less`
+在 `/assets` 目录下，编写 `main.less`
 
 demo-project\03-hello-nuxt\assets\styles\main.less
 
