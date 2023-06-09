@@ -171,8 +171,6 @@ demo-project\03-hello-nuxt\app.vue
     <Head>
       <Meta name="key" content="key key key"></Meta>
     </Head>
-    <!-- next/ui 组件库的组件 -->
-    <!-- <NuxtWelcome /> -->
   </div>
 </template>
 ```
@@ -218,7 +216,7 @@ export default defineNuxtConfig({
 
 Nuxt3 框架也提供一些内置的组件，常用的如下：
 
-- SEO 组件： `<Html>`、`<Body>`、`<Head>`、`<Title>`、`<Meta>`、`<Style>`、`<Link>`、`<NoScript>`、`<Base>`
+- 用于 SEO 的组件： `<Html>`、`<Body>`、`<Head>`、`<Title>`、`<Meta>`、`<Style>`、`<Link>`、`<NoScript>`、`<Base>`
 - `<NuxtWelcome>`：欢迎页面组件，该组件是 @nuxt/ui 的一部分 。
 - `<NuxtLayout>`：Nuxt 自带的页面布局组件。
 - `<NuxtPage>`：Nuxt 自带的路由占位组件。
@@ -298,7 +296,9 @@ demo-project\03-hello-nuxt\pages\index.vue
 
 ## 三、全局样式
 
-方式一：在 `app.vue` 中，编写全局样式。
+### 1.方式一：app.vue
+
+在 `app.vue` 中，编写全局样式。
 
 demo-project\03-hello-nuxt\app.vue
 
@@ -323,7 +323,9 @@ demo-project\03-hello-nuxt\pages\index.vue
 </template>
 ```
 
-方式二：在 `/assets` 目录i下，创建 `/styles` 目录，在其中创建 `main.css`。
+### 2.方式二：assets
+
+在 `/assets` 目录下，创建 `/styles` 目录，在其中创建 `main.css`。
 
 demo-project\03-hello-nuxt\assets\styles\main.css
 
@@ -347,7 +349,7 @@ export default defineNuxtConfig({
 })
 ```
 
-### 1.sass、less 支持
+### 3.sass、less 支持
 
 安装 less
 
@@ -394,7 +396,7 @@ demo-project\03-hello-nuxt\pages\index.vue
 </template>
 ```
 
-### 2.全局变量
+### 4.全局变量
 
 #### 1.手动导入
 
@@ -431,8 +433,8 @@ demo-project\03-hello-nuxt\pages\index.vue
 
 // scss 的语法
 // @use 有名命空间，@import 没有。
-// - as vb: 给这个模块起一个命名空间
-// - as * : 可以省略命名空间
+// - as vb: 给这个模块起一个命名空间。
+// - as * : 可以省略命名空间。
 // @use "~/assets/styles/variable.less" as bv;
 // @use "~/assets/styles/variable.less" as *;
 
@@ -519,7 +521,7 @@ demo-project\03-hello-nuxt\app.vue
 </style>
 ```
 
-使用 `import` 导入的方式：
+使用 `import` 导入 assets 里的资源：
 
 demo-project\03-hello-nuxt\app.vue
 
@@ -662,15 +664,17 @@ npx nuxi add page find/index.vue # 在 pages/find 目录下，创建 index.vue �
 
 `<NuxtLink>` 是 Nuxt 是内置组件，用来实现页面导航；它是对 vue-router 的 `<router-link>` 的扩展：
 
-底层是一个 `<a>` 标签，因此使用 `<a href='xxx'>` 也支持路由导航（会触发浏览器刷新事件，而 `<NuxtLink>` 不会）；
+底层是一个 `<a>` 标签，因此使用 `<a href='xxx'>` 也支持路由导航。
+
+- 这么做，会触发浏览器刷新事件，而 `<NuxtLink>` 不会；
 
 Hydration 后（已激活，可交互），页面导航，会通过前端路由来实现。这可以防止整页刷新。
 
 `<NuxtLink>` 组件属性：
 
 - `to`：支持路由路径、路由对象、URL；
-- `href`：to的别名；
-- `replace`：默认为false，是否替换当前路由；
+- `href`：to 的别名；
+- `replace`：默认为 false，是否替换当前路由；
 - `activeClass`：激活链接的类名；
 - `target`：和 a 标签的 target 一样，指定何种方式显示新页面；
 - ...
