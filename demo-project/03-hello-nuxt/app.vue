@@ -122,6 +122,26 @@ router.beforeEach((to, form) => {
     <button @click="goToCart">cart</button>
     <button @click="goToJd">JD.com</button>
 
+    <h3>动态路由</h3>
+    <NuxtLink to="/detail01?name=zzt">
+      <button>detail01?mame=zzt</button>
+    </NuxtLink>
+    <NuxtLink to="/detail02">
+      <button>detail02</button>
+    </NuxtLink>
+    <NuxtLink to="/detail02/233">
+      <button>detail02/id</button>
+    </NuxtLink>
+    <NuxtLink to="/detail03/user-666">
+      <button>detail03/user-id</button>
+    </NuxtLink>
+    <NuxtLink to="/detail04-admin">
+      <button>detail04-admin</button>
+    </NuxtLink>
+    <NuxtLink to="/detail04-admin/233">
+      <button>detail04-admin/233</button>
+    </NuxtLink>
+
     <!-- next/ui 组件库的组件 -->
     <!-- <NuxtWelcome /> -->
     <NuxtPage></NuxtPage>
