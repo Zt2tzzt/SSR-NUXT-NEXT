@@ -1,5 +1,19 @@
 <script setup lang="ts">
-
+definePageMeta({
+  // 路由中间件（监听路由）
+  middleware: [
+    function (to, from) {
+      console.log('执行中间件1~')
+      //  return navigateTo('/detail02')
+      // return abortNavigation('终止导航')
+    },
+    // 命名中间件
+    'home',
+    function (to, from) {
+      console.log('执行中间件3~')
+    }
+  ]
+})
 </script>
 
 <template>
@@ -37,6 +51,6 @@
 .style-variable {
   color: @fsColor;
   font-size: @fs20;
-  .border()
+  .border();
 }
 </style>

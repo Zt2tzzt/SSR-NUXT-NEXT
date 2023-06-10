@@ -73,11 +73,12 @@ function goToJd() {
   return navigateTo('https://www.jd.com', {external: true})
 }
 
-const router = useRouter()
+/* const router = useRouter()
 router.beforeEach((to, form) => {
   console.log('to:', to)
   console.log('form:', form)
-})
+}) */
+
 
 </script>
 
@@ -108,11 +109,12 @@ router.beforeEach((to, form) => {
     }">
       <button>category</button>
     </NuxtLink>
-
     <NuxtLink to="/cart" active-class="haha" :replace="true">
       <button>cart</button>
     </NuxtLink>
-
+    <NuxtLink to="/profile">
+      <button>profile</button>
+    </NuxtLink>
     <NuxtLink to="https://www.jd.com" target="_blank">
       <button>js.com</button>
     </NuxtLink>
@@ -141,10 +143,26 @@ router.beforeEach((to, form) => {
     <NuxtLink to="/detail04-admin/233">
       <button>detail04-admin/233</button>
     </NuxtLink>
+    <NuxtLink to="/detail05">
+      <button>detail05</button>
+    </NuxtLink>
 
+    <!-- 嵌套路由 -->
+    <NuxtLink to="/parent">
+      <button>parent</button>
+    </NuxtLink>
+
+    <h3>自定义布局</h3>
+    <NuxtLink to="/login">
+      <button>login</button>
+    </NuxtLink>
     <!-- next/ui 组件库的组件 -->
     <!-- <NuxtWelcome /> -->
-    <NuxtPage></NuxtPage>
+
+    <!-- 会自动加载默认布局：/layout/default.vue -->
+    <NuxtLayout>
+      <NuxtPage></NuxtPage>
+    </NuxtLayout>
   </div>
 </template>
 
