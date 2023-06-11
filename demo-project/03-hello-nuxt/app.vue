@@ -79,7 +79,18 @@ router.beforeEach((to, form) => {
   console.log('form:', form)
 }) */
 
+// 编写插件
+const nuxtApp = useNuxtApp()
+nuxtApp.provide('formatData', () => {
+  return '2023-06-11'
+})
+nuxtApp.provide('version', 'v1.0.0')
 
+console.log('formatData:', nuxtApp.$formatData())
+console.log('version:', nuxtApp.$version)
+if (process.client)  {
+  console.log('formatPrice:', nuxtApp.$formatPrice(100.875638))
+}
 </script>
 
 <template>

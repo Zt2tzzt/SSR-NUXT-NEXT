@@ -60,5 +60,13 @@ export default defineNuxtConfig({
     '@/assets/styles/main.css',
     '@/assets/styles/main.less',
     '@/assets/iconfont/iconfont.css'
-  ]
+  ],
+  routeRules: {
+    '/': { ssr: true },
+    'category': { ssr: false }, // spa 应用
+    // 混合渲染，实验性特性
+    '/cart': { static: true }, // 只会在构建时，生成一次静态页面。
+    // '/profile': { swr: true } // 会生成多次静态页面，自动验证页面需要重新生成时，生成页面。
+    '/profile': { swr: 60 * 10 } // 10 分钟后检测。
+  }
 })
