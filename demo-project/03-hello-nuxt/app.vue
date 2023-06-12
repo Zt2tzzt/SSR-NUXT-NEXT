@@ -185,6 +185,9 @@ if (process.client)  {
     <NuxtLink to="/refresh">
       <button>refresh</button>
     </NuxtLink>
+    <NuxtLink to="/use-fetch">
+      <button>use-fetch</button>
+    </NuxtLink>
 
     <!-- 会自动加载默认布局：/layout/default.vue -->
     <NuxtLayout>
