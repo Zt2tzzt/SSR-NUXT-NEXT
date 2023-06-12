@@ -16,7 +16,7 @@ const app = createApp(App)
 app.mount('#app')
 ```
 
-创建 `webpack.client.config.js` 文件，在其中进行客户端的配置.
+创建 `webpack.client.config.js` 文件，在其中进行客户端的配置：
 
 运行时项目，消除浏览器中的警告：
 
@@ -173,7 +173,7 @@ demo-project\02-vue3-ssr\build\server\server_bundle.js
 为了避免“跨请求状态污染”，SSR 的解决方案是：
 
 - 在每个请求中，为整个应用创建一个全新的实例，比如全新的 app、router、store 实例。
-- 所以在创建 app、router、store 对象时，都会使用一个函数来创建，保证每个请求，都会创建一个全新的实例。
+- 所以在创建它们时，都会使用一个函数来创建，保证每个请求，都会创建一个全新的实例。
 
 这样也会有**缺点**：需要消耗更多的服务器的资源：
 
@@ -667,7 +667,7 @@ Nuxt 是一个直观的 Web 框架：
 
 Vue 技术栈：
 
-- Nuxt3 是基于 Vue3 + Vue Router + Vite 等技术栈，
+- Nuxt3 基于 Vue3 + Vue Router + Vite 等技术栈，
 - 拥有 Vue3 + Vite 开发体验（Fast）。
 
 自动导包：
@@ -818,7 +818,7 @@ export default defineNuxtConfig({
     // server 端可访问的配置，会被打包到 server_bundle.js 中
     appKey: 'aabbcc',
 
-    // server、client 端，可访问的配置。会被打包到 server_bundle.js 和 client_bundle.js 中。
+    // server、client 端，都可访问的配置。会被打包到 server_bundle.js 和 client_bundle.js 中。
     public: {
       baseURL: 'http://codercba.com'
     }
