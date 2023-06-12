@@ -170,6 +170,22 @@ if (process.client)  {
     <!-- next/ui 组件库的组件 -->
     <!-- <NuxtWelcome /> -->
 
+    <h3>生命周期</h3>
+    <NuxtLink to="/lifecycle">
+      <button>lifecycle</button>
+    </NuxtLink>
+
+    <h3>网络请求</h3>
+    <NuxtLink to="/fetch">
+      <button>fetch</button>
+    </NuxtLink>
+    <NuxtLink to="/lazy">
+      <button>lazy</button>
+    </NuxtLink>
+    <NuxtLink to="/refresh">
+      <button>refresh</button>
+    </NuxtLink>
+
     <!-- 会自动加载默认布局：/layout/default.vue -->
     <NuxtLayout>
       <NuxtPage></NuxtPage>
