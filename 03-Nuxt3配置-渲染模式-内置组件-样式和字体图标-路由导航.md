@@ -4,13 +4,13 @@
 
 ### 1.appConfig 配置
 
-用于定义在构建时确定的公共变量，
+定义项目在构建时的公共变量，
 
 - 比如：theme
 
 `nuxt.config.ts` 中的 `appConfig` 配置，会和 `app.config.ts` 的配置合并。
 
-- 优先级 `app.config.ts` > `nuxt.config.ts -> appConfig`；
+优先级 `app.config.ts` > `nuxt.config.ts -> appConfig`；
 
 `nuxt.config.js` 中，配置 `appConfig`；
 
@@ -179,7 +179,7 @@ demo-project\03-hello-nuxt\app.vue
 
 ### 3.ssr 渲染模式配置
 
-指定应用渲染模式
+指定应用渲染模式：
 
 demo-project\03-hello-nuxt\nuxt.config.ts
 
@@ -193,9 +193,8 @@ export default defineNuxtConfig({
 
 配置路由相关的信息；
 
-- 比如：在客户端渲染，可以配置 hash 路由。
-
-在 SSR 模式下，只能使用 history 模式。
+- 在 CSR 渲染模式下，可以配置 hash 模式路由。
+- 在 SSR 渲染模式下，只能使用 history 模式路由。
 
 配置 `ssr: false`，才能使用 Hash 模式。
 
@@ -270,7 +269,7 @@ demo-project\03-hello-nuxt\app.vue
 
 指定内容只在客户端渲染。
 
-浏览器请求下来的 html 静态资源，不会包含其中的内容。而是由加载的 JS 来渲染。
+浏览器请求下来的 html 静态资源，不会包含其中的内容。而是动态渲染（由加载的 JS 来渲染）。
 
 demo-project\03-hello-nuxt\pages\index.vue
 
@@ -362,7 +361,7 @@ pnpm add sass less -D
 demo-project\03-hello-nuxt\assets\styles\main.less
 
 ```less
-// 全局杨思
+// 全局样式
 @color: blue;
 
 .global-style2 {
@@ -458,9 +457,9 @@ demo-project\03-hello-nuxt\pages\index.vue
 
 ### 1.public 目录
 
-其中的静态资源，可在应用程序上，直接通过 URL 直接访问
+其中的静态资源，可在应用程序上，直接通过 URL 访问
 
-- 比如：`public/img/` 中的图像资源，可用 `/img/nuxt.png` 引入；
+- 比如：`public/img/nuxt.png` 中的图像资源，可用 `"/img/nuxt.png"` 引入；
 
 - 也支持在 css 背景中使用。
 
@@ -481,7 +480,6 @@ demo-project\03-hello-nuxt\app.vue
 </template>
 
 <style>
-
 .bg-publick {
   width: 200px;
   height: 200px;
@@ -495,8 +493,7 @@ demo-project\03-hello-nuxt\app.vue
 
 assets 经常用于存放样式表、字体、SVG 的资源。
 
-- 可用 `~/assets/` 路径引用位于 assets 目录中的资产文件。
-- `~/assets/` 路径也支持在背景中使用。
+可用 `@/assets/` 路径，引用位于 assets 目录中的资产文件。同样支持在背景中使用。
 
 访问 assets 里的资源。
 
@@ -542,8 +539,7 @@ import avatarPng from '@/assets/images/avatar.png';
 字体图标使用步骤：
 
 1. 将字体图标，存放在 assets 目录下。
-2. 字体文件可以使用 `~/assets/` 路径引用。
-3. 在 `nuxt.config.ts` 配置文件中，导入全局样式。
+3. 在 `nuxt.config.ts` 配置文件中，进行配置；导入全局样式。
 4. 在页面中使用字体图标。
 
 在 iconfont 上，下载字体图标。
@@ -551,6 +547,8 @@ import avatarPng from '@/assets/images/avatar.png';
 放入到 `assets/iconfont` 目录下。
 
 在 `nuxt.config.js` 里，进行配置：
+
+demo-project\03-hello-nuxt\nuxt.config.ts
 
 ```js
 export default defineNuxtConfig({
@@ -562,6 +560,8 @@ export default defineNuxtConfig({
 
 在 `app.vue` 中，使用字体图标。
 
+demo-project\03-hello-nuxt\app.vue
+
 ```html
 <!-- 资源导入：字体图标 -->
 <i class="iconfont icon-shouye"></i>
@@ -571,7 +571,7 @@ export default defineNuxtConfig({
 
 Nuxt 项目中，应在 `/pages` 目录下创建页面。
 
-Nuxt 会根据该页面的目录结构、和其文件名，来自动生成约定式的路由。
+Nuxt 会根据该页面的目录结构、和其文件名，来自动生成**约定式的路由**。
 
 方式一：在 `/pages` 目录下，创建一个页面 `category.vue`。
 
@@ -662,7 +662,7 @@ npx nuxi add page find/index.vue # 在 pages/find 目录下，创建 index.vue �
 
 ## 七、组件导航
 
-`<NuxtLink>` 是 Nuxt 是内置组件，用来实现页面导航；它是对 vue-router 的 `<router-link>` 的扩展：
+`<NuxtLink>` 是 Nuxt 是内置组件，用来实现路由导航；它是对 vue-router 的 `<router-link>` 的扩展：
 
 底层是一个 `<a>` 标签，因此使用 `<a href='xxx'>` 也支持路由导航。
 
@@ -696,7 +696,7 @@ demo-project\03-hello-nuxt\app.vue
 
 `<NuxtLink>` 组件的 `to` 属性，支持接收一个外部的地址。
 
-- 推荐添加 `external` 属性；默认 Nuxt 会帮助添加。
+- 此时，推荐添加 `external` 属性；默认 Nuxt 会帮助添加。
 
 demo-project\03-hello-nuxt\app.vue
 
@@ -719,14 +719,14 @@ demo-project\03-hello-nuxt\app.vue
 ```vue
 <template>
   <div>
-    <NuxtLink to="/cart">
+    <NuxtLink to="/cart" active-class="haha" :replace="true">
       <button>cart</button>
     </NuxtLink>
   </div>
 </template>
 
 <script setup>
-  .haha button {
+.haha button {
   color: red;
 }
 </script>
@@ -745,7 +745,7 @@ Nuxt3 支持编程导航，通常使用 `navigateTo` 函数。
 可直接调用，以执行页面导航，例如下方案例：
 
 - 当触发 `goToCategory()` 方法时，通过 `navigateTo` 函数，来实现动态导航。
-- 建议：方法中，总是 `return navigateTo` 函数（该函数是异步的）或使用 `await navigateTo`；
+- 建议：方法中，总是 `return navigateTo` 函数（该函数是异步的），或使用 `await navigateTo`；
 
 `navigateTo(to, options)` 函数:
 
@@ -807,7 +807,7 @@ Nuxt3 也支持 Vue3 的 `useRouter`，或者 Options API 的 `this.$router`。
 
 路由守卫的使用。
 
-在 `app.vue` 中，使用 `beforeEach` 路由首位。
+在 `app.vue` 中，使用 `beforeEach` 路由守卫。
 
 demo-project\03-hello-nuxt\app.vue
 
