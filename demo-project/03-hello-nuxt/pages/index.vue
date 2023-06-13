@@ -14,6 +14,9 @@ definePageMeta({
     }
   ]
 })
+
+const cookie = useCookie('token')
+console.log('cookie value:', cookie.value)
 </script>
 
 <template>
