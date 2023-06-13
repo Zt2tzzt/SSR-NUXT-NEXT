@@ -179,7 +179,7 @@ demo-project\03-hello-nuxt\app.vue
 
 ### 3.ssr 渲染模式配置
 
-指定应用渲染模式：
+指定应用渲染模式（SSR or CSR）：
 
 demo-project\03-hello-nuxt\nuxt.config.ts
 
@@ -216,15 +216,15 @@ export default defineNuxtConfig({
 Nuxt3 框架也提供一些内置的组件，常用的如下：
 
 - 用于 SEO 的组件： `<Html>`、`<Body>`、`<Head>`、`<Title>`、`<Meta>`、`<Style>`、`<Link>`、`<NoScript>`、`<Base>`
-- `<NuxtWelcome>`：欢迎页面组件，该组件是 @nuxt/ui 的一部分 。
+- `<NuxtWelcome>`：欢迎页面组件，该组件是 *@nuxt/ui* 的一部分 。
 - `<NuxtLayout>`：Nuxt 自带的页面布局组件。
 - `<NuxtPage>`：Nuxt 自带的路由占位组件。
   - 用于显示位于目录中的顶级或嵌套页面 `/pages`；
   - 是对 `<router-view>` 的封装。
 - `<ClientOnly>`：该组件中，默认插槽的内容，只在客户端渲染。
-  - 而 `fallback` 插槽的内容，只在服务器端渲染。
+  - 在 `fallback` 插槽的内容，只在服务器端渲染。
 - `<NuxtLink>`：Nuxt 自带的页面导航组件
-  - 是 Vue Router `<RouterLink>` 组件和 HTML `<a>` 标签的封装。
+  - 是 Vue Router `<router-link>` 组件和 HTML `<a>` 标签的封装。
 - ...
 
 详见[官方文档](https://nuxt.com/docs/getting-started/seo-meta#components)。
@@ -340,7 +340,6 @@ demo-project\03-hello-nuxt\assets\styles\main.css
 demo-project\03-hello-nuxt\nuxt.config.ts
 
 ```js
-// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   css: [
     '@/assets/styles/main.css'
@@ -356,7 +355,7 @@ export default defineNuxtConfig({
 pnpm add sass less -D
 ```
 
-在 `/assets` 目录下，编写 `main.less`
+在 `/assets` 目录下，编写 `main.less`；
 
 demo-project\03-hello-nuxt\assets\styles\main.less
 
@@ -538,13 +537,13 @@ import avatarPng from '@/assets/images/avatar.png';
 
 字体图标使用步骤：
 
-1. 将字体图标，存放在 assets 目录下。
+1. 将字体图标，存放在 `/assets` 目录下。
 3. 在 `nuxt.config.ts` 配置文件中，进行配置；导入全局样式。
 4. 在页面中使用字体图标。
 
 在 iconfont 上，下载字体图标。
 
-放入到 `assets/iconfont` 目录下。
+放入到 `/assets/iconfont` 目录下。
 
 在 `nuxt.config.js` 里，进行配置：
 
@@ -571,7 +570,7 @@ demo-project\03-hello-nuxt\app.vue
 
 Nuxt 项目中，应在 `/pages` 目录下创建页面。
 
-Nuxt 会根据该页面的目录结构、和其文件名，来自动生成**约定式的路由**。
+Nuxt 会根据该页面的目录结构、和其文件名，自动生成**约定式的路由**。
 
 方式一：在 `/pages` 目录下，创建一个页面 `category.vue`。
 
@@ -652,7 +651,7 @@ demo-project\03-hello-nuxt\app.vue
 </template>
 ```
 
-使用命令创建页面
+使用命令创建页面：
 
 ```shell
 npx nuxi add page profile # 创建 profile.vue 页面
@@ -662,7 +661,7 @@ npx nuxi add page find/index.vue # 在 pages/find 目录下，创建 index.vue �
 
 ## 七、组件导航
 
-`<NuxtLink>` 是 Nuxt 是内置组件，用来实现路由导航；它是对 vue-router 的 `<router-link>` 的扩展：
+`<NuxtLink>` 是 Nuxt 内置组件，用来实现路由导航；它是对 vue-router 的 `<router-link>` 的扩展：
 
 底层是一个 `<a>` 标签，因此使用 `<a href='xxx'>` 也支持路由导航。
 
@@ -694,24 +693,6 @@ demo-project\03-hello-nuxt\app.vue
 </NuxtLink>
 ```
 
-`<NuxtLink>` 组件的 `to` 属性，支持接收一个外部的地址。
-
-- 此时，推荐添加 `external` 属性；默认 Nuxt 会帮助添加。
-
-demo-project\03-hello-nuxt\app.vue
-
-```vue
-<NuxtLink to="https://www.jd.com" target="_blank" external>
-  <button>js.com</button>
-</NuxtLink>
-```
-
-渲染出的 `<a>` 会加入如下属性：表示不会把本站点的信息，带入到外部站点。
-
-```html
-<a href="http://www.jd.com" rel="noopener noreferrer" target="_blank"></a>
-```
-
 测试 `activeClass`、`replace` 属性。
 
 demo-project\03-hello-nuxt\app.vue
@@ -730,6 +711,26 @@ demo-project\03-hello-nuxt\app.vue
   color: red;
 }
 </script>
+```
+
+### 1.外部地址
+
+`<NuxtLink>` 组件的 `to` 属性，支持接收一个外部的地址。
+
+- 此时，推荐添加 `external` 属性；默认 Nuxt 会帮助添加。
+
+demo-project\03-hello-nuxt\app.vue
+
+```vue
+<NuxtLink to="https://www.jd.com" target="_blank" external>
+  <button>js.com</button>
+</NuxtLink>
+```
+
+渲染出的 `<a>` 会加入如下属性：表示不会把本站点的信息，带入到外部站点。
+
+```html
+<a href="http://www.jd.com" rel="noopener noreferrer" target="_blank"></a>
 ```
 
 ## 八、编程导航
@@ -782,7 +783,7 @@ function goToCart() {
 }
 
 function goToJd() {
-  return navigateTo('https://www.jd.com', {external: true})
+  return navigateTo('https://www.jd.com', { external: true })
 }
 </script>
 ```
@@ -793,9 +794,9 @@ Nuxt3 也支持 Vue3 的 `useRouter`，或者 Options API 的 `this.$router`。
 
 `useRouter` 常用的 API
 
-- `back`：页面返回，同 `router.go(-1)`
-- `forward`：页面前进，同 `router.go(1)`
-- `go`：页面返回或前进，如 `router.go(-1)` or `router.go(1)`
+- `back`：页面返回，同 `router.go(-1)`；
+- `forward`：页面前进，同 `router.go(1)`；
+- `go`：页面返回或前进，如 `router.go(-1)` or `router.go(1)`；
 - `push`：以编程方式导航到新页面。
 - `replace`：以编程方式导航到新页面，但会替换当前路由。
 - `beforeEach`：路由守卫钩子，每次导航前执行（用于全局监听）
