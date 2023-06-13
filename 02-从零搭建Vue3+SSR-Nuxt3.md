@@ -175,7 +175,7 @@ demo-project\02-vue3-ssr\build\server\server_bundle.js
 - 在每个请求中，为整个应用创建一个全新的实例，比如全新的 app、router、store 实例。
 - 所以在创建它们时，都会使用一个函数来创建，保证每个请求，都会创建一个全新的实例。
 
-这样也会有**缺点**：需要消耗更多的服务器的资源：
+这样做，**缺点**是：需要消耗更多的服务器的资源：
 
 这也解释了，为什么 `app.js` 中，要导出一个函数？
 
@@ -300,9 +300,7 @@ demo-project\02-vue3-ssr\src\views\Home.vue
 
 demo-project\02-vue3-ssr\src\views\About.vue
 
-创建 router 文件夹。
-
-在其中初始化 vue router，同样的，为了防止“跨请求状态的污染”，导出一个函数。
+创建 router 文件夹，在其中初始化 vue router，同样的，为了防止“跨请求状态的污染”，导出一个函数。
 
 - 在服务器、客户端渲染两种情况下，路由模式是不确定的，需要传入到这个函数中
 
@@ -347,6 +345,7 @@ function onAddButtonClick() {
 
 <template>
   <div class="app" style="border: 1px solid red">
+    
     <h1>Vue3 app</h1>
     <div>{{ counter }}</div>
     <button @click="onAddButtonClick">加1</button>
@@ -361,6 +360,7 @@ function onAddButtonClick() {
     </div>
 
     <router-view></router-view>
+    
   </div>
 </template>
 
@@ -369,7 +369,7 @@ function onAddButtonClick() {
 
 在 `server/index.js` 中，创建 router，传入路由模式 `createMemoryHistory`：
 
-路由加载完成后，再渲染页面：
+路由加载完成后，再渲染页面：`await router.isReady()`；
 
 无论请求怎样的路径，都会来到这个服务里，所以更改请求路径为 `/*`；
 
@@ -609,8 +609,8 @@ pnpm start
 
 在了解 Nuxt 之前，思考创建一个现代应用程序，所需的技术：
 
-- 支持数据双向绑定和组件化（Nuxt 选择了 Vue.js）。
-- 支持前端路由（Nuxt 选择了 vue-router）。
+- 支持**数据双向绑定**和**组件化**（Nuxt 选择了 Vue.js）。
+- 支持**前端路由**（Nuxt 选择了 vue-router）。
 - 支持 HMR 和生产环境代码打包（Nuxt 支持 webpack5 和 Vite）。
 - 支持 JS 语法转换，兼容旧版浏览器（Nuxt 使用 esbuild）。
 - 支持开发环境服务器，也支持服务器端渲染，或 API 接口开发。
@@ -806,7 +806,7 @@ demo-project\03-hello-nuxt\package.json
 
 `runtimeConfig`：**运行时配置**（运行的时候，才会去读取的配置），即定义环境变量。
 
-详见[官方文档1](https://nuxt.com/docs/api/configuration/nuxt-config#runtimeconfig)、[官方文档2](https://nuxt.com/docs/getting-started/configuration#environment-variables-and-private-tokens)
+详见 [官方文档1](https://nuxt.com/docs/api/configuration/nuxt-config#runtimeconfig)、[官方文档2](https://nuxt.com/docs/getting-started/configuration#environment-variables-and-private-tokens)。
 
 demo-project\03-hello-nuxt\nuxt.config.ts
 
@@ -845,7 +845,7 @@ PORT= 9000 # 项目会运行在 9000 端口上。
 
 `app.vue` 中，可访问到 `runtimeConfig` 配置。
 
-`app.vue` 会在客户端和服务端各打包一份。所以在其中编写代码，要判断环境。
+`app.vue` 会在客户端、服务端各打包一份。所以在其中编写代码，要判断环境。
 
 demo-project\03-hello-nuxt\app.vue
 
@@ -860,6 +860,7 @@ if (process.server) {
   console.log('runtimeConig.appKey:', runtimeConfig.appKey)
   console.log('runtimeConig.public.baseURL:', runtimeConfig.public.baseURL)
 }
+  
 if (process.client) {
   console.log('运行在 client~')
   console.log('runtimeConig.public.baseURL:', runtimeConfig.public.baseURL)
