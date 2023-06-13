@@ -538,8 +538,8 @@ import avatarPng from '@/assets/images/avatar.png';
 字体图标使用步骤：
 
 1. 将字体图标，存放在 `/assets` 目录下。
-3. 在 `nuxt.config.ts` 配置文件中，进行配置；导入全局样式。
-4. 在页面中使用字体图标。
+2. 在 `nuxt.config.ts` 配置文件中，进行配置；导入全局样式。
+3. 在页面中使用字体图标。
 
 在 iconfont 上，下载字体图标。
 
@@ -799,8 +799,8 @@ Nuxt3 也支持 Vue3 的 `useRouter`，或者 Options API 的 `this.$router`。
 - `go`：页面返回或前进，如 `router.go(-1)` or `router.go(1)`；
 - `push`：以编程方式导航到新页面。
 - `replace`：以编程方式导航到新页面，但会替换当前路由。
-- `beforeEach`：路由守卫钩子，每次导航前执行（用于全局监听）
-- `afterEac`：路由守卫钩子，每次导航后执行（用于全局监听）
+- `beforeEach`：路由守卫钩子，每次导航前执行（用于全局监听）。
+- `afterEac`：路由守卫钩子，每次导航后执行（用于全局监听）。
 
 - .....
 
