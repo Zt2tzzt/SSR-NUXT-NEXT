@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ElButton } from 'element-plus';
+
 definePageMeta({
   // 路由中间件（监听路由）
   middleware: [
@@ -17,6 +19,13 @@ definePageMeta({
 
 const cookie = useCookie('token')
 console.log('cookie value:', cookie.value)
+
+// Ref 类型
+const counter = useCounter()
+console.log('counter.value:', counter.value)
+function onAddCounterClick() {
+  counter.value++
+}
 </script>
 
 <template>
@@ -38,6 +47,15 @@ console.log('cookie value:', cookie.value)
     <p class="global-style2">哈哈哈哈哈哈哈哈哈哈哈</p>
 
     <p class="style-variable">样式变量应用。</p>
+
+    <h1>useState</h1>
+    <div>counter: {{ counter }}</div>
+    <button @click="onAddCounterClick">+1</button>
+
+    <h1>Element Plus</h1>
+    <ElButton>我是 ElButton</ElButton>
+    <ElButton type="success">我是 ElButton</ElButton>
+    <ElButton type="danger" size="large">我是 ElButton</ElButton>
   </div>
 </template>
 

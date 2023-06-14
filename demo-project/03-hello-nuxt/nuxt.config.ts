@@ -1,4 +1,5 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+import ElementPlus from "unplugin-element-plus/vite";
+
 export default defineNuxtConfig({
   runtimeConfig: {
     // 配置属性采用驼峰的形式
@@ -68,5 +69,13 @@ export default defineNuxtConfig({
     '/cart': { static: true }, // 只会在构建时，生成一次静态页面。
     // '/profile': { swr: true } // 会生成多次静态页面，自动验证页面需要重新生成时，生成页面。
     '/profile': { swr: 60 * 10 } // 10 分钟后检测。
+  },
+  modules: ['@pinia/nuxt'],
+  build: {
+    // 使用 babel 进行语法转换
+    transpile: ['element-plus/es'],
+  },
+  vite: {
+    plugins: [ElementPlus()]
   }
 })
