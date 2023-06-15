@@ -30,7 +30,7 @@ export default defineNuxtConfig({
 pnpm add sass
 ```
 
-创建 `assets` 目录，在其中创建 `css` 目录，在其中创建 `global.scss`；
+创建 `/assets` 目录，在其中创建 `/css` 目录，在其中创建 `global.scss`；
 
 demo-project\oppo-nuxt\assets\css\global.scss
 
@@ -65,7 +65,6 @@ demo-project\oppo-nuxt\nuxt.config.ts
 
 ```typescript
 export default defineNuxtConfig({
-  devtools: { enabled: true },
   css: [
     'normalize.css',
     '~/assets/css/global.scss'
@@ -79,14 +78,17 @@ export default defineNuxtConfig({
 
 - public；
 - assets/images；
-- assets/css/variables.scss
+- assets/css/variables.scss：
 
 在 `nuxt.config.ts` 中，配置在全局导入变量。
 
 ```typescript
 export default defineNuxtConfig({
-  css: ['normalize.css', '~/assets/css/global.scss'],
-  // 在全局导入变量。
+  css: [
+    'normalize.css',
+    '~/assets/css/global.scss'
+  ],
+  // 在全局导入样式变量。
   vite: {
     css: {
       preprocessorOptions: {
@@ -243,7 +245,7 @@ demo-project\oppo-nuxt\components\app-header\index.vue
 </NuxtLink>
 ```
 
-在 login、register 页面，不要 header、footer 布局。
+在 login、register 页面，不需要 header、footer 布局。
 
 创建一个新的布局 empty-layout
 
