@@ -96,3 +96,10 @@ demo-project\oppo-nuxt\components\search\index.vue
 
 封装服务端网络请求。
 
+将之前封装好的 service，拷贝到项目中。修改 BASE_URL
+
+demo-project\oppo-nuxt\service\index.ts
+
+
+
+在 default.vue 布局中，发送网络请求。

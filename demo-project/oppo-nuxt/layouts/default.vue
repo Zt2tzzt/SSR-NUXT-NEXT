@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { fetchHomeInfo } from '@/service/home';
 
+const { data } = await fetchHomeInfo('oppo');
+console.log('data.value.data:', data.value?.data)
 </script>
 
 <template>
