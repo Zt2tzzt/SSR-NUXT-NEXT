@@ -74,7 +74,7 @@ runtimeConfig 和 appConfig 都用于为应用程序定义变量；
 
 ![runtimeConfig-vs-appConfig](NodeAssets/runtimeConfig-VS-appConfig.jpg)
 
-### 2.app 配置
+### 2.app 配置（SEO 优化）
 
 用于给每个页面设置 head 信息，做 SEO 优化，
 
@@ -250,9 +250,9 @@ demo-project\03-hello-nuxt\pages\index.vue
 </style>
 ```
 
-此时页面会报错，这是因为，创建的页面，自动生成了路由。
+此时页面会报错，这是因为，创建的页面，自动生成了约定式路由。
 
-在 `app.vue` 中，添加路由占位。
+要在 `app.vue` 中，添加路由占位。
 
 demo-project\03-hello-nuxt\app.vue
 
@@ -458,7 +458,7 @@ demo-project\03-hello-nuxt\pages\index.vue
 
 其中的静态资源，可在应用程序上，直接通过 URL 访问
 
-- 比如：`public/img/nuxt.png` 中的图像资源，可用 `"/img/nuxt.png"` 引入；
+- 比如：`public/img/nuxt.png` 图像资源，在项目中，可用 `"/img/nuxt.png"` 引入；
 
 - 也支持在 css 背景中使用。
 
