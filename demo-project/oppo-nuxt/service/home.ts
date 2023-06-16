@@ -1,10 +1,9 @@
 import ztRequest from './index'
-import type { IResultData } from './index'
+import type { IResultData } from '@/types/global'
+import type { HomeInfoType, IHomeData } from '@/types/home';
 
-type HomeInfoType = 'oppo' | 'onePlus' | 'intelligent'
-
-export const fetchHomeInfo = (type: HomeInfoType = 'oppo') => {
-  return ztRequest.get<IResultData<any>>('/home/info', {
+export const getHomeInfo = (type: HomeInfoType = 'oppo') => {
+  return ztRequest.get<IResultData<IHomeData>>('/home/info', {
     type
   })
 }

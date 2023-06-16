@@ -14,7 +14,10 @@
     "nuxt": "^3.5.2"
   },
   "dependencies": {
+    "@pinia/nuxt": "^0.4.11",
+    "element-plus": "^2.3.6",
     "normalize.css": "^8.0.1",
+    "pinia": "^2.1.4",
     "sass": "^1.63.4"
   }
 }

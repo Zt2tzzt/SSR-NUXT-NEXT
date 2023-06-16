@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { fetchHomeInfo } from '@/service/home';
+import { storeToRefs } from 'pinia';
+import { useHomeStore } from '~/store/home';
 
-const { data } = await fetchHomeInfo('oppo');
-console.log('data.value.data:', data.value?.data)
+const homeStore = useHomeStore()
+homeStore.fetchHomeInfoData('oppo')
+const { navbars } = storeToRefs(homeStore)
 </script>
 
 <template>
@@ -10,7 +12,7 @@ console.log('data.value.data:', data.value?.data)
     <!-- header -->
     <app-header></app-header>
     <!-- navbar -->
-    <navbar></navbar>
+    <navbar :listData="navbars"></navbar>
     <slot></slot>
     <!-- footer -->
     <app-footer></app-footer>

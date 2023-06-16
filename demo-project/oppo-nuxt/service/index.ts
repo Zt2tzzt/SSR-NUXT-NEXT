@@ -1,6 +1,6 @@
 import type { AsyncData, UseFetchOptions } from 'nuxt/app'
 
-const BASE_URL = 'http://codercba.com:9060/oppo-nuxt/api/'
+const BASE_URL = 'http://codercba.com:9060/oppo-nuxt/api'
 type Method = 'GET' | 'POST'
 
 class ZtRequest {
@@ -40,11 +40,6 @@ class ZtRequest {
   post<T = any>(url: string, data?: any, options?: UseFetchOptions<T>) {
     return this.request(url, 'POST', data, options)
   }
-}
-
-export interface IResultData<T> {
-  code: number,
-  data: T
 }
 
 export default new ZtRequest()

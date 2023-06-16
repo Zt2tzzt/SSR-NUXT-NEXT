@@ -1,5 +1,22 @@
 <script setup lang="ts">
+import type { INavbar } from '~/types/home'
 
+interface IProps {
+  listData: INavbar[]
+}
+withDefaults(defineProps<IProps>(), {
+  listData: () => []
+})
+
+const currentIndex = ref<number>(0)
+
+const onNavBarItemClick = (index: number) => {
+  currentIndex.value = index
+}
+
+const getPagePath = (item: INavbar) => {
+ return item.type === 'oppo' ? '/' : '/' + item.type
+}
 </script>
 
 <template>
@@ -13,26 +30,13 @@
         </NuxtLink>
       </div>
       <ul class="content-center">
-        <li>
-          <NuxtLink class="link" to="/">
-            OPPO专区
-          </NuxtLink>
-        </li>
-        <li>
-          <NuxtLink class="link" to="/">
-            OnePlus专区
-          </NuxtLink>
-        </li>
-        <li>
-          <NuxtLink class="link" to="/">
-            智能硬件
-          </NuxtLink>
-        </li>
-        <li>
-          <NuxtLink class="link" to="/">
-            服务
-          </NuxtLink>
-        </li>
+        <template v-for="(item, index) of listData" :key="item.id">
+          <li :class="{ active: currentIndex === index }">
+            <NuxtLink class="link" :to="getPagePath(item)" @click="onNavBarItemClick(index)">
+              {{ item.title }}
+            </NuxtLink>
+          </li>
+        </template>
       </ul>
       <div class="content-right">
         <search></search>
@@ -42,7 +46,6 @@
 </template>
 
 <style scoped lang="scss">
-
 .navbar {
   height: $navBarHeight;
   z-index: 99;
