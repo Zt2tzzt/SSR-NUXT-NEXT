@@ -2,7 +2,7 @@
 
 ## 一、导航栏组件
 
-在 components 目录下，创建 `navbar/index.vue` 组件。
+在 `/components` 目录下，创建 `navbar/index.vue` 组件。
 
 demo-project\oppo-nuxt\components\navbar\index.vue
 
@@ -50,6 +50,7 @@ demo-project\oppo-nuxt\components\navbar\index.vue
 <template>
   <div class="navbar">
     <div class="wrapper content">
+      <!-- logo -->
       <div class="content-left">
         <NuxtLink to="/">
           <img class="logo" src="@/assets/images/logo.png" alt="logo" />
@@ -57,6 +58,8 @@ demo-project\oppo-nuxt\components\navbar\index.vue
           <h1 class="title">OPPO商城</h1>
         </NuxtLink>
       </div>
+      
+      <!-- 菜单列表 -->
       <ul class="content-center">
         <li>
           <NuxtLink class="link" to="/">
@@ -79,6 +82,8 @@ demo-project\oppo-nuxt\components\navbar\index.vue
           </NuxtLink>
         </li>
       </ul>
+      
+      <!-- 搜索框 -->
       <div class="content-right">
         <search></search>
       </div>
@@ -87,7 +92,7 @@ demo-project\oppo-nuxt\components\navbar\index.vue
 </template>
 ```
 
-在 `components` 目录中，创建一个 `search` 组件。
+在 `components` 目录中，创建一个 `search` 组件，用于展示搜索框。
 
 demo-project\oppo-nuxt\components\search\index.vue
 
@@ -481,7 +486,7 @@ withDefaults(defineProps<IProps>(), {
 
 创建 `grid-view` 组件，用于展示商品图片区域。
 
-在其中接收 `productsDetails` 的数据
+在其中接收 `productsDetails` 的数据：
 
 demo-project\oppo-nuxt\components\grid-view\index.vue
 

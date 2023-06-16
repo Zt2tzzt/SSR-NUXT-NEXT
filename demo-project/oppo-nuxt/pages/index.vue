@@ -14,9 +14,10 @@ const handleTabCategoryItemClick = (item: ICategory) => {
 <template>
   <div class="home">
     <div class="wrapper content">
-      、
+
       <!-- 轮播图 -->
       <Swiper :listData="banners"></Swiper>
+
       <!-- 分类 -->
       <TabCategory :listData="categorys" @itemClick="handleTabCategoryItemClick"></TabCategory>
 

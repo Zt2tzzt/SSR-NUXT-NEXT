@@ -22,6 +22,7 @@ const getPagePath = (item: INavbar) => {
 <template>
   <div class="navbar">
     <div class="wrapper content">
+      <!-- logo -->
       <div class="content-left">
         <NuxtLink to="/">
           <img class="logo" src="@/assets/images/logo.png" alt="logo" />
@@ -29,6 +30,8 @@ const getPagePath = (item: INavbar) => {
           <h1 class="title">OPPO商城</h1>
         </NuxtLink>
       </div>
+
+      <!-- 菜单列表 -->
       <ul class="content-center">
         <template v-for="(item, index) of listData" :key="index">
           <li :class="{ active: currentIndex === index }">
@@ -38,6 +41,8 @@ const getPagePath = (item: INavbar) => {
           </li>
         </template>
       </ul>
+
+      <!-- 搜索框 -->
       <div class="content-right">
         <search></search>
       </div>
