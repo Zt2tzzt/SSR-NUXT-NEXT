@@ -2,17 +2,17 @@
 import { IProductDetailss } from '~/types/home';
 
 interface IProps {
-  productsDetal: IProductDetailss[]
+  productsDetails: IProductDetailss[]
 }
 
 withDefaults(defineProps<IProps>(), {
-  productsDetal: () => []
+  productsDetails: () => []
 })
 </script>
 
 <template>
   <div class="grid-view">
-    <template v-for="item, index of productsDetal" :key="index">
+    <template v-for="item, index of productsDetails" :key="index">
       <div class="view-item">
         <grid-view-item :productDetail="item"></grid-view-item>  
       </div>

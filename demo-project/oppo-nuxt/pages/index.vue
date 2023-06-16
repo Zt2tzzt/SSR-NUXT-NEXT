@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useHomeStore } from '@/store/home';
-import { storeToRefs } from 'pinia';
-import type { ICategory } from '~/types/home';
+import { useHomeStore } from '@/store/home'
+import { storeToRefs } from 'pinia'
+import type { ICategory } from '~/types/home'
 
 const homeStore = useHomeStore()
 const { banners, categorys } = storeToRefs(homeStore)
@@ -13,7 +13,8 @@ const handleTabCategoryItemClick = (item: ICategory) => {
 
 <template>
   <div class="home">
-    <div class="wrapper content">、
+    <div class="wrapper content">
+      、
       <!-- 轮播图 -->
       <Swiper :listData="banners"></Swiper>
       <!-- 分类 -->
@@ -21,7 +22,7 @@ const handleTabCategoryItemClick = (item: ICategory) => {
 
       <!-- 商品区域-->
       <SectionTitle title="Find N 系列"></SectionTitle>
-      <GridView :productsDetal="categorys[1].productDetailss"></GridView>
+      <GridView :productsDetails="categorys[1].productDetailss"></GridView>
     </div>
   </div>
 </template>

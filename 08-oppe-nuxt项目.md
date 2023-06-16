@@ -1,4 +1,6 @@
-导航栏组件。
+# oppe-nuxt 项目
+
+## 一、导航栏组件
 
 在 components 目录下，创建 `navbar/index.vue` 组件。
 
@@ -25,16 +27,22 @@ demo-project\oppo-nuxt\layouts\default.vue
     <app-header></app-header>
     <!-- navbar -->
     <navbar></navbar>
+    
     <slot></slot>
+    
     <!-- footer -->
     <app-footer></app-footer>
   </div>
 </template>
 ```
 
-在 navbar/index.vue 中，编写
+在 `navbar/index.vue` 中，分为三部分：
 
-分为三部分，logo、菜单列表，搜索区域。分别编写其中的内容。
+- logo；
+- 菜单列表；
+- 搜索区域；
+
+分别编写其中的内容。
 
 demo-project\oppo-nuxt\components\navbar\index.vue
 
@@ -79,7 +87,7 @@ demo-project\oppo-nuxt\components\navbar\index.vue
 </template>
 ```
 
-在 components 目录中，创建一个 search 组件。
+在 `components` 目录中，创建一个 `search` 组件。
 
 demo-project\oppo-nuxt\components\search\index.vue
 
@@ -92,15 +100,13 @@ demo-project\oppo-nuxt\components\search\index.vue
 </template>
 ```
 
----
+## 二、网络请求封装
 
-封装服务端网络请求。
-
-将之前封装好的 service，拷贝到项目中。修改 `BASE_URL`
+将之前封装好的 `service/index`，拷贝到项目中。修改 `BASE_URL`
 
 demo-project\oppo-nuxt\service\index.ts
 
-在 `default.vue` 布局中，发送网络请求。
+测试：在默认布局 `default.vue` 中，发送网络请求。
 
 demo-project\oppo-nuxt\layouts\default.vue
 
@@ -113,9 +119,9 @@ console.log('data.value.data:', data.value?.data)
 </script>
 ```
 
----
+## 三、pinia 集成
 
-集成 pinia
+安装依赖：
 
 ```shell
 pnpm add pinia
@@ -133,13 +139,13 @@ export default defineNuxtConfig({
 })
 ```
 
+### 1.homeStore
 
-
-在 store 目录下，创建 home.ts 文件。
+在 `/store` 目录下，创建 `home.ts` 文件。
 
 在 actions 中，使用封装好的网络请求。
 
-位 state 指定类型。
+为 state 指定类型。
 
 给网络请求的返回值，指定类型。
 
@@ -189,9 +195,11 @@ export const useHomeStore =defineStore('home', {
 })
 ```
 
-在 default.vue 布局中，派发 homeStore 的 action，获取 navbar 数据。
+## 四、派发请求
 
-将数据传给 navbar
+在默认布局 `default.vue` 中，派发 `homeStore` 的 `action`，获取 `navbar` 数据。
+
+将数据传给 `<navbar>`
 
 demo-project\oppo-nuxt\layouts\default.vue
 
@@ -218,7 +226,9 @@ const { navbars } = storeToRefs(homeStore)
 </template>
 ```
 
-在 navbar 中，接收数据。
+## 五、完善 navbar
+
+在 `navbar/index.vue` 中，接收数据。
 
 demo-project\oppo-nuxt\components\navbar\index.vue
 
@@ -271,11 +281,11 @@ const getPagePath = (item: INavbar) => {
 </template>
 ```
 
----
+## 六、创建页面
 
 创建 server、onePlus、intelligence 三个页面。
 
----
+## 七、集成 Element Plus
 
 在项目中，集成 Element Plus
 
@@ -287,9 +297,7 @@ pnpm add element-plus
 pnpm add unplugin-element-plus -D
 ```
 
-2.配置 Babel 对 EP 的转译，配置自动导入样式；
-
-在 `nuxt.config.ts` 中，进行配置：
+2；在 `nuxt.config.ts` 中，.配置 Babel 对 EP 的转译，配置自动导入样式。
 
 并配置自动导包；
 
@@ -309,11 +317,13 @@ export default defineNuxtConfig({
 })
 ```
 
----
+## 八、首页
+
+### 1.轮播图
 
 在首页，编写轮播图。
 
-在 components 目录下，创建 swiper/index.vue
+在 `/components` 目录下，创建 `swiper/index.vue`
 
 在其中，使用 Element 的走马灯组件。
 
@@ -337,11 +347,11 @@ import { ElCarousel, ElCarouselItem } from 'element-plus'
 </template>
 ```
 
-在 index.vue 中，获取 homeStore 中的 banners。
+在首页 `index.vue` 中，获取 `homeStore` 中的 `banners`。
 
-将 banners，传递给
+将 `banners`，传递给`swiper/index.vue`
 
-自定义轮播图的指示器
+自定义轮播图的“指示器”
 
 demo-project\oppo-nuxt\components\swiper\index.vue
 
@@ -384,13 +394,13 @@ const onCarouselChange = (index: number) => {
 </template>
 ```
 
----
+### 2.分类栏
 
-在 components 目录下，创建 tab-category/index.vue
+在 `/components` 目录下，创建 `tab-category/index.vue`
 
-在 index.vue 中，将 categoriys 数据，传递给 tab-category 中。
+在首页 `index.vue` 中，将 `categoriys` 数据，传递给 `tab-category/index.vue` 中。
 
-使用编程时导航，编写 item 点击功能。
+使用编程式导航，编写 item 点击功能。
 
 demo-project\oppo-nuxt\components\tab-category\index.vue
 
@@ -426,9 +436,29 @@ const onItemClick = (item: ICategory) => {
 </template>
 ```
 
----
+在首页 `index.vue` 中，处理事件
 
-封装 section-title 组件。
+pages\index.vue
+
+```vue
+<script setup lang="ts">
+const handleTabCategoryItemClick = (item: ICategory) => {
+  console.log('item.title:', item.title)
+}
+</script>
+
+<template>
+  <div class="home">
+    <!-- 分类 -->
+    <TabCategory :listData="categorys" @itemClick="handleTabCategoryItemClick"></TabCategory>
+    </div>
+  </div>
+</template>
+```
+
+### 3.商品区域
+
+封装 `section-title` 组件。
 
 demo-project\oppo-nuxt\components\section-title\index.vue
 
@@ -449,9 +479,9 @@ withDefaults(defineProps<IProps>(), {
 </template>
 ```
 
-创建 grid-view 组件，用于展示商品图片区域。
+创建 `grid-view` 组件，用于展示商品图片区域。
 
-在其中接收 category 的数据
+在其中接收 `productsDetails` 的数据
 
 demo-project\oppo-nuxt\components\grid-view\index.vue
 
@@ -479,9 +509,11 @@ withDefaults(defineProps<IProps>(), {
 </template>
 ```
 
-创建 grid-view-item 组件，用于展示商品图片。
+创建 `grid-view-item` 组件，用于展示商品图片。
 
-在其中接受 productDetail 的数据。
+在其中接受 `productDetail` 的数据。
+
+components\grid-view-item\index.vue
 
 ```vue
 <script setup lang="ts">
@@ -517,4 +549,3 @@ withDefaults(defineProps<IProps>(), {
   </div>
 </template>
 ```
-
