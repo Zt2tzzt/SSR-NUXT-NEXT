@@ -449,8 +449,72 @@ withDefaults(defineProps<IProps>(), {
 </template>
 ```
 
-创建 grid-view 组件，用于展示商品图片。
+创建 grid-view 组件，用于展示商品图片区域。
 
 在其中接收 category 的数据
 
 demo-project\oppo-nuxt\components\grid-view\index.vue
+
+```vue
+<script setup lang="ts">
+import { IProductDetailss } from '~/types/home';
+
+interface IProps {
+  productsDetal: IProductDetailss[]
+}
+
+withDefaults(defineProps<IProps>(), {
+  productsDetal: () => []
+})
+</script>
+
+<template>
+  <div class="grid-view">
+    <template v-for="item, index of productsDetal" :key="index">
+      <div class="view-item">
+        <grid-view-item :productDetail="item"></grid-view-item>  
+      </div>
+    </template>
+  </div>
+</template>
+```
+
+创建 grid-view-item 组件，用于展示商品图片。
+
+在其中接受 productDetail 的数据。
+
+```vue
+<script setup lang="ts">
+import type { IProductDetailss } from '~/types/home'
+
+interface IProps {
+  productDetail: IProductDetailss | null
+}
+withDefaults(defineProps<IProps>(), {
+  productDetail: null
+})
+</script>
+
+<template>
+  <div class="grid-view-item" v-if="!!productDetail">
+    <div class="item-img">
+      <img class="url" :src="productDetail.url" alt="">
+    </div>
+
+    <div class="item-title">{{ productDetail.title }}</div>
+
+    <div class="item-labels">
+      <template v-for="item, index of productDetail.activityList" :key="index">
+        <span class="label">{{ item.activityInfo }}</span>
+      </template>
+    </div>
+
+    <div class="item-price">
+      <span class="prefix">{{ productDetail.priceInfo?.prefix }}</span>
+      <span class="prefix">{{ productDetail.priceInfo?.currencyTag }}</span>
+      <span class="price">{{ productDetail.priceInfo?.buyPrice }}</span>
+    </div>
+  </div>
+</template>
+```
+

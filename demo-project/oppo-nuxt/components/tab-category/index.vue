@@ -19,7 +19,7 @@ const onItemClick = (item: ICategory) => {
 
 <template>
   <div class="tab-category">
-    <template v-for="item, index of listData" :key="item.id">
+    <template v-for="item, index of listData" :key="index">
       <div class="category-item" @click="onItemClick(item)">
         <img :src="item.picStr" alt="" class="pic-str">
         <div class="title">{{ item.title }}</div>

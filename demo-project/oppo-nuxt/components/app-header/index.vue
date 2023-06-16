@@ -1,11 +1,4 @@
 <script setup lang="ts">
-interface IProps {
-  title: string
-}
-
-withDefaults(defineProps<IProps>(), {
-  title: ''
-})
 </script>
 
 <template>

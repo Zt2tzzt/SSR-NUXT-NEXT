@@ -30,7 +30,7 @@ const getPagePath = (item: INavbar) => {
         </NuxtLink>
       </div>
       <ul class="content-center">
-        <template v-for="(item, index) of listData" :key="item.id">
+        <template v-for="(item, index) of listData" :key="index">
           <li :class="{ active: currentIndex === index }">
             <NuxtLink class="link" :to="getPagePath(item)" @click="onNavBarItemClick(index)">
               {{ item.title }}

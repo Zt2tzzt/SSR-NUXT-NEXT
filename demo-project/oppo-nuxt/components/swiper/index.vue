@@ -20,7 +20,7 @@ const onCarouselChange = (index: number) => {
   <div class="swiper">
     <div class="wrapper content">
       <el-carousel height="480px" indicator-position="none" @change="onCarouselChange">
-        <el-carousel-item v-for="(item, index) of listData" :key="item.id">
+        <el-carousel-item v-for="(item, index) of listData" :key="index">
           <img class="pic-str" :src="item.picStr" alt="轮播图">
         </el-carousel-item>
       </el-carousel>
@@ -28,7 +28,7 @@ const onCarouselChange = (index: number) => {
 
     <!-- 指示器 -->
     <ul class="dots">
-      <template v-for="item, index of listData" :key="item.id">
+      <template v-for="item, index of listData" :key="index">
         <li :class="['dot', { active: currentindex === index }]"></li>
       </template>
     </ul>
