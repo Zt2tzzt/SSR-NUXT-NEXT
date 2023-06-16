@@ -82,6 +82,8 @@ export default defineNuxtConfig({
 
 在 `nuxt.config.ts` 中，配置在全局导入变量。
 
+demo-project\oppo-nuxt\nuxt.config.ts
+
 ```typescript
 export default defineNuxtConfig({
   css: [
@@ -141,7 +143,9 @@ demo-project\oppo-nuxt\app.vue
 </template>
 ```
 
-编写 `app-header` 组件。在其中使用字体图标。
+编写 `app-header` 组件。
+
+在其中使用字体图标。
 
 在 `nuxt.config.ts` 中，配置全局使用字体图标。
 
