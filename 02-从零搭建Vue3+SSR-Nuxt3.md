@@ -160,9 +160,7 @@ demo-project\02-vue3-ssr\build\server\server_bundle.js
 - 比如：一个 app 对象实例、一个 router 对象实例、一个 store 对象实例；
 - 用户在使用浏览器，访问 SPA 应用时，应用模块，都会重新初始化，这是一种**单例模式**。
 
-然而，在 SSR 模式下，app 应用模块，通常只在服务器启动时，初始化一次；
-
-同一个应用模块，会在多个请求里被复用；
+然而，在 SSR 模式下，如果 app 应用模块，只在服务器启动时，初始化一次，那么同一个应用模块，会在多个请求里被复用；
 
 单例状态的对象也一样，也会在多个请求之间被复用，比如：
 
@@ -294,7 +292,7 @@ pnpm add vue-router
 
 创建 views 文件夹。
 
-在其中，创建 `Home.vue`、`About.vue` 文件。
+在其中，创建两个页面 `Home.vue`、`About.vue` 文件。
 
 demo-project\02-vue3-ssr\src\views\Home.vue
 
@@ -471,7 +469,7 @@ pnpm add pinia
 
 同样的，在服务端、客户端，都要创建 pinia 对象。
 
-服务端的 pinia，会把状态转成字符串的形式，存放在 `window` 对象上；
+服务端的 pinia，会把状态，**转成字符串**的形式，存放在 `window` 对象上；
 
 在 hydration 时，注入到客户端 `window` 对象上，以便使用。
 
@@ -543,9 +541,7 @@ import { storeToRefs } from 'pinia';
 import { useHomeStore  } from '../store/home';
 
 const homeStore = useHomeStore()
-
 const { count } = storeToRefs(homeStore)
-
 function onAddButtonClick() {
   count.value++
 }
@@ -574,9 +570,7 @@ import { storeToRefs } from 'pinia';
 import { useHomeStore  } from '../store/home';
 
 const homeStore = useHomeStore()
-
 const { count } = storeToRefs(homeStore)
-
 function onAddButtonClick() {
   count.value++
 }
@@ -814,7 +808,7 @@ demo-project\03-hello-nuxt\nuxt.config.ts
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   runtimeConfig: {
-    // 配置属性采用驼峰的形式
+    // 配置属性，采用驼峰的形式
     // server 端可访问的配置，会被打包到 server_bundle.js 中
     appKey: 'aabbcc',
 
@@ -826,10 +820,12 @@ export default defineNuxtConfig({
 })
 ```
 
-通过 `.env` 文件中的环境变量，来覆盖，优先级（`.env` > `runtimeConfig`）
+`.env` 文件中的环境变量，可覆盖 `runtimeConfig` 中的配置，
+
+优先级（`.env` > `runtimeConfig`）
 
 - `.env` 的变量，会注入到 `process.env` 中，其中符合规则的变量，会覆盖 `runtimeConfig` 的变量.
-- `.env` 一般用于：某些终端启动应用时，动态指定配置，同时支持 dev 和 pro 环境。
+- `.env` 一般用于：某些终端启动应用时，动态指定配置，同时支持开发（dev）和生产（pro）环境。
 
 在项目根目录，创建 `.env` 文件，
 
@@ -845,7 +841,7 @@ PORT= 9000 # 项目会运行在 9000 端口上。
 
 `app.vue` 中，可访问到 `runtimeConfig` 配置。
 
-`app.vue` 会在客户端、服务端各打包一份。所以在其中编写代码，要判断环境。
+`app.vue` 会在客户端、服务端各打包一份。**所以在其中编写代码，要判断环境**。
 
 demo-project\03-hello-nuxt\app.vue
 
