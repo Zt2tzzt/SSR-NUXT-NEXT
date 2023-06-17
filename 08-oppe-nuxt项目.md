@@ -92,7 +92,7 @@ oppo-nuxt\components\navbar\index.vue
 </template>
 ```
 
-在 `components` 目录中，创建一个 `search` 组件，用于展示搜索框。
+在 `/components` 目录中，创建一个 `search` 组件，用于展示搜索框。
 
 oppo-nuxt\components\search\index.vue
 
@@ -406,7 +406,7 @@ const onCarouselChange = (index: number) => {
 
 ### 2.分类栏
 
-在 `/components` 目录下，创建 `tab-category/index.vue`
+在 `/components` 目录下，创建 `tab-category/index.vue`；
 
 在首页 `index.vue` 中，将 `categoriys` 数据，传递给 `tab-category/index.vue` 中。
 
