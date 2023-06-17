@@ -4,7 +4,7 @@
 
 在 `/components` 目录下，创建 `navbar/index.vue` 组件。
 
-demo-project\oppo-nuxt\components\navbar\index.vue
+oppo-nuxt\components\navbar\index.vue
 
 ```vue
 <template>
@@ -16,9 +16,9 @@ demo-project\oppo-nuxt\components\navbar\index.vue
 </template>
 ```
 
-在布局中，使用。
+在默认布局 `default.vue` 中，使用。
 
-demo-project\oppo-nuxt\layouts\default.vue
+oppo-nuxt\layouts\default.vue
 
 ```vue
 <template>
@@ -44,7 +44,7 @@ demo-project\oppo-nuxt\layouts\default.vue
 
 分别编写其中的内容。
 
-demo-project\oppo-nuxt\components\navbar\index.vue
+oppo-nuxt\components\navbar\index.vue
 
 ```vue
 <template>
@@ -94,7 +94,7 @@ demo-project\oppo-nuxt\components\navbar\index.vue
 
 在 `components` 目录中，创建一个 `search` 组件，用于展示搜索框。
 
-demo-project\oppo-nuxt\components\search\index.vue
+oppo-nuxt\components\search\index.vue
 
 ```vue
 <template>
@@ -109,11 +109,11 @@ demo-project\oppo-nuxt\components\search\index.vue
 
 将之前封装好的 `service/index`，拷贝到项目中。修改 `BASE_URL`
 
-demo-project\oppo-nuxt\service\index.ts
+oppo-nuxt\service\index.ts
 
 测试：在默认布局 `default.vue` 中，发送网络请求。
 
-demo-project\oppo-nuxt\layouts\default.vue
+oppo-nuxt\layouts\default.vue
 
 ```vue
 <script setup lang="ts">
@@ -136,7 +136,7 @@ pnpm add @pinia/nuxt
 
 在 `nuxt.config.ts` 中，进行配置：
 
-demo-project\03-hello-nuxt\nuxt.config.ts
+03-hello-nuxt\nuxt.config.ts
 
 ```typescript
 export default defineNuxtConfig({
@@ -154,7 +154,7 @@ export default defineNuxtConfig({
 
 给网络请求的返回值，指定类型。
 
-demo-project\oppo-nuxt\service\home.ts
+oppo-nuxt\service\home.ts
 
 ```typescript
 import ztRequest from './index'
@@ -168,7 +168,7 @@ export const getHomeInfo = (type: HomeInfoType = 'oppo') => {
 }
 ```
 
-demo-project\oppo-nuxt\store\home.ts
+oppo-nuxt\store\home.ts
 
 ```typescript
 import type { HomeInfoType } from '@/types/home';
@@ -206,7 +206,7 @@ export const useHomeStore =defineStore('home', {
 
 将数据传给 `<navbar>`
 
-demo-project\oppo-nuxt\layouts\default.vue
+oppo-nuxt\layouts\default.vue
 
 ```vue
 <script setup lang="ts">
@@ -235,7 +235,7 @@ const { navbars } = storeToRefs(homeStore)
 
 在 `navbar/index.vue` 中，接收数据。
 
-demo-project\oppo-nuxt\components\navbar\index.vue
+oppo-nuxt\components\navbar\index.vue
 
 ```vue
 <script setup lang="ts">
@@ -262,6 +262,7 @@ const getPagePath = (item: INavbar) => {
 <template>
   <div class="navbar">
     <div class="wrapper content">
+      <!-- logo -->
       <div class="content-left">
         <NuxtLink to="/">
           <img class="logo" src="@/assets/images/logo.png" alt="logo" />
@@ -269,8 +270,10 @@ const getPagePath = (item: INavbar) => {
           <h1 class="title">OPPO商城</h1>
         </NuxtLink>
       </div>
+
+      <!-- 菜单列表 -->
       <ul class="content-center">
-        <template v-for="(item, index) of listData" :key="item.id">
+        <template v-for="(item, index) of listData" :key="index">
           <li :class="{ active: currentIndex === index }">
             <NuxtLink class="link" :to="getPagePath(item)" @click="onNavBarItemClick(index)">
               {{ item.title }}
@@ -278,6 +281,8 @@ const getPagePath = (item: INavbar) => {
           </li>
         </template>
       </ul>
+
+      <!-- 搜索框 -->
       <div class="content-right">
         <search></search>
       </div>
@@ -302,11 +307,11 @@ pnpm add element-plus
 pnpm add unplugin-element-plus -D
 ```
 
-2；在 `nuxt.config.ts` 中，.配置 Babel 对 EP 的转译，配置自动导入样式。
+2；在 `nuxt.config.ts` 中，配置 Babel 对 EP 的转译，配置自动导入样式。
 
 并配置自动导包；
 
-demo-project\03-hello-nuxt\nuxt.config.ts
+03-hello-nuxt\nuxt.config.ts
 
 ```typescript
 import ElementPlus from 'unplugin-element-plus/vite';
@@ -332,7 +337,7 @@ export default defineNuxtConfig({
 
 在其中，使用 Element 的走马灯组件。
 
-demo-project\oppo-nuxt\pages\index.vue
+components\swiper\index.vue
 
 ```vue
 <script setup lang="ts">
@@ -358,7 +363,7 @@ import { ElCarousel, ElCarouselItem } from 'element-plus'
 
 自定义轮播图的“指示器”
 
-demo-project\oppo-nuxt\components\swiper\index.vue
+oppo-nuxt\components\swiper\index.vue
 
 ```vue
 <script setup lang="ts">
@@ -407,7 +412,7 @@ const onCarouselChange = (index: number) => {
 
 使用编程式导航，编写 item 点击功能。
 
-demo-project\oppo-nuxt\components\tab-category\index.vue
+oppo-nuxt\components\tab-category\index.vue
 
 ```vue
 <script setup lang="ts">
@@ -465,7 +470,7 @@ const handleTabCategoryItemClick = (item: ICategory) => {
 
 封装 `section-title` 组件。
 
-demo-project\oppo-nuxt\components\section-title\index.vue
+oppo-nuxt\components\section-title\index.vue
 
 ```vue
 <script setup lang="ts">
@@ -488,7 +493,7 @@ withDefaults(defineProps<IProps>(), {
 
 在其中接收 `productsDetails` 的数据：
 
-demo-project\oppo-nuxt\components\grid-view\index.vue
+oppo-nuxt\components\grid-view\index.vue
 
 ```vue
 <script setup lang="ts">
