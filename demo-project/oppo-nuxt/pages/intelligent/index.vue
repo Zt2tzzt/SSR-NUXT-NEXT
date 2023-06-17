@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { getHomeInfo } from '@/service/home';
 
-const { data } = await getHomeInfo('onePlus');
+const { data } = await getHomeInfo('intelligent');
 </script>
 
 <template>
-  <div class="one-plus">
+  <div class="intelligence">
     <div class="wrapper content">
       <!-- 轮播图 -->
       <Swiper :listData="data?.data.banners"></Swiper>

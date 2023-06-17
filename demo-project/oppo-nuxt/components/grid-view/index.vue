@@ -1,20 +1,29 @@
 <script setup lang="ts">
-import { IProductDetailss } from '~/types/home';
+import { IProductDetailss } from '~/types/home'
 
 interface IProps {
-  productsDetails: IProductDetailss[]
+  productsDetails?: IProductDetailss[]
+  categoryUrl?: string
 }
 
 withDefaults(defineProps<IProps>(), {
-  productsDetails: () => []
+  productsDetails: () => [],
+  categoryUrl: ''
 })
 </script>
 
 <template>
+  
   <div class="grid-view">
-    <template v-for="item, index of productsDetails" :key="index">
+    <!-- 第一个 item -->
+    <div class="view-item first">
+      <img :src="categoryUrl" alt="商品图片">
+    </div>
+
+    <!-- 其余的 item -->
+    <template v-for="(item, index) of productsDetails" :key="index">
       <div class="view-item">
-        <grid-view-item :productDetail="item"></grid-view-item>  
+        <grid-view-item :productDetail="item"></grid-view-item>
       </div>
     </template>
   </div>

@@ -1,49 +1,10 @@
-import type { IDetailProductType } from './detail.d';
+export type IDetailProductType = 'oppo' | 'air' | 'watch' | 'tablet'
 
-export type HomeInfoType = 'oppo' | 'onePlus' | 'intelligent'
-
-export interface IHomeData {
-  navbars: INavbar[]
-  banners: IBanner[]
-  categorys: ICategory[]
-}
-
-export interface INavbar {
-  id: string
+export interface IDetailData {
+  id: number
   title: string
-  type: string
-  showName: number
-  url: string
-  jsonUrl: string
-  clickUrl: string
-  jsonClickUrl: string
-  beginAt: any
-  endAt: any
-  seq: number
-  labelDetailss: any[]
-  link: string
-  isLogin: number
-  moduleCode: string
-  rows: number
-  cols: number
-  maxProductNum: number
-}
-
-export interface IBanner {
-  id: number
-  picStr: string
-  link: string
-}
-
-export interface ICategory {
-  id: number
-  picStr: string
-  title: IDetailProductType
-  type: string
-  url: string
-  moduleCode: string
   productDetailss: IProductDetailss[]
-  link: string
+  link?: string
 }
 
 export interface IProductDetailss {
@@ -107,7 +68,7 @@ export interface IPriceInfo {
   originalPrice: string
   price: string
   marketPrice: string
-  buyPrice?: string
+  buyPrice: string
   prefix: string
   suffix: string
   currencyTag: string
