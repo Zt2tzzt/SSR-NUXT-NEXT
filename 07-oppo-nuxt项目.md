@@ -107,11 +107,11 @@ export default defineNuxtConfig({
 
 ## 四、创建布局
 
-创建 `layouts` 目录，在其中创建 `default.vue` 文件。
+创建 `/layouts` 目录，在其中创建 `default.vue` 文件。
 
-创建 `components` 目录，在其中创建 `app-header.vue` 和 `app-footer.vue` 组件。
+创建 `/components` 目录，在其中创建 `app-header.vue` 和 `app-footer.vue` 组件。
 
-在 `default.vue` 中，引入 app-header 和 app-footer
+在 `default.vue` 中，使用 app-header 和 app-footer
 
 demo-project\oppo-nuxt\layouts\default.vue
 
