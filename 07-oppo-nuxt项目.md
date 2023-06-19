@@ -16,7 +16,7 @@ pnpm add normalize.css
 
 在 `nuxt.config.ts` 中，配置 css
 
-demo-project\oppo-nuxt\nuxt.config.ts
+oppo-nuxt\nuxt.config.ts
 
 ```typescript
 export default defineNuxtConfig({
@@ -32,7 +32,7 @@ pnpm add sass
 
 创建 `/assets` 目录，在其中创建 `/css` 目录，在其中创建 `global.scss`；
 
-demo-project\oppo-nuxt\assets\css\global.scss
+oppo-nuxt\assets\css\global.scss
 
 ```scss
 body {
@@ -61,7 +61,7 @@ a {
 
 在 `nuxt.config.ts` 中，配置 css
 
-demo-project\oppo-nuxt\nuxt.config.ts
+oppo-nuxt\nuxt.config.ts
 
 ```typescript
 export default defineNuxtConfig({
@@ -82,7 +82,7 @@ export default defineNuxtConfig({
 
 在 `nuxt.config.ts` 中，配置在全局导入变量。
 
-demo-project\oppo-nuxt\nuxt.config.ts
+oppo-nuxt\nuxt.config.ts
 
 ```typescript
 export default defineNuxtConfig({
@@ -113,7 +113,7 @@ export default defineNuxtConfig({
 
 在 `default.vue` 中，使用 app-header 和 app-footer
 
-demo-project\oppo-nuxt\layouts\default.vue
+oppo-nuxt\layouts\default.vue
 
 ```vue
 <template>
@@ -131,7 +131,7 @@ demo-project\oppo-nuxt\layouts\default.vue
 
 在 `app.vue` 中，使用 `<NauxtLayout>`：
 
-demo-project\oppo-nuxt\app.vue
+oppo-nuxt\app.vue
 
 ```vue
 <template>
@@ -149,7 +149,7 @@ demo-project\oppo-nuxt\app.vue
 
 在 `nuxt.config.ts` 中，配置全局使用字体图标。
 
-demo-project\oppo-nuxt\nuxt.config.ts
+oppo-nuxt\nuxt.config.ts
 
 ```typescript
 export default defineNuxtConfig({
@@ -157,7 +157,7 @@ export default defineNuxtConfig({
 })
 ```
 
-demo-project\oppo-nuxt\components\app-header\index.vue
+oppo-nuxt\components\app-header\index.vue
 
 ```vue
 <NuxtLink to="/login" class="link" target="_blank">
@@ -175,7 +175,7 @@ demo-project\oppo-nuxt\components\app-header\index.vue
 
 在 `nuxt.config.ts` 中，进行配置：
 
-demo-project\oppo-nuxt\nuxt.config.ts
+oppo-nuxt\nuxt.config.ts
 
 ```typescript
 export default defineNuxtConfig({
@@ -213,7 +213,7 @@ export default defineNuxtConfig({
 
 创建全局 404 not found 页面
 
-demo-project\oppo-nuxt\pages\[...slug].vue
+oppo-nuxt\pages\[...slug].vue
 
 ```vue
 <script setup lang="ts">
@@ -233,11 +233,13 @@ demo-project\oppo-nuxt\pages\[...slug].vue
 
 ```shell
 npx nuix add page login/index
+
+npx nuix add page register/index
 ```
 
 在 app-header 中，补充 login、register 的路由。
 
-demo-project\oppo-nuxt\components\app-header\index.vue
+oppo-nuxt\components\app-header\index.vue
 
 ```vue
 <NuxtLink to="/login" class="link">
@@ -253,7 +255,7 @@ demo-project\oppo-nuxt\components\app-header\index.vue
 
 创建一个新的布局 empty-layout
 
-demo-project\oppo-nuxt\layouts\empty-layout.vue
+oppo-nuxt\layouts\empty-layout.vue
 
 ```vue
 <template>
@@ -265,7 +267,7 @@ demo-project\oppo-nuxt\layouts\empty-layout.vue
 
 在 login、register 页面中，进行配置：
 
-demo-project\oppo-nuxt\pages\login\index.vue
+oppo-nuxt\pages\login\index.vue
 
 ```vue
 <script lang="ts" setup>
