@@ -201,18 +201,19 @@ export const getDetailInfo = (type: IDetailProductType) => ztRequest.get<IResult
 
 在其中，通过路由，获取 query 字符串传递过来的参数 type
 
-并发送网络请求，获取数据：
+并发送网络请求，传入 type，获取数据：
 
 pages\oppo-detail\index.vue
 
 ```vue
 <script setup lang="ts">
 import { getDetailInfo } from '@/service/detail';
+import type { IDetailProductType } from '~/types/detail';
 
 const route = useRoute()
 console.log('route.query:', route.query)
 
-const { data } = await getDetailInfo('oppo');
+const { data } = await getDetailInfo(route.query.type as IDetailProductType);
 console.log('data.value?.data:', data.value?.data)
 </script>
 ```
@@ -220,3 +221,7 @@ console.log('data.value?.data:', data.value?.data)
 ---
 
 在 oppo-detail 页面中，编写标签页组件，使用 EP 的标签页组件。
+
+使用 el-tabs，eb-tab-pane 组件。
+
+并编写样式。
