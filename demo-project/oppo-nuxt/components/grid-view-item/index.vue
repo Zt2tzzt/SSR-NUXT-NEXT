@@ -11,18 +11,22 @@ withDefaults(defineProps<IProps>(), {
 
 <template>
   <div class="grid-view-item" v-if="!!productDetail">
+    <!-- 产品图片 -->
     <div class="item-img">
       <img class="url" :src="productDetail.url" alt="">
     </div>
 
+    <!-- 产品标题 -->
     <div class="item-title">{{ productDetail.title }}</div>
 
+    <!-- 产品标签 -->
     <div class="item-labels">
       <template v-for="item, index of productDetail.activityList" :key="index">
         <span class="label">{{ item.activityInfo }}</span>
       </template>
     </div>
 
+    <!-- 产品价格 -->
     <div class="item-price">
       <span class="prefix">{{ productDetail.priceInfo?.prefix }}</span>
       <span class="prefix">{{ productDetail.priceInfo?.currencyTag }}</span>
