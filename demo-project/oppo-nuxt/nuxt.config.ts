@@ -1,5 +1,3 @@
-import ElementPlus from 'unplugin-element-plus/vite'
-
 export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ['normalize.css', '~/assets/css/global.scss', '~/assets/css/cus-font/iconfont.css'],
@@ -10,8 +8,7 @@ export default defineNuxtConfig({
           additionalData: '@use "@/assets/css/variables.scss" as *;'
         }
       }
-    },
-    plugins: [ElementPlus()]
+    }
   },
   app: {
     // 可以给所有的页面的head添加一下SEO的信息
@@ -32,9 +29,5 @@ export default defineNuxtConfig({
       noscript: [{ children: 'Javascript is required' }]
     }
   },
-  modules: ['@pinia/nuxt'],
-  build: {
-    // 使用 babel 进行语法转换
-    transpile: ['element-plus/es']
-  },
+  modules: ['@pinia/nuxt', '@element-plus/nuxt']
 })

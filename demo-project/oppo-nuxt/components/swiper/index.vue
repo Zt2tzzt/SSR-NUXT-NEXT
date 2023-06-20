@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ElCarousel, ElCarouselItem } from 'element-plus'
 import { IBanner } from '~/types/home';
 
 interface IProps {
@@ -13,7 +12,6 @@ const currentindex = ref<number>(0)
 const onCarouselChange = (index: number) => {
   currentindex.value = index
 }
-
 </script>
 
 <template>

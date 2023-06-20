@@ -16,7 +16,7 @@ withDefaults(defineProps<IProps>(), {
   
   <div class="grid-view">
     <!-- 第一个 item -->
-    <div class="view-item first">
+    <div class="view-item first" v-if="!!categoryUrl">
       <img :src="categoryUrl" alt="商品图片">
     </div>
 

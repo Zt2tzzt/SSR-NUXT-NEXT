@@ -304,26 +304,16 @@ const getPagePath = (item: INavbar) => {
 ```shell
 pnpm add element-plus
 
-pnpm add unplugin-element-plus -D
+pnpm add -D @element-plus/nuxt
 ```
 
-2；在 `nuxt.config.ts` 中，配置 Babel 对 EP 的转译，配置自动导入样式。
-
-并配置自动导包；
+2；在 `nuxt.config.ts` 中，配置自动导包；
 
 03-hello-nuxt\nuxt.config.ts
 
 ```typescript
-import ElementPlus from 'unplugin-element-plus/vite';
-
 export default defineNuxtConfig({
-  build: {
-    // 使用 babel 进行语法转换
-    transpile: ['element-plus/es'],
-  },
-  vite: {
-    plugins: [ElementPlus()]
-  }
+  modules: ['@element-plus/nuxt'],
 })
 ```
 
