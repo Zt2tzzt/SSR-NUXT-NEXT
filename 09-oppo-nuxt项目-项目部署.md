@@ -4,7 +4,7 @@
 
 ### 1.商品区域
 
-在 grid-view 中，第一个 item，占据宽度 40%
+在 grid-view 中，第一个 item，占据宽度 40%。
 
 在其中，接收图片的 url，categoryUrl
 
@@ -18,7 +18,6 @@ interface IProps {
   productsDetails?: IProductDetailss[]
   categoryUrl?: string
 }
-
 withDefaults(defineProps<IProps>(), {
   productsDetails: () => [],
   categoryUrl: ''
@@ -26,7 +25,6 @@ withDefaults(defineProps<IProps>(), {
 </script>
 
 <template>
-  
   <div class="grid-view">
     <!-- 第一个 item -->
     <div class="view-item first">
@@ -43,7 +41,7 @@ withDefaults(defineProps<IProps>(), {
 </template>
 ```
 
-在首页 index.vue 中，
+在首页 `index.vue` 中，
 
 抽取分类章节组件 section-category。
 
@@ -51,31 +49,31 @@ components\section-category\index.vue
 
 ```vue
 <script setup lang="ts">
-import { ICategory } from '~/types/home'
+import type { ICategory } from '~/types/home'
 
 interface IProps {
-  category: ICategory
+  itemData?: ICategory
 }
 
 withDefaults(defineProps<IProps>(), {
-  category: () => ({})
+  itemData: null
 })
 </script>
 
 <template>
-  <div class="section-category">
-    <SectionTitle title="Find N 系列"></SectionTitle>
+  <div class="section-itemData" v-if="!!itemData">
+    <SectionTitle :title="itemData.title"></SectionTitle>
     <GridView
-      :category-url="category.url"
-      :productsDetails="category.productDetailss"
+      :itemData-url="itemData.url"
+      :productsDetails="itemData.productDetailss"
     ></GridView>
   </div>
 </template>
 
-<style scoped lang="less"></style>
+<style scoped lang="scss"></style>
 ```
 
-在首页 index.vue 中，使用该组件，对它进行遍历。
+在首页 `index.vue` 中，使用该组件，对它进行遍历。
 
 pages\index.vue
 
@@ -96,7 +94,7 @@ components\app-footer\index.vue
 
 在 `onePlus/index.vue` 中，发送网络请求，获取数据。
 
-判断，没有产品详情的，不展示商品区域。
+判断，没有产品详情的商品区域，不展示。
 
 pages\onePlus\index.vue
 
@@ -119,7 +117,7 @@ const { data } = await getHomeInfo('onePlus');
       <!-- 商品区域-->
       <template v-for="item of data?.data.categorys" :key="item.id">
         <!-- 没有产品详情的，不展示商品区域 -->
-        <SectionCategory :category="item" v-if="!!(item.productDetailss) && item.productDetailss.length > 0"></SectionCategory>
+        <SectionCategory :itemData="item" v-if="!!(item.productDetailss) && item.productDetailss.length > 0"></SectionCategory>
       </template>
     </div>
   </div>
@@ -153,7 +151,7 @@ const { data } = await getHomeInfo('intelligent');
       <!-- 商品区域-->
       <template v-for="item of data?.data.categorys" :key="item.id">
         <!-- 没有产品详情的，不展示商品区域 -->
-        <SectionCategory :category="item" v-if="!!(item.productDetailss) && item.productDetailss.length > 0"></SectionCategory>
+        <SectionCategory :itemData="item" v-if="!!(item.productDetailss) && item.productDetailss.length > 0"></SectionCategory>
       </template>
     </div>
   </div>
@@ -164,11 +162,11 @@ const { data } = await getHomeInfo('intelligent');
 
 ## 五、详情页
 
-在首页 `idnex.vue`；
+在首页 `index.vue`；
 
-点击 tab-category 中的 item，跳转到详情页。
+点击 tab-category 中的 item，跳转到详情页 oppo-detail。
 
-通过编程导航的方式，跳转路由，在 query 字符串中，传递 type。
+通过编程导航的方式，跳转路由，在 query 字符串中，传递 `type` 参数。
 
 pages\index.vue
 
@@ -196,20 +194,18 @@ const handleTabCategoryItemClick = (item: ICategory) => {
 service\detail.ts
 
 ```typescript
-import type { IDetailData } from './../types/detail.d';
+import type { IDetailProductType, IDetailData } from '@/types/detail.d';
 import type { IResultData } from '@/types/global.d';
 import ztRequest from './index'
-
-export type IDetailProductType = 'oppo' | 'air' | 'watch' | 'tablet'
 
 export const getDetailInfo = (type: IDetailProductType) => ztRequest.get<IResultData<IDetailData>>('/oppoDetail', { type })
 ```
 
 创建 oppo-detail 页面
 
-在其中，通过路由，获取 query 字符串传递过来的参数 type
+在其中，通过路由，获取 query 字符串，传递过来的参数 `type`；
 
-发送网络请求，传入 type，获取详情数据：
+发送网络请求，传入 `type`，获取详情数据：
 
 pages\oppo-detail\index.vue
 
@@ -226,9 +222,9 @@ console.log('data.value?.data:', data.value?.data)
 </script>
 ```
 
-### 1.标签组件
+### 1.el-tabs
 
-在 oppo-detail 页面中，编写标签页组件，使用 EP 的标签页组件。
+在 oppo-detail 页面中，编写”标签组件“，使用 EP 的标签页组件。
 
 使用 el-tabs、eb-tab-pane 组件。
 
@@ -445,3 +441,4 @@ pm2 start ecosystem.config.js
 > 购买多台服务器，在其中分别部署项目，使用 pm2 开启多进程，实现负载均衡。
 >
 > 再在多个服务器之间，使用 nginx，配置负载均衡。
+

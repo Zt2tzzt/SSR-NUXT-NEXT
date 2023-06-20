@@ -2,20 +2,20 @@
 import type { ICategory } from '~/types/home'
 
 interface IProps {
-  category?: ICategory
+  itemData?: ICategory
 }
 
 withDefaults(defineProps<IProps>(), {
-  category: null
+  itemData: null
 })
 </script>
 
 <template>
-  <div class="section-category" v-if="!!category">
-    <SectionTitle :title="category.title"></SectionTitle>
+  <div class="section-itemData" v-if="!!itemData">
+    <SectionTitle :title="itemData.title"></SectionTitle>
     <GridView
-      :category-url="category.url"
-      :productsDetails="category.productDetailss"
+      :itemData-url="itemData.url"
+      :productsDetails="itemData.productDetailss"
     ></GridView>
   </div>
 </template>

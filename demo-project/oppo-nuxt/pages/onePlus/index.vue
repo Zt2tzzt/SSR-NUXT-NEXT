@@ -15,7 +15,7 @@ const { data } = await getHomeInfo('onePlus');
 
       <!-- 商品区域-->
       <template v-for="item of data?.data.categorys" :key="item.id">
-        <SectionCategory :category="item" v-if="!!(item.productDetailss) && item.productDetailss.length > 0"></SectionCategory>
+        <SectionCategory :itemData="item" v-if="!!(item.productDetailss) && item.productDetailss.length > 0"></SectionCategory>
       </template>
     </div>
   </div>

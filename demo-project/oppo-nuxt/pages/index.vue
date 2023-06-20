@@ -28,7 +28,7 @@ const handleTabCategoryItemClick = (item: ICategory) => {
 
       <!-- 商品区域-->
       <template v-for="item of categorys" :key="item.id">
-        <SectionCategory :category="item"></SectionCategory>
+        <SectionCategory :itemData="item"></SectionCategory>
       </template>
     </div>
   </div>

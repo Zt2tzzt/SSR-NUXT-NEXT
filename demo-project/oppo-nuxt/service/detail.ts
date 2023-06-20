@@ -1,4 +1,4 @@
-import type { IDetailProductType, IDetailData } from './../types/detail.d';
+import type { IDetailProductType, IDetailData } from '@/types/detail.d';
 import type { IResultData } from '@/types/global.d';
 import ztRequest from './index'
 
