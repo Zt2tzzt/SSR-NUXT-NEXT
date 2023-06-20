@@ -2,35 +2,35 @@
 import type { IProductDetailss } from '~/types/home'
 
 interface IProps {
-  productDetail: IProductDetailss | null
+  itemData: IProductDetailss | null
 }
 withDefaults(defineProps<IProps>(), {
-  productDetail: null
+  itemData: null
 })
 </script>
 
 <template>
-  <div class="grid-view-item" v-if="!!productDetail">
+  <div class="grid-view-item" v-if="!!itemData">
     <!-- 产品图片 -->
     <div class="item-img">
-      <img class="url" :src="productDetail.url" alt="">
+      <img class="url" :src="itemData.url" alt="">
     </div>
 
     <!-- 产品标题 -->
-    <div class="item-title">{{ productDetail.title }}</div>
+    <div class="item-title">{{ itemData.title }}</div>
 
     <!-- 产品标签 -->
     <div class="item-labels">
-      <template v-for="item, index of productDetail.activityList" :key="index">
+      <template v-for="item, index of itemData.activityList" :key="index">
         <span class="label">{{ item.activityInfo }}</span>
       </template>
     </div>
 
     <!-- 产品价格 -->
     <div class="item-price">
-      <span class="prefix">{{ productDetail.priceInfo?.prefix }}</span>
-      <span class="prefix">{{ productDetail.priceInfo?.currencyTag }}</span>
-      <span class="price">{{ productDetail.priceInfo?.buyPrice }}</span>
+      <span class="prefix">{{ itemData.priceInfo?.prefix }}</span>
+      <span class="prefix">{{ itemData.priceInfo?.currencyTag }}</span>
+      <span class="price">{{ itemData.priceInfo?.buyPrice }}</span>
     </div>
   </div>
 </template>

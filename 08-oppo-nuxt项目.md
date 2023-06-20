@@ -111,6 +111,54 @@ oppo-nuxt\components\search\index.vue
 
 oppo-nuxt\service\index.ts
 
+```typescript
+import type { AsyncData, UseFetchOptions } from 'nuxt/app'
+
+const BASE_URL = 'http://codercba.com:9060/oppo-nuxt/api'
+type Method = 'GET' | 'POST'
+
+class ZtRequest {
+  request<T = any>(
+    url: string,
+    method: Method,
+    data?: any,
+    options?: UseFetchOptions<T>
+  ): Promise<AsyncData<T, Error>> {
+    return new Promise((resolve, reject) => {
+      const newOption: UseFetchOptions<T> = {
+        baseURL: BASE_URL,
+        method,
+        ...options
+      }
+
+      if (method === 'GET') {
+        newOption.query = data
+      } else if (method === 'POST') {
+        newOption.body = data
+      }
+
+      useFetch<T>(url, newOption as any)
+        .then(res => {
+          resolve(res as AsyncData<T, Error>)
+        })
+        .catch(err => {
+          reject(err)
+        })
+    })
+  }
+
+  get<T = any>(url: string, param?: any, options?: UseFetchOptions<T>) {
+    return this.request(url, 'GET', param, options)
+  }
+
+  post<T = any>(url: string, data?: any, options?: UseFetchOptions<T>) {
+    return this.request(url, 'POST', data, options)
+  }
+}
+
+export default new ZtRequest()
+```
+
 测试：在默认布局 `default.vue` 中，发送网络请求。
 
 oppo-nuxt\layouts\default.vue
@@ -134,7 +182,7 @@ pnpm add pinia
 pnpm add @pinia/nuxt
 ```
 
-在 `nuxt.config.ts` 中，进行配置：
+在 `nuxt.config.ts` 中，配置 `modules`：
 
 03-hello-nuxt\nuxt.config.ts
 
@@ -202,9 +250,9 @@ export const useHomeStore =defineStore('home', {
 
 ## 四、派发请求
 
-在默认布局 `default.vue` 中，派发 `homeStore` 的 `action`，获取 `navbar` 数据。
+在默认布局 `default.vue` 中，派发 `homeStore` 的 `action`，`fetchHomeInfoData`，获取 `navbar` 数据。
 
-将数据传给 `<navbar>`
+将数据传给 `<navbar>` 组件。
 
 oppo-nuxt\layouts\default.vue
 
@@ -233,7 +281,7 @@ const { navbars } = storeToRefs(homeStore)
 
 ## 五、完善 navbar
 
-在 `navbar/index.vue` 中，接收数据。
+在 `navbar/index.vue` 中，接收布局 `default.vue` 中，传递过来的数据。
 
 oppo-nuxt\components\navbar\index.vue
 
@@ -325,7 +373,7 @@ export default defineNuxtConfig({
 
 在 `/components` 目录下，创建 `swiper/index.vue`
 
-在其中，使用 Element 的走马灯组件。
+在其中，使用 Element Plus 的走马灯组件 `ElCarousel`。
 
 components\swiper\index.vue
 
@@ -450,7 +498,6 @@ const handleTabCategoryItemClick = (item: ICategory) => {
   <div class="home">
     <!-- 分类 -->
     <TabCategory :listData="categorys" @itemClick="handleTabCategoryItemClick"></TabCategory>
-    </div>
   </div>
 </template>
 ```
@@ -486,21 +533,24 @@ oppo-nuxt\components\grid-view\index.vue
 
 ```vue
 <script setup lang="ts">
-import { IProductDetailss } from '~/types/home';
+import { IProductDetailss } from '~/types/home'
 
 interface IProps {
-  productsDetal: IProductDetailss[]
+  listData?: IProductDetailss[]
+  picUrl?: string
 }
+
 withDefaults(defineProps<IProps>(), {
-  productsDetal: () => []
+  listData: () => [],
+  picUrl: ''
 })
 </script>
 
 <template>
   <div class="grid-view">
-    <template v-for="item, index of productsDetal" :key="index">
+    <template v-for="item of listData" :key="item.id">
       <div class="view-item">
-        <grid-view-item :productDetail="item"></grid-view-item>  
+        <grid-view-item :itemData="item"></grid-view-item>  
       </div>
     </template>
   </div>
@@ -518,35 +568,35 @@ components\grid-view-item\index.vue
 import type { IProductDetailss } from '~/types/home'
 
 interface IProps {
-  productDetail: IProductDetailss | null
+  itemData: IProductDetailss | null
 }
 withDefaults(defineProps<IProps>(), {
-  productDetail: null
+  itemData: null
 })
 </script>
 
 <template>
-  <div class="grid-view-item" v-if="!!productDetail">
+  <div class="grid-view-item" v-if="!!itemData">
     <!-- 产品图片 -->
     <div class="item-img">
-      <img class="url" :src="productDetail.url" alt="">
+      <img class="url" :src="itemData.url" alt="">
     </div>
 
     <!-- 产品标题 -->
-    <div class="item-title">{{ productDetail.title }}</div>
+    <div class="item-title">{{ itemData.title }}</div>
 
     <!-- 产品标签 -->
     <div class="item-labels">
-      <template v-for="item, index of productDetail.activityList" :key="index">
+      <template v-for="item, index of itemData.activityList" :key="index">
         <span class="label">{{ item.activityInfo }}</span>
       </template>
     </div>
 
     <!-- 产品价格 -->
     <div class="item-price">
-      <span class="prefix">{{ productDetail.priceInfo?.prefix }}</span>
-      <span class="prefix">{{ productDetail.priceInfo?.currencyTag }}</span>
-      <span class="price">{{ productDetail.priceInfo?.buyPrice }}</span>
+      <span class="prefix">{{ itemData.priceInfo?.prefix }}</span>
+      <span class="prefix">{{ itemData.priceInfo?.currencyTag }}</span>
+      <span class="price">{{ itemData.priceInfo?.buyPrice }}</span>
     </div>
   </div>
 </template>

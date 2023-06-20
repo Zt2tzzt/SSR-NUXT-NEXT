@@ -4,7 +4,6 @@ import type { ICategory } from '~/types/home'
 interface IProps {
   itemData?: ICategory
 }
-
 withDefaults(defineProps<IProps>(), {
   itemData: null
 })
@@ -14,8 +13,8 @@ withDefaults(defineProps<IProps>(), {
   <div class="section-itemData" v-if="!!itemData">
     <SectionTitle :title="itemData.title"></SectionTitle>
     <GridView
-      :itemData-url="itemData.url"
-      :productsDetails="itemData.productDetailss"
+      :pic-url="itemData.url"
+      :list-data="itemData.productDetailss"
     ></GridView>
   </div>
 </template>

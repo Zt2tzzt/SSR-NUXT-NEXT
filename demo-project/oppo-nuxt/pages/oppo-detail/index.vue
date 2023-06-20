@@ -25,7 +25,7 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
       <el-tabs v-model="activeName" class="oppo-tabs" @tab-click="handleClick">
         <template v-for="item of data?.data" :key="item.id">
           <el-tab-pane :label="item.title" :name="item.title">
-            <GridView :productsDetails="item.productDetailss"></GridView>
+            <GridView :listData="item.productDetailss"></GridView>
           </el-tab-pane> </template
         >、
       </el-tabs>
@@ -69,9 +69,9 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
         }
 
         /* 移动线条激化样式 */
-        .el-tabs__nav-next + .el-tabs__nav-scroll .el-tabs__active-bar {
-          /* left: 0px; */
-        }
+        /* .el-tabs__nav-next + .el-tabs__nav-scroll .el-tabs__active-bar {
+          left: 0px;
+        } */
         .el-tabs__active-bar {
           background-color: $priceColor;
           /* left: 48px; */
