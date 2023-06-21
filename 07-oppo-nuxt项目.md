@@ -30,7 +30,7 @@ export default defineNuxtConfig({
 pnpm add sass
 ```
 
-创建 `/assets` 目录，在其中创建 `/css` 目录，在其中创建 `global.scss`；
+创建 `/assets` 目录，在其中创建 `/css` 目录，在其中创建 `global.scss`，设置全局样式。
 
 oppo-nuxt\assets\css\global.scss
 
@@ -80,7 +80,9 @@ export default defineNuxtConfig({
 - assets/images；
 - assets/css/variables.scss：
 
-在 `nuxt.config.ts` 中，配置在全局导入变量。
+### 1.全局样式变量
+
+在 `nuxt.config.ts` 中，配置在全局导入样式变量。
 
 oppo-nuxt\nuxt.config.ts
 
@@ -237,7 +239,7 @@ npx nuix add page login/index
 npx nuix add page register/index
 ```
 
-在 app-header 中，补充 login、register 的路由。
+在 app-header 中，补充 login、register 的路由链接。
 
 oppo-nuxt\components\app-header\index.vue
 
