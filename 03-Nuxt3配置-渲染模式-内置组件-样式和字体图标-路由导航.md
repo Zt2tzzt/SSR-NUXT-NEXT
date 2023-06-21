@@ -175,7 +175,7 @@ demo-project\03-hello-nuxt\app.vue
 </template>
 ```
 
-优先级：内置组件 > useHead > nuxt.config.js
+优先级：内置组件 > `useHead` > `nuxt.config.js`
 
 ### 3.ssr 渲染模式配置
 
@@ -252,7 +252,7 @@ demo-project\03-hello-nuxt\pages\index.vue
 
 此时页面会报错，这是因为，创建的页面，自动生成了约定式路由。
 
-要在 `app.vue` 中，添加路由占位。
+解决该报错，要在 `app.vue` 中，添加路由占位。
 
 demo-project\03-hello-nuxt\app.vue
 
@@ -452,6 +452,20 @@ demo-project\03-hello-nuxt\pages\index.vue
 
 会在每个 scss 作用域，自动导入变量。
 
+```typescript
+export default defineNuxtConfig({
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: '@use "@/assets/_colors.scss" as *;'
+        }
+      }
+    }
+  }
+})
+```
+
 ## 四、资源导入
 
 ### 1.public 目录
@@ -568,7 +582,7 @@ demo-project\03-hello-nuxt\app.vue
 
 ## 六、新建页面
 
-Nuxt 项目中，应在 `/pages` 目录下创建页面。
+Nuxt 项目中，应在 `/pages` 目录下，创建页面。
 
 Nuxt 会根据该页面的目录结构、和其文件名，自动生成**约定式的路由**。
 
@@ -596,7 +610,7 @@ demo-project\03-hello-nuxt\pages\category.vue
 >
 > `<NuxtLink>` 是对 `<router-link>` 的封装。
 
-在 `app.vue` 中，编写路由的按钮，路由的占位。
+在 `app.vue` 中，编写路由的链接，路由的占位。
 
 demo-project\03-hello-nuxt\app.vue
 
@@ -617,7 +631,7 @@ demo-project\03-hello-nuxt\app.vue
 </template>
 ```
 
-方式二：在 `pages/cart` 目录下，创建 `index.vue`.
+方式二：在 `/pages` 目录下，创建 `/cart/index.vue`.
 
 demo-project\03-hello-nuxt\pages\cart\index.vue
 
@@ -665,7 +679,7 @@ npx nuxi add page find/index.vue # 在 pages/find 目录下，创建 index.vue �
 
 底层是一个 `<a>` 标签，因此使用 `<a href='xxx'>` 也支持路由导航。
 
-- 这么做，会触发浏览器刷新事件，而 `<NuxtLink>` 不会；
+> 使用 `<a>` 跳转路由，会触发浏览器刷新事件，而 `<NuxtLink>` 不会；
 
 Hydration 后（已激活，可交互），页面导航，会通过前端路由来实现。这可以防止整页刷新。
 
@@ -727,7 +741,9 @@ demo-project\03-hello-nuxt\app.vue
 </NuxtLink>
 ```
 
-渲染出的 `<a>` 会加入如下属性：表示不会把本站点的信息，带入到外部站点。
+渲染出的 `<a>` 会加入如下 `rel="noopener noreferrer"` 属性：
+
+表示不会把本站点的信息，带入到外部站点。
 
 ```html
 <a href="http://www.jd.com" rel="noopener noreferrer" target="_blank"></a>
@@ -741,12 +757,12 @@ Nuxt3 支持编程导航，通常使用 `navigateTo` 函数。
 
 `navigateTo` 函数，在服务器端、客户端、插件、中间件中都可用，
 
-编程导航不利于 SEO。
+> 编程导航不利于 SEO。
 
 可直接调用，以执行页面导航，例如下方案例：
 
 - 当触发 `goToCategory()` 方法时，通过 `navigateTo` 函数，来实现动态导航。
-- 建议：方法中，总是 `return navigateTo` 函数（该函数是异步的），或使用 `await navigateTo`；
+- 建议：事件处理的方法中，总是 `return navigateTo()`（该函数是异步的），或使用 `await navigateTo`；
 
 `navigateTo(to, options)` 函数:
 
@@ -797,14 +813,14 @@ Nuxt3 也支持 Vue3 的 `useRouter`，或者 Options API 的 `this.$router`。
 - `back`：页面返回，同 `router.go(-1)`；
 - `forward`：页面前进，同 `router.go(1)`；
 - `go`：页面返回或前进，如 `router.go(-1)` or `router.go(1)`；
-- `push`：以编程方式导航到新页面。
-- `replace`：以编程方式导航到新页面，但会替换当前路由。
+- `push`：导航到新页面。
+- `replace`：导航到新页面，但会替换当前路由。
 - `beforeEach`：路由守卫钩子，每次导航前执行（用于全局监听）。
 - `afterEac`：路由守卫钩子，每次导航后执行（用于全局监听）。
 
 - .....
 
-> 建议改用 `navigateTo` 。支持性更好
+> 建议改用 `navigateTo` 。支持性更好。
 
 路由守卫的使用。
 
