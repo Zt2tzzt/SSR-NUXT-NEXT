@@ -26,8 +26,8 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
         <template v-for="item of data?.data" :key="item.id">
           <el-tab-pane :label="item.title" :name="item.title">
             <GridView :listData="item.productDetailss"></GridView>
-          </el-tab-pane> </template
-        >、
+          </el-tab-pane> 
+        </template>、
       </el-tabs>
     </div>
   </div>

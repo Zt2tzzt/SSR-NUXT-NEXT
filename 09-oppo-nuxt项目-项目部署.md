@@ -52,9 +52,8 @@ components\section-category\index.vue
 import type { ICategory } from '~/types/home'
 
 interface IProps {
-  itemData?: ICategory
+  itemData?: ICategory | null
 }
-
 withDefaults(defineProps<IProps>(), {
   itemData: null
 })
@@ -224,7 +223,7 @@ console.log('data.value?.data:', data.value?.data)
 
 ### 1.el-tabs
 
-在 oppo-detail 页面中，编写”标签组件“，使用 EP 的标签页组件。
+在 oppo-detail 页面中，编写”标签组件“，使用 EP 的标签组件。
 
 使用 el-tabs、eb-tab-pane 组件。
 
@@ -266,8 +265,8 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
         <template v-for="item of data?.data" :key="item.id">
           <el-tab-pane :label="item.title" :name="item.title">
             <GridView :productsDetails="item.productDetailss"></GridView>
-          </el-tab-pane> </template
-        >、
+          </el-tab-pane>
+        </template>、
       </el-tabs>
     </div>
   </div>
@@ -371,11 +370,9 @@ yum install nodejs
 yum install npm
 ```
 
-8.将本地打包后的项目，拖入到运城目录中，进行部署。
+8.将本地打包后的项目，拖入到远程服务器目录中。
 
-9.在服务器，运行部署后的项目：
-
-运行：
+9.在远程服务器，运行项目：
 
 ```shell
 node .output/server/index.mjs 
@@ -391,7 +388,7 @@ PORT=8888 node .output/server/index.mjs
 
 10.安装 *pm2*
 
-- *PM2* 是一个守护进程管理器, 帮助管理和保持在线应用程序；
+- *PM2* 是一个进程管理器, 帮助管理和保持在线应用程序；
 - 比如：负责管理 Node、Python 等程序，一直保持在后台运行。
 
 ```shell

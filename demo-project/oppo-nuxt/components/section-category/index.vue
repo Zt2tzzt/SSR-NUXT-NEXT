@@ -2,7 +2,7 @@
 import type { ICategory } from '~/types/home'
 
 interface IProps {
-  itemData?: ICategory
+  itemData?: ICategory | null
 }
 withDefaults(defineProps<IProps>(), {
   itemData: null
