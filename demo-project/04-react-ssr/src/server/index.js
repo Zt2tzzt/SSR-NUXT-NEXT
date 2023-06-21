@@ -3,6 +3,8 @@ import React from 'react'
 import ReactDOM from 'react-dom/server'
 import App from '../app'
 import { StaticRouter } from 'react-router-dom/server'
+import store from '../store'
+import { Provider } from 'react-redux'
 
 const server = express()
 
@@ -11,9 +13,11 @@ server.use(express.static('build'))
 
 server.get('/', (req, res, next) => {
   const AppHtmlString = ReactDOM.renderToString(
-    <StaticRouter>
-      <App />
-    </StaticRouter>
+    <Provider store={store}>
+      <StaticRouter>
+        <App />
+      </StaticRouter>
+    </Provider>
   )
 
   res.send(`

@@ -6,6 +6,14 @@ React18 + SSR 搭建
 
 依赖安装
 
+```shell
+pnpm add express react react-dom
+
+pnpm add -D nodemon webpack webpack-cli webpack-node-externals webpack-merge @babel/core babel-loader @babel/preset-react @babel/preset-env
+```
+
+
+
 创建 src/server/index.js，在其中创建 express 服务。
 
 src\server\index.js
@@ -436,5 +444,227 @@ pnpm add react-redux @reduxjs/toolkit
 
 ```shell
 pnpm add axios
+```
+
+回顾 RTK 的使用。
+
+
+
+创建 /store 目录，在其中创建 /features/home.js
+
+src\store\features\home.js
+
+```js
+import { createSlice } from '@reduxjs/toolkit'
+
+const homeSlice = createSlice({
+  name: 'home',
+  initialState: {
+    count: 0
+  },
+  reducers: {
+    incrementAction(state, { payload }){
+      state.count += payload
+    }
+  }
+})
+
+export const { incrementAction } = homeSlice.actions
+export default homeSlice.reducer
+```
+
+创建 /store/index.js，作为状态管理的入口。
+
+src\store\index.ts
+
+```js
+import { configureStore } from "@reduxjs/toolkit";
+import homeReducer from './features/home';
+
+const store = configureStore({
+  reducer: {
+    home: homeReducer
+  },
+  // devTools: true // 默认值
+})
+
+export default store
+```
+
+在客户端渲染 `<App />` 时，提供 store
+
+src\client\index.js
+
+```js
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from '../app'
+import { BrowserRouter } from 'react-router-dom'
+import store from '../store'
+import { Provider } from 'react-redux'
+
+// 在需要激活的模式下，挂载应用。
+ReactDOM.hydrateRoot(
+  document.getElementById('root'),
+  <Provider store={store}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>
+)
+```
+
+同样的，在服务端渲染 `<App />` 时，提供 store
+
+src\server\index.js
+
+```js
+server.get('/', (req, res, next) => {
+  const AppHtmlString = ReactDOM.renderToString(
+    <Provider store={store}>
+      <StaticRouter>
+        <App />
+      </StaticRouter>
+    </Provider>
+  )
+  //...
+}
+```
+
+在 Home.jsx 中，使用 store。
+
+src\pages\Home.jsx
+
+```jsx
+import React, { memo, useState } from 'react'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import { incrementAction } from '../store/features/home'
+
+const Home = memo(() => {
+  // const [counter, setCounter] = useState(100);
+
+  const { counter } = useSelector(state => ({
+    counter: state.home.counter
+  }), shallowEqual)
+
+  const dispatch = useDispatch()
+  const onAddButtonClick = () => {
+    // setCounter(counter + 1)
+    dispatch(incrementAction(1))
+  }
+
+  return (
+    <div style={{ border: '1px solid blue' }}>
+      <h1>Home</h1>
+      <div>counter: {counter}</div>
+      <button onClick={() => onAddButtonClick()}>+1</button>
+    </div>
+  )
+})
+
+export default Home
+```
+
+同样的，在 About.jsx 中，使用 store
+
+src\pages\About.jsx
+
+```jsx
+import React, { memo, useState } from 'react'
+import { shallowEqual, useDispatch, useSelector } from 'react-redux'
+import { incrementAction } from '../store/features/home'
+
+const About = memo(() => {
+  // const [counter, setCounter] = useState(100);
+
+  const { counter } = useSelector(state => ({
+    counter: state.home.counter
+  }), shallowEqual)
+
+  const dispatch = useDispatch()
+  const onAddButtonClick = () => {
+    // setCounter(counter + 1)
+    dispatch(incrementAction(2))
+  }
+  return (
+    <div style={{border: '1px solid green'}}>
+      <h1>About</h1>
+      <div>counter: {counter}</div>
+      <button onClick={() => onAddButtonClick()}>+2</button>
+    </div>
+  )
+})
+
+export default About
+```
+
+---
+
+使用异步 action
+
+安装 axios
+
+```shell
+pnpm add axios
+```
+
+在 /store/home.ts 中，使用
+
+src\store\features\home.js
+
+```js
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import axios from 'axios'
+
+export const fetchHomeData = createAsyncThunk(
+  'home/fetchHomeData',
+  async (payload, { dispatch, getState }) => {
+    const res = await axios.get('http://codercba.com:9060/juanpi/api/homeInfo')
+    return res.data
+  }
+)
+
+const homeSlice = createSlice({
+  name: 'home',
+  initialState: {
+    counter: 1000,
+    homeInfo: null
+  },
+  reducers: {
+    incrementAction(state, { payload }) {
+      state.counter += payload
+    }
+  },
+  extraReducers: builder => {
+    builder.addCase(fetchHomeData.fulfilled, (state, { payload, type }) => {
+      console.log('type:', type)
+      console.log('payload:', payload)
+      state.homeInfo = payload
+    })
+  }
+})
+
+export const { incrementAction } = homeSlice.actions
+export default homeSlice.reducer
+```
+
+在 About.jsx 中，派发异步 action，
+
+src\pages\About.jsx
+
+```jsx
+//...
+
+const About = memo(() => {
+  const dispatch = useDispatch()
+  
+  return (
+    <div style={{border: '1px solid green'}}>
+      <button onClick={() => dispatch(fetchHomeData())}>fetchHomeData</button>
+    </div>
+  )
+})
+
+//...
 ```
 
