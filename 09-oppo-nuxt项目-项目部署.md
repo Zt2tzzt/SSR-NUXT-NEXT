@@ -416,8 +416,8 @@ module.exports = {
       name: 'oppo-nuxt-web',
       script: "./.output/server/index.mjs",
       // instances: max // 根据服务器 CPU 核数，创建进程，如 2 核，会创建 2 个进程。
-      instances: 5,
-      exec_mode: "cluster", // 集群模式，负载均衡。
+      instances: 5, // 指定启动实例（进程）的个数 5 个。
+      exec_mode: "cluster", // 运行的模式："cluster"（集群模式，负载均衡）、"fork"（默认）；
       env: {
         PORT: 8080
       }
