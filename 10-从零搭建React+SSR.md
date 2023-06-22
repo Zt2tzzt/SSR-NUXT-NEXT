@@ -4,7 +4,7 @@ React 和 Vue 一样，除了支持开发 SPA 应用，也支持开发 SSR 应�
 
 ## 一、Node Server 搭建
 
-React18 + SSR 搭建
+React18 + SSR 搭建：
 
 依赖安装
 
@@ -46,7 +46,9 @@ package.json
 
 配置打包服务端代码的配置文件：
 
-创建 `config/server.config.js` 文件
+创建 `config/server.config.js` 文件：
+
+config\webpack.server.config.js
 
 ```js
 const path = require('path')
@@ -185,13 +187,13 @@ const app = memo(() => {
 export default app
 ```
 
-至此，SSR 服务端待见完成。
+至此，SSR 服务端构建完成。
 
 请求的页面待 hydration。
 
 ## 二、React Client 搭建
 
-创建 React SSR 应用，需要调用 `ReactDOM.hydrateRoot` 函数，而不是 `ReactDOM.createRoot`
+创建 React SSR 应用，需要调用 `ReactDOM.hydrateRoot` 函数，而不是 `ReactDOM.createRoot`，它们的区别：
 
 - `createRoot` ：创建一个 Root，接着调用其 `render` 函数，将 App 直接挂载到页面上。
 - `hydrateRoot` ：创建水合 Root ，表示在激活的模式下渲染 App
@@ -277,8 +279,8 @@ server.get('/', (req, res, next) => {
       <div id="root">${AppHtmlString}</div>
       <script src="client/client_bundle.js"></script>
     </body>
-    </html>
-  `)
+    </html>``
+  )
 })
 
 server.listen(9000, () => {
@@ -378,7 +380,7 @@ export default app
 
 在 `server/index.js` 中，
 
-使用 `<StaticRouter>` 包裹渲染的 `<App>`
+使用 `<StaticRouter>` 包裹渲染的 `<App>`：
 
 src\server\index.js
 
@@ -455,7 +457,8 @@ pnpm add react-redux @reduxjs/toolkit
 
 回顾早期 Redux 的使用。
 
-- 早期使用 redux 时，会将 redux 代码拆分在多个模块中，每个模块需包含多个文件，如："constants"、"action"、"reducer"、"index" 等；
+- 早期会将 redux 代码拆分在多个模块中，每个模块需包含多个文件。
+  - 如："constants"、"action"、"reducer"、"index" 等；
 - 然后使用 `combineReducers` 对多个模块合并；
 - 这种代码组织方式过于繁琐和麻烦，导致代码量过多，也不利于后期管理;
 
@@ -467,13 +470,15 @@ Redux Toolkit 的核心 API 主要是如下几个：
 - `createSlice`；
 - `createAsyncThunk`。
 
+:egg: 案例理解：
+
 创建 `/store` 目录，在其中创建 `/features/home.js`：
 
-`createSlice`：自动生成“切片 reducer”，并带有相应的 actions，接收：
+引入 RTK 的`createSlice`：自动生成“切片 reducer”，并带有相应的 actions，接收：
 
-- “切片名称”；
-- “初始状态值”
-- “reducer 函数对象”，
+- `name`，切片名称；
+- `initialState`，初始状态值
+- `reducers`，函数对象，
 
 src\store\features\home.js
 
@@ -498,7 +503,7 @@ export default homeSlice.reducer
 
 创建 `/store/index.js`，作为状态管理的入口。
 
-`configureStore` 包装 `createStore` 以提供简化的配置选项和良好的默认值，
+引入 RTK 的`configureStore` 它包装了 `createStore`，以提供简化的配置选项和良好的默认值，
 
 用于创建 store 对象，常见参数如下：
 
@@ -566,7 +571,7 @@ server.get('/', (req, res, next) => {
 
 在 `Home.jsx` 中，使用 store。
 
-在函数式组件中，使用 react-redux 提供的 Hooks API 连接、操作 store。
+在函数式组件中，使用 react-redux 提供的 Hooks API、操作 store。
 
 - `useSelector` 从 store 中获取数据（root state）。
 - `useDispatch` 返回 redux store 的 dispatch 引用。使用它来 dispatch actions。
@@ -645,9 +650,9 @@ export default About
 pnpm add axios
 ```
 
-使用 RTK 提供的`createAsyncThunk`:
+使用 RTK 提供的 `createAsyncThunk`:
 
-生成一个 `pending`/`fulfilled`/`rejected` 基于该承诺分派动作类型的 thunk。简单理解就是专门用来创建异步Action。它接收：
+生成一个 `pending`/`fulfilled`/`rejected` 基于该承诺分派动作类型的 thunk。简单理解就是专门用来创建异步 Action 的。它接收：
 
 - 一个动作类型字符串
 - 一个返回承诺的函数，
