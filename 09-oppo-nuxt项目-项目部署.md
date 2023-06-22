@@ -223,11 +223,9 @@ console.log('data.value?.data:', data.value?.data)
 
 ### 1.el-tabs
 
-在 oppo-detail 页面中，编写”标签组件“，使用 EP 的标签组件。
+在 oppo-detail 页面中，编写”标签组件“，使用 EP 的 el-tabs、eb-tab-pane 组件。
 
-使用 el-tabs、eb-tab-pane 组件。
-
-并编写样式。使用样式穿透，重写 EP 组件的样式。
+并编写样式。使用“样式穿透”，重写 EP 组件的样式。
 
 复用封装好的 grid-view 组件。
 
