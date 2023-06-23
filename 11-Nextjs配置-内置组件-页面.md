@@ -6,19 +6,15 @@ Next.js 是一个 React 框架，支持 CSR、SSR、SSG、ISR (Incremental Stati
 
 Next.js 提供了创建 Web 应用程序的构建块，比如：
 
-- 用户界面、路由、数据获取、渲染模式、后端服务、等等
-
-Next.js 不但处理 React 所需的工具和配置，还提供额外的功能和优化，比如：
-
-- UI构建， CSR、SSR、SSG、ISR 渲染模式，Routing、Data Fetching等等。
+- 用户界面、路由、数据获取、渲染模式、后端服务、等等。
 
 [中文官网](https://www.nextjs.cn/docs/getting-started)、[英文官网（官网）](https://nextjs.org/docs/getting-started)
 
 ## 二、Nest.js 发展史
 
-2016 年 10 月 25 日，Next.js 于首次作为开源项目发布在 GitHub 上，最初是基于六个原则开发的：
+2016 年 10 月 25 日，Next.js 于首次作为开源项目发布在 GitHub 上，最初是基于以下原则开发的，即：
 
-- 开箱即用、无处不在的 JS、所有函数用 JS 编写、自动代码拆分和服务器渲染、可配置数据获取、预期请求和简化部署。
+- 开箱即用、无处不在的 JS、所有函数用 JS 编写、自动代码拆分、服务器渲染、可配置数据获取、预期请求、简化部署。
 
 2017 年 3 月，Next.js 2.0 发布，改进后的版本让小型网站的工作变得更加容易，还提高了构建和热模块替换效率。
 
@@ -37,14 +33,14 @@ Next.js 不但处理 React 所需的工具和配置，还提供额外的功能�
 2022 年 10 月 26 日，Vercel 发布了 Next.js 13。
 
 - 带来了一种新的路由模式，增加了 app 目录 、布局、服务器组件、一组新的数据获取方法等（目前是 beta 版本）。
-- 编译、压缩等由 Babel + Terser 换为 SWC（Speedy Web Compiler）（由 RUst 构建）；
+- 编译、压缩等由 Babel + Terser 换为 SWC（Speedy Web Compiler）（由 Rust 构建）；
 - 构建工具增加了 Turbopack。
 
 ## 三、Next.js 的特点
 
 开箱即用，快速创建：
 
-- 已集成好了各种技术栈，比如：React、webpack、路由、数据获取、SCSS、TypeScript、等等
+- 已集成好了各种技术栈，比如：React、webpack、路由、数据获取、SCSS、TypeScript、...
 - 提供了专门的脚手架：*create-next-app*
 
 约定式路由（目录结构即路由）：
@@ -60,15 +56,15 @@ Next.js 不但处理 React 所需的工具和配置，还提供额外的功能�
 
 多种渲染模式：支持 CSR、SSR、SSG、ISR 等渲染模式，当然也支持混合搭配使用。
 
-利于搜索引擎优化：
+利于 SEO：
 
-- Next.js 支持使用服务器端渲染，同时它也是一个很棒的静态站点生成器，非常利于 SEO 和首屏渲染。
+- Next.js 支持使用服务器端渲染，同时它也是一个静态站点生成器，利于 SEO 和首屏渲染。
 
 ## 四、Next.js VS Nuxt3
 
 Next.js 和 Nuxt3 的相同点：
 
-- 利于搜索引擎优化，提高首屏渲染速度；
+- 利于 SEO，提高首屏渲染速度；
 - 零配置，开箱即用；
 - 支持约定式路由、封装了网络请求、支持 TypeScript
 - 支持服务器端渲染、静态网站生成、客户端渲染等。
@@ -76,19 +72,20 @@ Next.js 和 Nuxt3 的相同点：
 
 Next.js 和 Nuxt3 的不同点：
 
-- Next.js 使用的是 React 技术栈：React 、webpack 、express 、node.....
-- Nuxt3 使用的是 Vue 技术栈：Vue、webpack、vite、h3、nitro、node.....
-- Nuxt3 支持组件、组合 API、Vue API 等自动导入，Next.js 则不支持；
+- Next.js 使用的是 React 技术栈：React 、webpack 、express 、node.....；
+- Nuxt3 使用的是 Vue 技术栈：Vue、webpack、vite、h3、nitro、node.....。
+- Nuxt3 支持组件、组合 API、Vue API 等自动导入;
+- Next.js 则不支持。
 - Next.js 社区生态、资源和文档，比 Nuxt3 友好（star 数：Nuxt3：41.6k；Next.js：96.8k ）
 
-Next.js 和 Nuxt3 如何选择？个人建议如下：
+Next.js 和 Nuxt3 如何选择？
 
-- 首先，根据自己或团队，擅长的技术栈来选择，擅长 Vue 选择 Nuxt3，擅长 React 选择 Next.js
-- 其次，需要更灵活的，选 择Next.js；需要简单易用、快速上手的，选择 Nuxt3；
+- 首先，根据自己或团队，擅长的技术栈来选择，擅长 Vue 选择 Nuxt3，擅长 React 选择 Next.js；
+- 其次，需要更灵活的，选 择Next.js；需要简单易用、快速上手的，选择 Nuxt3。
 
 ## 五、Next.js 13 项目创建
 
-环境、开发工具：
+环境、开发工具准备：
 
 - Node.js（要求 Node.js 14.6.0 或更高版本）；
 - Git（window 下可以用其随附的 Git Bash 终端命令）；
@@ -139,7 +136,7 @@ package.json
 }
 ```
 
-删除掉多余的文件.
+删除掉多余的文件：
 
 在根目录创建 `/component` 目录，创建一个组件 `/my-button/index.jsx`；
 
@@ -174,7 +171,7 @@ export default function Home() {
 }
 ```
 
-在 tsconfig.json 中，配置项目路径别名，默认配置了 `@`
+在 `tsconfig.json` 中，配置项目路径别名，默认配置了 `@`
 
 ## 七、入口文件 _app.tsx
 
@@ -211,24 +208,24 @@ export default function App({ Component, pageProps }: AppProps) {
 定义环境变量的 4 种方式：
 
 - `.env`：所有环境下生效的默认设置；
-- `.env.development`：执行 next dev 时加载并生效；
-- `.env.production`： 执行 next start 时加载并生效；
+- `.env.development`：执行 "next dev" 时加载并生效；
+- `.env.production`： 执行 "next start" 时加载并生效；
 - `.env.local`：始终覆盖上面文件定义的默认值。所有环境生效，通常只需一个就够了（常用存储敏感信息）。
 
 > 注意事项：
 >
-> - 由于 .env、.env.development 和 .env.production 文件定义了默认设置，需提交到源码仓库中。
-> - 而 .env.*.local 应当添加到 .gitignore 中，因为这类文件是需要被忽略的。
+> - 由于 `.env`、`.env.development`、`.env.production` 文件，定义了默认设置，需提交到源码仓库中。
+> - 而 `.env.*.local` 应当添加到 `.gitignore` 中，因为这类文件是需要被忽略的。
 
 环境变量定义语法（支持变量，例如 `$PORT`)：
 
 多个单词使用下划线，比如：`DB_HOST=localhost`
 
-"NEXT_PUBLIC_" 前缀，会额外暴露给浏览器：
+`NEXT_PUBLIC_` 前缀，会额外暴露给客户端（浏览器）中的 `process.env.`：
 
 - 比如：`NEXT_PUBLIC_ANALYTICS_ID=aaabbbccc`
 
-.env 文件中定义环境变量，会被 *dotenv* 库，加载到 `process.env` 中。
+`.env` 文件中，定义环境变量，会被 *dotenv* 库，加载到 `process.env.` 中。
 
 - 两端都可直接通过 `process.env.` 访问使用（不支持解构）
 
@@ -294,14 +291,14 @@ NEXT_PUBLIC_BASE_URL=http://$HOST_NAME:$NUMBER
 - `reactStrictMode`: 是否启用严格模式，
   - 辅助开发；
   - 避免常见错误，例如：可以检查过期 API
-- `env`：配置环境变量，配置完需要重启
-  - 会添加到 `process.env.` 中；
+- `env`：配置环境变量，配置完，需要重启项目。
+  - 配置项，会添加到 `process.env.` 中；
   - 配置的优先级：next.config.js env > .env.local > .env
-- `basePath`：在域名的子路径下部署 Next.js 应用程序。
+- `basePath`：在域名的子路径下部署项目。
   - `basePath`：允许为应用程序设置 URl 路径前缀。
   - 例如 `basePath=/music`, 即用 `/music` 访问首页，而不是 `/`。
 - `images`：可以配置图片 URL 的白名单等信息。
-- `swcMinify`: 用 Speedy Web Compiler 编译和压缩技术，而不是 Babel + Terser 技术
+- `swcMinify`: 用 Speedy Web Compiler 编译和压缩技术，而不是 Babel + Terser 技术，默认已开启。
 
 [更多的配置](https://nextjs.org/docs/api-reference/next.config.js/introduction)。
 
@@ -359,15 +356,17 @@ export default function Home() {
 
 Next.js 框架提供了内置组件，常用的有：
 
-- `<Head>`：将新增的标签，添加到页面的 head 标签中，用于 SEO 优化。需要从 next/head 中导入
+- `<Head>`：将新增的标签，添加到页面的 `<head>` 标签中，用于 SEO 优化。需要从 `next/head` 中导入
   - 给所有页面统一添加，需 `/pages` 目录下新建 `_document.js` 文件，来定制 HTML 页面；
-- `<Script>`：将一个 script 标签，添加到页面的 body 中（不支持在 `_document.js` 中用），需要从 next/script 中导入
-- `<Link>`：可以启用客户端的路由切换，需从 next/link 导入；
-- `<Image>`：内置的图片组件（对 img 的增强）。需从 next/image 导入。
+- `<Script>`：将一个 script 标签，添加到页面的 body 中（不支持在 `_document.js` 中用），需要从 `next/script` 中导入
+- `<Link>`：可以启用客户端的路由切换，需从 `next/link` 导入；
+- `<Image>`：内置的图片组件（对 `<img>` 的增强）。需从 `next/image` 导入。
 
 :egg: 案例理解 1 :
 
 在 `index.tsx` 中，使用 `<Head>`，`<Script>`。
+
+src\pages\index.tsx
 
 ```tsx
 import { Inter } from 'next/font/google'
@@ -402,7 +401,7 @@ export default function Home() {
 
 使用自定义文档（在 `_document.tsx` 中），对所有页面，做 SEO 优化。
 
-结构不能修改，但可以给元素加属性。
+其中，元素的结构不能修改，但可以给元素加属性。
 
 src\pages\\_document.tsx
 
@@ -427,7 +426,7 @@ export default function Document() {
 
 :egg: 案例理解 2 :
 
-`<image>` 组件：
+`<Image>` 组件：
 
 创建 `assets` 目录，在其中，放入需要用到的资源。
 
@@ -551,11 +550,9 @@ src\styles\globals.css
 Next.js 允许在 JS 文件中，直接通过 `import` 关键字，来导入 CSS 文件（不是：`@import`）
 
 - 在 `assets` 目录，或 `styles` 目录下，编写，然后在 `/pages/_app.js` 入口组件中导入。
-- 也支持导入 node_modules 中样式，导入样式文件的后缀名，不能省略；
+- 也支持导入 node_modules 里的样式，样式文件的后缀名，不能省略；
 
 在 `/styles/global.css` 中，定义全局样式，
-
-在 `_app.tsx` 中引入。
 
 src\styles\globals.css
 
@@ -564,6 +561,8 @@ src\styles\globals.css
   color: red;
 }
 ```
+
+在 `_app.tsx` 中引入。
 
 src\pages\_app.tsx
 
@@ -579,8 +578,6 @@ pnpm add sass -D
 
 在 `/styles` 下，创建 `main.scss` 文件：
 
-在 `_app.tsx` 中引入。
-
 src\styles\main.scss
 
 ```scss
@@ -589,6 +586,14 @@ $firstColor: green;
 .global-style2 {
   color: $firstColor;
 }
+```
+
+在 `_app.tsx` 中引入。
+
+src\pages\_app.tsx
+
+```tsx
+import '@/styles/main.scss'
 ```
 
 src\pages\index.tsx
@@ -629,7 +634,9 @@ $firstColor: green;
 }
 ```
 
-在 scss 文件中，导出样式变量，给 js 使用。必须放在 css module 的文件中。
+在 scss 文件中，导出样式变量，给 js 使用。
+
+导出的代码，必须放在 css module 的文件中。
 
 src\pages\index.module.scss
 
@@ -686,7 +693,7 @@ import styles from './index.module.css';
 
 - 例如：`robots.txt`、`favicon.ico`、`img` 等等，并直接对外提供访问。
 
-> 注意： 确保静态文件中没有与 pages/ 下的文件重名，否则导致错误。
+> 注意： 确保静态文件中没有与 /pages 下的文件重名，否则导致错误。
 
 `/public` 目录下的静态资源，直接通过 `/` 来访问。
 
@@ -785,12 +792,12 @@ Next.js 会根据 pages 目录结构和文件名，自动生成路由。
 - pages/index.jsx → / （首页，一级路由）
 - pages/about.jsx → /about （一级路由）
 - pages/blog/index.jsx → /blog （一级路由）
-- pages/blog/post.jsx → /blog/post (嵌套路由，一级路由)
-- pages/blog/[slug].jsx → /blog/:slug （动态路由， 一级路由）
+- pages/blog/post.jsx → /blog/post (嵌套路由，二级路由)
+- pages/blog/[slug].jsx → /blog/:slug （动态路由， 二级路由）
 
 新建页面步骤：
 
-1. 新建一个命名为 `pages/about.jsx` 组件文件，并导出（export）React 组件。
+1. 新建一个命名为 `/pages/about.jsx` 组件文件，并导出（export）React 组件。
 
 2. 通过 `/about` 路径，访问新创建的页面。
 
@@ -808,17 +815,17 @@ Next.js 不需要路由占位。
 
 ## 十七、组件导航
 
-路由链接需要用到 `<Link>` 组件，从 `next/link` 包导入。
+路由链接，使用 `<Link>` 组件，从 `next/link` 包导入。
 
-底层一个 `<a>` 标签实现。
+底层使用 `<a>` 标签实现。
 
-- 所以使用 `<a>` + `href` 也支持页面切换，但不推荐, 会刷新页面。
+- 所以使用 `<a>` + `href` 也支持页面路由切换，但不推荐, 会刷新页面。
 
 `<Link>` 组件属性：
 
 - `href` 值类型（不支持 to）
-  - 字符类型： `/` 、`/home`、`/about`；
-  - 对象类型：`{ pathname：’/home’ , query : { id: 666 } }`；
+  - string 类型： `/` 、`/home`、`/about`；
+  - object 类型：`{ pathname：’/home’ , query : { id: 666 } }`；
   - URL：外部网址；
 - `as`：在浏览器的 URL 栏中显示的路径别名。
 - `replace`：替换当前 url 页面，而不是将新的 url 添加到堆栈中。默认为 `false`；
@@ -891,7 +898,6 @@ export default function App({ Component, pageProps }: AppProps) {
         <Link href="/more" replace>
           <button>more replace</button>
         </Link>
-
       </div>
 
       <Component {...pageProps} />
