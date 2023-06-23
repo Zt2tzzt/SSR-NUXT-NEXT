@@ -1,0 +1,6 @@
+$fontSize: 30px;
+$fontColor: orange;
+
+@mixin border() {
+  border: 1px solid $fontColor
+}

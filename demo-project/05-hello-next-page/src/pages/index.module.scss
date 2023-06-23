@@ -1,0 +1,20 @@
+.local-style {
+  color: blue;
+}
+
+.box-bg1 {
+  width: 140px;
+  height: 140px;
+  border: 1px solid red;
+  background-image: url(/feel.png);
+}
+.box-bg2 {
+  width: 140px;
+  height: 140px;
+  border: 1px solid red;
+  background-image: url(../assets/images/user.png);
+}
+
+:export {
+  primaryColor: purple
+}

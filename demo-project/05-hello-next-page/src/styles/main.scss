@@ -1,0 +1,8 @@
+@use "./variables.scss" as *;
+
+$firstColor: green;
+
+.global-style2 {
+  color: $firstColor;
+  @include border();
+}

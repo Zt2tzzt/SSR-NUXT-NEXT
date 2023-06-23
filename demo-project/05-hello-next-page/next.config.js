@@ -5,7 +5,7 @@ const nextConfig = {
     NAME: 'messi',
     NEXT_PUBLIC_BASE_URL: `http://localhost:9999`
   },
-  basePath: '/nextjs-blog',
+  // basePath: '/nextjs-blog',
   images: {
     remotePatterns: [
       {
