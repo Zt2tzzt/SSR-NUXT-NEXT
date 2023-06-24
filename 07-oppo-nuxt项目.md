@@ -159,6 +159,8 @@ export default defineNuxtConfig({
 })
 ```
 
+使用字体图标：
+
 oppo-nuxt\components\app-header\index.vue
 
 ```vue
