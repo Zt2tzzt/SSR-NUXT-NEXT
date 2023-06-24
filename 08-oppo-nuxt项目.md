@@ -107,7 +107,7 @@ oppo-nuxt\components\search\index.vue
 
 ## 二、网络请求封装
 
-将之前封装好的 `service/index`，拷贝到项目中。修改 `BASE_URL`
+将之前封装好的网络请求，`service/index` 拷贝到项目中。修改 `BASE_URL`
 
 oppo-nuxt\service\index.ts
 
@@ -343,7 +343,7 @@ const getPagePath = (item: INavbar) => {
 
 创建 server、onePlus、intelligence 三个页面。
 
-## 七、集成 Element Plus
+## 七、Element Plus 集成
 
 在项目中，集成 Element Plus
 
@@ -371,7 +371,7 @@ export default defineNuxtConfig({
 
 在首页，编写轮播图。
 
-在 `/components` 目录下，创建 `swiper/index.vue`
+在 `/components` 目录下，创建 `swiper/index.vue`；
 
 在其中，使用 Element Plus 的走马灯组件 `ElCarousel`。
 
@@ -395,11 +395,11 @@ import { ElCarousel, ElCarouselItem } from 'element-plus'
 </template>
 ```
 
-在首页 `index.vue` 中，获取 `homeStore` 中的 `banners`。
+在首页 `index.vue` 中，获取 `homeStore` 中的 `banners`；
 
-将 `banners`，传递给`swiper/index.vue`
+将 `banners`，传递给组件 `swiper/index.vue`；
 
-自定义轮播图的“指示器”
+自定义轮播图的“指示器”。
 
 oppo-nuxt\components\swiper\index.vue
 
