@@ -24,7 +24,7 @@ Next.js 提供了创建 Web 应用程序的构建块，比如：
 
 2020 年 3 月，Next.js 9.3 版本发布，包括各种优化和全局 Sass 和 CSS 模块支持。
 
-2020 年 7 月 27 日，Next.js 9.5 版发布，增加了增量静态再生成（ISR）、重写和重定向支持等新功能。
+2020 年 7 月 27 日，Next.js 9.5 版发布，增加了“增量静态再生成”（ISR）、重写和重定向支持等新功能。
 
 2021 年 6 月 15 日，Next.js 11 版本发布，其中包括：Webpack 5 支持。
 
@@ -45,7 +45,7 @@ Next.js 提供了创建 Web 应用程序的构建块，比如：
 
 约定式路由（目录结构即路由）：
 
-- 路由根据 pages 目录结构自动生成（Next.js 13 beta 版本增加了 app 目录）。
+- 路由根据 pages 目录结构自动生成。
 
 内置 CSS module、Sass 支持：
 
@@ -72,8 +72,8 @@ Next.js 和 Nuxt3 的相同点：
 
 Next.js 和 Nuxt3 的不同点：
 
-- Next.js 使用的是 React 技术栈：React 、webpack 、express 、node.....；
-- Nuxt3 使用的是 Vue 技术栈：Vue、webpack、vite、h3、nitro、node.....。
+- Next.js 使用的是 React 技术栈：React、webpack、express、node.....；
+- Nuxt3 使用的是 Vue 技术栈：Vue、webpack、vite、h3（http 框架，实现部署可移植性）、nitro（生产环境打包）、node.....。
 - Nuxt3 支持组件、组合 API、Vue API 等自动导入;
 - Next.js 则不支持。
 - Next.js 社区生态、资源和文档，比 Nuxt3 友好（star 数：Nuxt3：41.6k；Next.js：96.8k ）
@@ -81,7 +81,7 @@ Next.js 和 Nuxt3 的不同点：
 Next.js 和 Nuxt3 如何选择？
 
 - 首先，根据自己或团队，擅长的技术栈来选择，擅长 Vue 选择 Nuxt3，擅长 React 选择 Next.js；
-- 其次，需要更灵活的，选 择Next.js；需要简单易用、快速上手的，选择 Nuxt3。
+- 其次，需要更灵活的，选择 Next.js；需要简单易用、快速上手的，选择 Nuxt3。
 
 ## 五、Next.js 13 项目创建
 
@@ -210,7 +210,7 @@ export default function App({ Component, pageProps }: AppProps) {
 - `.env`：所有环境下生效的默认设置；
 - `.env.development`：执行 "next dev" 时加载并生效；
 - `.env.production`： 执行 "next start" 时加载并生效；
-- `.env.local`：始终覆盖上面文件定义的默认值。所有环境生效，通常只需一个就够了（常用存储敏感信息）。
+- `.env.local`：始终覆盖上面文件定义的默认值。所有环境生效，通常只需一个就够了（用于存储敏感信息）。
 
 > 注意事项：
 >
@@ -219,9 +219,11 @@ export default function App({ Component, pageProps }: AppProps) {
 
 环境变量定义语法（支持变量，例如 `$PORT`)：
 
-多个单词使用下划线，比如：`DB_HOST=localhost`
+多个单词，使用下划线，
 
-`NEXT_PUBLIC_` 前缀，会额外暴露给客户端（浏览器）中的 `process.env.`：
+- 比如：`DB_HOST=localhost`
+
+`NEXT_PUBLIC_` 前缀的变量，会暴露给客户端（浏览器）中的 `process.env.`：
 
 - 比如：`NEXT_PUBLIC_ANALYTICS_ID=aaabbbccc`
 
@@ -237,6 +239,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
 ```env
 NAME=ZZT
+
 AGE=18
 ```
 
@@ -297,7 +300,7 @@ NEXT_PUBLIC_BASE_URL=http://$HOST_NAME:$NUMBER
 - `basePath`：在域名的子路径下部署项目。
   - `basePath`：允许为应用程序设置 URl 路径前缀。
   - 例如 `basePath=/music`, 即用 `/music` 访问首页，而不是 `/`。
-- `images`：可以配置图片 URL 的白名单等信息。
+- `images`：可以配置图片 URL 的白名单。
 - `swcMinify`: 用 Speedy Web Compiler 编译和压缩技术，而不是 Babel + Terser 技术，默认已开启。
 
 [更多的配置](https://nextjs.org/docs/api-reference/next.config.js/introduction)。
@@ -359,7 +362,7 @@ Next.js 框架提供了内置组件，常用的有：
 - `<Head>`：将新增的标签，添加到页面的 `<head>` 标签中，用于 SEO 优化。需要从 `next/head` 中导入
   - 给所有页面统一添加，需 `/pages` 目录下新建 `_document.js` 文件，来定制 HTML 页面；
 - `<Script>`：将一个 script 标签，添加到页面的 body 中（不支持在 `_document.js` 中用），需要从 `next/script` 中导入
-- `<Link>`：可以启用客户端的路由切换，需从 `next/link` 导入；
+- `<Link>`：客户端的路由链接，从 `next/link` 导入；
 - `<Image>`：内置的图片组件（对 `<img>` 的增强）。需从 `next/image` 导入。
 
 :egg: 案例理解 1 :
@@ -453,7 +456,7 @@ About.displayName = 'About'
 export default About
 ```
 
-创建 `About.jsx` 页面，在其中使用 `<Image>` 组件，展示网络图片资源。
+在其中使用 `<Image>` 组件，展示网络图片资源。
 
 首先，要在 `next.cofing.js` 中，配置图片的白名单：
 
@@ -630,7 +633,7 @@ $firstColor: green;
 
 .global-style2 {
   color: $firstColor;
-  @include border();
+  @include border(); // 使用全局样式变量
 }
 ```
 
@@ -657,7 +660,7 @@ import styles from './index.module.scss';
 
 ## 十二、局部样式
 
-Next.js 默认是支持 CSS Module，如：`[name].module.css`；
+Next.js 默认是支持 CSS Module 方案，如：`[name].module.css`；
 
 - CSS Module 中的选择器会自动创建一个唯一的类名。
 - 该唯一类名，保证在不同的文件中，使用相同 CSS 类名，也不用担心冲突。
@@ -760,6 +763,8 @@ src\pages\index.module.scss
 3. 在 `_app.tsx` 文件中，导入全局样式；
 4. 在页面中使用字体图标。
 
+修改路径：
+
 src\assets\font\iconfont.css
 
 ```css
@@ -770,11 +775,15 @@ src\assets\font\iconfont.css
 /* ... */
 ```
 
+全局引入字体图标：
+
 src\pages\、_app.tsx
 
 ```tsx
 import '@/assets/font/iconfont.css'
 ```
+
+使用字体图标：
 
 src\pages\index.tsx
 
@@ -803,7 +812,9 @@ Next.js 会根据 pages 目录结构和文件名，自动生成路由。
 
 Next.js 不需要路由占位。
 
-在 /pages 下，新建
+:egg: 案例理解：
+
+在 /pages 下，新建如下页面
 
 - category.jsx
 - cart/index.tsx
@@ -833,7 +844,7 @@ Next.js 不需要路由占位。
 
 :egg: 案例理解：
 
-在 `_app.tsx` 中，打印组件名称。
+先在 `_app.tsx` 中，打印组件名称。
 
 src\pages\_app.tsx
 
@@ -844,7 +855,7 @@ import '@/assets/font/iconfont.css'
 import type { AppProps } from 'next/app'
 
 export default function App({ Component, pageProps }: AppProps) {
-  console.log('Component Name:', Component.displayName);
+  console.log('Component Name:', Component.displayName); // 会打印页面的名称
 
   return <Component {...pageProps} />
 }
@@ -889,7 +900,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <button>category</button>
         </Link>
 
-        {/* as: 是给路径 起一个 别名 */}
+        {/* as: 是给路径起一个 别名 */}
         <Link href="/profile" as="profile_v2">
           <button>profile</button>
         </Link>
