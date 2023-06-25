@@ -6,6 +6,8 @@ import Head from 'next/head'
 import Script from 'next/script'
 import Image from 'next/image';
 
+import axios from 'axios';
+
 import userImage from '@/assets/images/user.png';
 
 const inter = Inter({ subsets: ['latin'] })
@@ -18,6 +20,12 @@ export default function Home() {
     console.log('server~')
     console.log(process.env.NAME)
     console.log(process.env.AGE)
+  }
+
+  function onGetJuanpiDataClick() {
+    axios.get('http://localhost:3000/api/homeInfo').then(res => {
+      console.log('index res:', res);
+    })
   }
 
   return (
@@ -58,6 +66,9 @@ export default function Home() {
 
       <h2>字体图标</h2>
       <i className='iconfont icon-bianji'></i>
+
+      <h2>中间件</h2>
+      <button onClick={() => onGetJuanpiDataClick()}>get juanpi data</button>
     </>
   )
 }
