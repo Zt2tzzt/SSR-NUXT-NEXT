@@ -46,7 +46,7 @@ package.json
 
 配置打包服务端代码的配置文件：
 
-创建 `config/server.config.js` 文件：
+创建 `config/webpack.server.config.js` 文件：
 
 config\webpack.server.config.js
 
@@ -423,7 +423,6 @@ server.get('/', (req, res, next) => {
 server.listen(9000, () => {
   console.log('express 服务器启动成功了')
 })
-
 ```
 
 在 `client/index.js` 中：
@@ -652,7 +651,7 @@ pnpm add axios
 
 使用 RTK 提供的 `createAsyncThunk`:
 
-生成一个 `pending`/`fulfilled`/`rejected` 基于该承诺分派动作类型的 thunk。
+生成一个拥有 `pending`/`fulfilled`/`rejected` 的承诺，基于该承诺分派动作类型的 thunk。
 
 简单理解就是专门用来创建异步 Action 的。它接收：
 
