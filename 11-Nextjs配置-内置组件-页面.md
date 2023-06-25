@@ -16,23 +16,23 @@ Next.js 提供了创建 Web 应用程序的构建块，比如：
 
 - 开箱即用、无处不在的 JS、所有函数用 JS 编写、自动代码拆分、服务器渲染、可配置数据获取、预期请求、简化部署。
 
-2017 年 3 月，Next.js 2.0 发布，改进后的版本让小型网站的工作变得更加容易，还提高了构建和热模块替换效率。
+2017 年 3 月，Next.js 2.0 版本发布，改进后的版本让小型网站的工作变得更加容易，还提高了构建和热模块替换效率。
 
-2018 年 9 月，Next.js 7.0 版本发布，改进了错误处理，并支持 React 的上下文 API。升级到了 webpack4。
+2018 年 9 月，Next.js 7.0 版本发布，改进了错误处理，并支持 React 的上下文 API。升级到了 webpack 4。
 
 2019 年 2 月，Next.js 8.0 版本发布，第一个提供 Serverless 部署的版本。
 
 2020 年 3 月，Next.js 9.3 版本发布，包括各种优化和全局 Sass 和 CSS 模块支持。
 
-2020 年 7 月 27 日，Next.js 9.5 版发布，增加了“增量静态再生成”（ISR）、重写和重定向支持等新功能。
+2020 年 7 月 27 日，Next.js 9.5 版本发布，增加了“增量静态再生成”（ISR）、重写和重定向支持等新功能。
 
 2021 年 6 月 15 日，Next.js 11 版本发布，其中包括：Webpack 5 支持。
 
-2021 年 10 月 26 日，Next.js 12 发布，添加了 Rust 编译器，使编译速度更快。
+2021 年 10 月 26 日，Next.js 12 版本发布，添加了 Rust 编译器，使编译速度更快。
 
 2022 年 10 月 26 日，Vercel 发布了 Next.js 13。
 
-- 带来了一种新的路由模式，增加了 app 目录 、布局、服务器组件、一组新的数据获取方法等（目前是 beta 版本）。
+- 带来了一种新的路由模式，增加了 app 目录、布局、服务器组件、一组新的数据获取方法等（目前是 beta 版本）。
 - 编译、压缩等由 Babel + Terser 换为 SWC（Speedy Web Compiler）（由 Rust 构建）；
 - 构建工具增加了 Turbopack。
 
@@ -72,8 +72,8 @@ Next.js 和 Nuxt3 的相同点：
 
 Next.js 和 Nuxt3 的不同点：
 
-- Next.js 使用的是 React 技术栈：React、webpack、express、node.....；
-- Nuxt3 使用的是 Vue 技术栈：Vue、webpack、vite、h3（http 框架，实现部署可移植性）、nitro（生产环境打包）、node.....。
+- Nuxt3 使用的是 Vue 技术栈：Vue、webpack、vite、h3（http 框架，实现部署可移植性）、nitro（生产环境打包）、node.....；
+- Next.js 使用的是 React 技术栈：React、webpack、express、node.....。
 - Nuxt3 支持组件、组合 API、Vue API 等自动导入;
 - Next.js 则不支持。
 - Next.js 社区生态、资源和文档，比 Nuxt3 友好（star 数：Nuxt3：41.6k；Next.js：96.8k ）
@@ -696,7 +696,7 @@ import styles from './index.module.css';
 
 - 例如：`robots.txt`、`favicon.ico`、`img` 等等，并直接对外提供访问。
 
-> 注意： 确保静态文件中没有与 /pages 下的文件重名，否则导致错误。
+> 注意：确保静态文件中没有与 /pages 下的文件重名，否则导致错误。
 
 `/public` 目录下的静态资源，直接通过 `/` 来访问。
 
@@ -900,7 +900,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <button>category</button>
         </Link>
 
-        {/* as: 是给路径起一个 别名 */}
+        {/* as: 是给路径起一个别名 */}
         <Link href="/profile" as="profile_v2">
           <button>profile</button>
         </Link>
