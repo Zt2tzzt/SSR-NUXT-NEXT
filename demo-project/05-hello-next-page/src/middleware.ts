@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { type NextRequest, NextResponse } from 'next/server'
 
 // 1.可拦截，API 请求、router 切换、资源加载、站点图片...
 // 2.这个中间件，只在服务器端运行。

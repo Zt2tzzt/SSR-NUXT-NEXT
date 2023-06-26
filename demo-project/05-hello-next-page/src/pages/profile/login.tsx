@@ -1,8 +1,8 @@
 import React, { memo } from 'react'
 import type { FC, ReactNode } from 'react'
 import type { ReactElement } from 'react'
-import Layout from '@/layout';
-import ProfileLayout from '@/layout/ProfileLayout';
+import Layout from '@/layout'
+import ProfileLayout from '@/layout/ProfileLayout'
 
 export interface IStaticProps {
   getLayout?: (page: ReactElement) => ReactElement

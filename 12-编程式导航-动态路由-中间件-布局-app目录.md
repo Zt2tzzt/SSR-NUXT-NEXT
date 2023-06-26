@@ -1,22 +1,46 @@
-编程导航。
+# 编程式导航 & 动态路由 & 中间件 & 布局 & app目录
 
+## 一、编程导航
 
+Next 13 除了 `<Link>` 组件来实现导航，也支持使用编程导航。
 
-在 _app.tsx 中，跳转 find 页面。
+编程导航缺点是：不利于 SEO。
 
-src\pages\_app.tsx
+在组件中，拿到 `router` 对象：
+
+- 函数式组件中，使用 `useRouter` 函数；从 `next/router` 中导入；
+- 类组件中，用 `withRouer`；
+
+`router` 对象的方法：
+
+- `push(url [, as , opts])`：页面跳转；
+- `replace(url [, as , opts])`：页面跳转（会替换当前页面）；
+- `back()`：页面返回；
+- `events.on(name, func)`：客户端路由的监听（建议在 `_app.tsx` 监听）：
+  - `routeChangeStart`
+  - `routeChangeComplete`
+- `beforePopState`：路由的返回和前进的监听。 （建议在 `_app.tsx` 监听）：
+- ....
+
+:egg: 案例理解：
+
+在 `_app.tsx` 中，跳转 `find` 页面。
+
+src\pages\\_app.tsx
 
 ```tsx
 import { useRouter } from 'next/router';
 
 export default function App({ Component, pageProps }: AppProps) {
   console.log('Component Name:', Component.displayName);
-  
+
   const router = useRouter()
   const onFindClick = () => {
-    
+
+    // 方式一
     // router.push('/find')
 
+    // 方式二
     /* router.push({
       pathname: '/find',
       query: {
@@ -24,9 +48,10 @@ export default function App({ Component, pageProps }: AppProps) {
       }
     }) */
 
+    // 跳转外部链接
     // router.push('https://www.jd.com')
 
-    // 区别名
+    // 取别名
     router.push('/find?id=1000','find_v2')
   }
   return (
@@ -40,18 +65,19 @@ export default function App({ Component, pageProps }: AppProps) {
 
       <Component {...pageProps} />
     </div>
-  
   )
 }
 ```
 
-客户端路由的监听
+### 1.路由监听（客户端）
 
-在 useEffects 中，进行监听。
+客户端路由的监听：
 
-全局的路由监听，一般写在 _app.tsx 中。
+全局的路由监听，一般写在 `_app.tsx` 中。
 
-src\pages\_app.tsx
+使用 `useEffects`，进行监听。
+
+src\pages\\_app.tsx
 
 ```tsx
 import { useRouter } from 'next/router';
@@ -80,13 +106,28 @@ export default function App({ Component, pageProps }: AppProps) {
 }
 ```
 
----
+## 二、动态路由
 
-动态路由
+Nextjs 支持动态路由，也是根据目录结构，和文件的名称，自动生成。
+
+动态路由语法：
+
+- 页面组件目录 或页面组件文件，都支持 `[]` 方括号语法（方括号前后不能有字符串）。
+- 方括号里编写的字符串就是：动态路由的参数。
+
+例如，下方的目录结构，组成的动态路由：
+
+- pages/detail/[id].tsx -> /detail/:id
+- pages/detail/[role]/[id].tsx -> /detail/:role/:id
+- pages/detail-[role]/[id].tsx -> /detail-:role/:id
+
+:egg: 案例理解：
 
 新建 detail01、detail02 页面，测试一级，二级动态路由。
 
-src\pages\_app.tsx
+在 `_app.tsx` 中，编写路由链接：
+
+src\pages\\_app.tsx
 
 ```tsx
 {/* 一级动态路由 */}
@@ -100,7 +141,16 @@ src\pages\_app.tsx
 </Link>
 ```
 
-src\pages\detail01\[id].tsx
+在 `/detail01/[id].tsx` 中，获取动态路由的参数。
+
+注意：`router` 只有 `query` 属性，没有 `params` 属性，
+
+- `query` 既可以拿到查询字符串，也可以拿到动态路由的参数；
+- 如果重复，取动态路由的参数。
+
+注意：Nextjs 是 `router`， Nuxt3 是 `route`；
+
+src\pages\detail01\\[id].tsx
 
 ```tsx
 import { useRouter } from 'next/router'
@@ -117,7 +167,6 @@ const Detail01: FC<IProps> = memo(props => {
 
   const { id } = router.query;
   console.log('id:', id);
-  
 
   return <div>Detail01</div>
 })
@@ -127,7 +176,9 @@ Detail01.displayName = 'Detail01'
 export default Detail01
 ```
 
-src\pages\detail02\[role]\[id].tsx
+在 `detail02\[role]\[id].tsx`中，获取动态路由的参数。
+
+src\pages\detail02\\[role]\\[id].tsx
 
 ```tsx
 import { useRouter } from 'next/router'
@@ -141,7 +192,6 @@ const Detail02: FC<IProps> = memo(props => {
   const router = useRouter()
   const { role, id } = router.query;
   console.log('role:', role, 'id:', id);
-  
 
   return <div>Detail02</div>
 })
@@ -151,13 +201,19 @@ Detail02.displayName = 'Detail02'
 export default Detail02
 ```
 
----
-
-404 page
+## 三、404 page
 
 编写全局 404 page
 
-在 `/pages` 目录下，创建 [...slug].tsx 或 404.tsx（也可创建 500.tsx，用于处理服务器报错）
+在 `/pages` 目录下，创建 `[...slug].tsx` 或 `404.tsx`（也可创建 `500.tsx`，用于处理服务器报错）
+
+- "slug" 名称不是固定的。
+- `404.tsx` 只能用于捕获全局 404 页面，即只能在 `/pages` 目录下生效。
+
+[...slug] 匹配的参数将作为查询参数发送到页面，并且它始终是一个数组，比如：
+
+- 访问 /post/a 路径，对应的参数为：`{"slug": ["a"] }`；
+- 访问 /post/a/b 路径，对应的参数为：`{"slug": ["a", "b"]}`。
 
 src\pages\[...slug].tsx
 
@@ -173,7 +229,7 @@ const NotFound: FC<IProps> = memo(props => {
   const router = useRouter()
   const { slug } = router.query
   console.log('slug:', slug);
-  
+
   return <div>404 Not Found ~</div>
 })
 
@@ -181,8 +237,6 @@ NotFound.displayName = 'NotFound'
 
 export default NotFound
 ```
-
-
 
 编写局部 404 page。
 
@@ -213,28 +267,64 @@ Detail03NotFound.displayName = 'Detail03NotFound'
 export default Detail03NotFound
 ```
 
+## 四、路由匹配规则总结
 
+路由匹配优先级：”预定义路由“ > ”动态路由“ > ”捕获所有路由“。请看以下示例：
 
----
+1.预定义路由：`pages/post/create.jsx`
 
-路由匹配规则总结
+- 将匹配 /post/create
 
----
+2.动态路由 ：`pages/post/[pid].jsx`
 
-中间件
+- 将匹配 /post/1, /post/abc 等。
+- 但不匹配 /post/create 、 /post/1/1 等
 
+3.捕获所有路由：`pages/post/[...slug].jsx`
 
+- 将匹配 /post/1/2, /post/a/b/c 等。
+- 但不匹配 /post/create, /post/abc、/post/1、、/post/ 等
+
+## 五、中间件（middleware）
+
+Nextjs 的中间件，可拦截：
+
+- API 请求；
+- router 切换；
+- 资源加载、站点图片
+- ...
+
+可在拦截中，进行：重写，重定向，修改请求响应头，...。
+
+中间件使用，有如下步骤：
+
+1.在根目录中创建 `middleware.ts` 文件；
+
+2.在其中导出一个 `middleware` 函数（支持 async，只在服务端执行），接收两个参数：
+
+- `req`：类型为 `NextRequest`
+- `event`：类型为 `NextFetchEvent`
+
+3.通过返回 `NextResponse` 对象，来实现重定向等功能。
+
+- `next()`- 将继续中间件链；
+- `redirect()`- 重定向；如：路由重定向；
+- `rewrite()`- 将重写 URL，如：配置反向代理。
+
+4.没返回值：页面将按预期加载和返回 `next()` 效果一样。
+
+:egg: 案例理解：
 
 在根目录，创建 `/src/middleware.ts` 文件，
 
 src\middleware.ts
 
 ```typescript
-import { NextRequest } from "next/server";
+import { type NextRequest } from "next/server";
 
 // 1.可拦截，API 请求、router 切换、资源加载、站点图片...
 // 2.这个中间件，只在服务器端运行。
-export function middleware(req:NextRequest) {
+export function middleware(req: NextRequest) {
   console.log('req.url:', req.url)
 }
 
@@ -249,16 +339,20 @@ export function middleware(req:NextRequest) {
 // req.url: http://localhost:3000/_next/static/development/_devMiddlewareManifest.json
 ```
 
+### 1.匹配器
 
+匹配器，用于过滤中间件，以在特定路径上运行，比如：
 
-匹配器：
+- `matcher: "/about/:path*"` 意为匹配以 `/about/*` 开头的路径。其中路径开头的：是修饰符，而 * 代表 0 个 或 n 个；
+- `matcher: [‘/about/:path*’, ‘/dashboard/:path*’]`，意为匹配以 `/about/*` 和 `/dashboard/*` 开头的路径；
+- `matcher: [‘/((?!api|_next/static|favicon.ico).*)‘]`，意思是不匹配以 `api`、`_next`、`static`、`favicon.ico` 开头的路径；
 
 编写匹配器：
 
 src\middleware.ts
 
 ```typescript
-import { NextRequest } from "next/server";
+import { type NextRequest } from "next/server";
 
 // 1.可拦截，API 请求、router 切换、资源加载、站点图片...
 // 2.这个中间件，只在服务器端运行。
@@ -276,16 +370,14 @@ export const config = {
 // req.url: http://localhost:3000/feel.png
 ```
 
+### 2.路由拦截
 
-
-路由拦截
-
-1.放行请求
+1.放行请求：
 
 src\middleware.ts
 
 ```typescript
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
 // 1.可拦截，API 请求、router 切换、资源加载、站点图片...
 // 2.这个中间件，只在服务器端运行。
@@ -293,9 +385,15 @@ export function middleware(req:NextRequest) {
   // 2.返回 next()
   return NextResponse.next(); // 和没有返回值的效果是一样，放行请求
 }
+
+// 匹配器，用于过滤
+export const config = {
+  // (?!_next)  匹配不包含 _next 路径
+  matcher: ["/((?!_next/static|api|favicon.ico).*)"],
+};
 ```
 
-2.请求重定向。
+2.请求重定向：
 
 src\middleware.ts
 
@@ -314,13 +412,21 @@ export function middleware(req:NextRequest) {
     return NextResponse.redirect(new URL("/login", req.nextUrl.origin));
   }
 }
+
+// 匹配器，用于过滤
+export const config = {
+  // (?!_next)  匹配不包含 _next 路径
+  matcher: ["/((?!_next/static|api|favicon.ico).*)"],
+};
 ```
 
-安装 cookies-nest 依赖。
+安装 *cookies-nest* 依赖。
 
 ```shell
 pnpm add cookies-nest
 ```
+
+在 `login.tsx` 中，设置 cookie
 
 src\pages\login.tsx
 
@@ -354,13 +460,13 @@ export default Login
 
 3.重写请求。
 
-安装 axios 库
+安装 *axios* 库
 
 ```shell
 pnpm add axios
 ```
 
-在 index.vue 中，发送网络请求。
+在 `index.vue` 中，发送网络请求。
 
 src\pages\index.tsx
 
@@ -405,13 +511,28 @@ export function middleware(req: NextRequest) {
     return NextResponse.rewrite(new URL(req.nextUrl.pathname, 'http://codercba.com:9060'))
   }
 }
+
+// 匹配器，用于过滤
+export const config = {
+  // (?!_next)  匹配不包含 _next 路径
+  matcher: ["/((?!_next/static|api|favicon.ico).*)"],
+};
 ```
 
----
+## 六、布局组件
 
-布局组件
+Layout 布局是页面的包装器，可将多个页面的共性，写到 Layout 布局中；
 
+使用 `props.children` 属性，来显示页面内容
 
+- 例如：可将每个页面的页眉、页脚组件，写到一个 Layout 布局中。
+
+Layout 布局的使用步骤：
+
+1. 在 /src 目录下，新建 /layout/index.tsx 布局组件；
+2. 接着在 _app.tsx 中通过 `<Layout>` 组件包裹 `<Component>` 组件
+
+:egg: 案例理解：
 
 在 /src 夏，新建 /layout/index.tsx 文件。
 
@@ -442,6 +563,8 @@ Layout.displayName = 'Layout'
 export default Layout
 ```
 
+编写布局组件的样式。
+
 src\layout\index.module.css
 
 ```css
@@ -458,9 +581,9 @@ src\layout\index.module.css
 }
 ```
 
-在 _app.tsx 中，使用 Layout 组件。
+在 `_app.tsx` 中，使用 Layout 组件。
 
-src\pages\_app.tsx
+src\pages\\_app.tsx
 
 ```tsx
 import Layout from '@/layout'
@@ -477,13 +600,13 @@ export default function App({ Component, pageProps }: AppProps) {
 }
 ```
 
+### 1.自定义布局
 
+在首页，无需页眉、页脚，在购物车页面，需要。
 
-在首页，无需页眉页脚，在购物车页面，需要。
+在 `_app.tsx` 中，进行判断
 
-在 _app.tsx 中，进行判断
-
-src\pages\_app.tsx
+src\pages\\_app.tsx
 
 ```tsx
 import type { AppProps } from 'next/app'
@@ -507,26 +630,31 @@ export default function App({ Component, pageProps }: AppProps) {
 }
 ```
 
-
+### 2.嵌套布局
 
 在布局中，嵌套布局。
 
-在 /src/layout 中，新建 ProfileLayout.tsx 布局。
+在 `/src/layout` 中，新建 `ProfileLayout.tsx` 布局。
 
 src\layout\ProfileLayout.tsx
 
 ```tsx
 import React, { memo } from 'react'
 import type { FC, ReactNode } from 'react'
+import Layout from '@/layout';
 
 interface IProps {
   children?: ReactNode
 }
 const ProfileLayout: FC<IProps> = memo(props => {
-  return <div>
-    <h1>ProfileLayout</h1>
-    { props.children }
-  </div>
+  return (
+    <div>
+      <Layout>
+        <h1>ProfileLayout</h1>
+        { props.children }
+      </Layout>
+    </div>
+  )
 })
 
 ProfileLayout.displayName = 'ProfileLayout'
@@ -534,9 +662,9 @@ ProfileLayout.displayName = 'ProfileLayout'
 export default ProfileLayout
 ```
 
-在 _app.tsx 中，进行配置：
+在 `_app.tsx` 中，进行配置：
 
-src\pages\_app.tsx
+src\pages\\_app.tsx
 
 ```tsx
 import '@/styles/globals.css'
@@ -571,11 +699,11 @@ export default function App({ Component, pageProps }: AppProps) {
 }
 ```
 
-
+### 3.布局抽取
 
 对布局进行抽取
 
-在 profile.tsx 中，抽取 getLayout 方案。
+在 `profile.tsx` 中，抽取 `getLayout` 方法。
 
 src\pages\profile\index.tsx
 
@@ -598,17 +726,19 @@ const Profile: FC<IProps> & IStaticProps = memo(props => {
 })
 
 Profile.displayName = 'Profile'
+
 Profile.getLayout = (page: ReactElement) => (
   <Layout>
     <ProfileLayout>{page}</ProfileLayout>
   </Layout>
 )
+
 export default Profile
 ```
 
-在 _app.tsx 中，使用：
+在 `_app.tsx` 中，使用：
 
-src\pages\_app.tsx
+src\pages\\_app.tsx
 
 ```tsx
 import type { AppProps } from 'next/app'
@@ -625,10 +755,10 @@ type AppPropWithLayout = AppProps & {
 export default function App({ Component, pageProps }: AppPropWithLayout) {
 
   let getLayout = Component.getLayout ?? ((page: ReactElement) => page)
-  
+
   return (
     <div>
-    
+
       {/* {cn === 'Cart' ? (
         <Layout>
           <Component {...pageProps} />
@@ -648,15 +778,27 @@ export default function App({ Component, pageProps }: AppPropWithLayout) {
 }
 ```
 
+## 七、嵌套路由
 
+Nextjs 和 Nuxt 3 一样，也支持嵌套路由；
 
-嵌套路由
+根据目录结构，和文件的名称，自动生成。
 
+有两种方案：
 
+方案一：使用 Layout 布局，嵌套来实现。
+
+方案二：在 app router 项目中，使用约定式的嵌套路由。
+
+:egg: 案例理解：
+
+### 1.pages router
 
 方案一：
 
-在 /profile 中，新建 login.tsx，register.tsx，每个页面，都要有 getLoayout 方法，复用 Profile 的布局。
+在 `/profile` 中，新建 `login.tsx`，`register.tsx`；
+
+每个页面，都要有 `getLoayout` 方法，并复用 Profile 的布局。
 
 src\pages\profile\login.tsx
 
@@ -678,6 +820,7 @@ const Login: FC<IProps> & IStaticProps = memo(props => {
 })
 
 Login.displayName = 'Login'
+
 Login.getLayout = (page: ReactElement) => (
   <Layout>
     <ProfileLayout>{page}</ProfileLayout>
@@ -715,10 +858,9 @@ Register.getLayout = (page: ReactElement) => (
 )
 
 export default Register
-
 ```
 
-在 /profile/index.tsx 中，新增路由链接。
+在 `/profile/index.tsx` 中，新增路由链接。
 
 src\pages\profile\index.tsx
 
@@ -758,8 +900,208 @@ Profile.getLayout = (page: ReactElement) => (
 export default Profile
 ```
 
-
+### 2.app router
 
 方案二：
 
 创建 06-hello-react-app
+
+目录结构说明：
+
+- `/src/app/page.tsx` 是首页。
+- `/src/app/layout.tsx` 是全局的布局页面；
+
+#### 1.基本使用
+
+在 `/src/app` 下，创建 `/cart/page.tsx` 页面：
+
+src\app\cart\page.tsx
+
+```tsx
+import React, { memo } from 'react'
+import type { FC, ReactNode } from 'react'
+
+interface IProps {
+  children?: ReactNode
+}
+const Cart: FC<IProps> = memo(props => {
+  return <div>Cart</div>
+})
+
+Cart.displayName = 'Cart'
+
+export default Cart
+```
+
+在首页，添加路由链接。
+
+src\app\page.tsx
+
+```tsx
+import Link from "next/link";
+
+export default function Home() {
+  return (
+    <div>
+      <Link href="/cart">
+        <button>cart</button>
+      </Link>
+      <h1>Hello Next App</h1>
+    </div>
+  )
+}
+```
+
+给 cart 页面，新建布局。
+
+在 `/cart` 目录下，创建 `/layout.tsx` 布局页面。
+
+src\app\cart\layout.tsx
+
+```tsx
+import Link from 'next/link'
+import React, { memo } from 'react'
+import type { FC, ReactNode } from 'react'
+
+interface IProps {
+  children?: ReactNode
+}
+const CartLayout: FC<IProps> = memo(props => {
+  const { children } = props;
+
+  return (
+    <div>
+      <div>CartLayout</div>
+      {children}
+    </div>
+  )
+})
+
+CartLayout.displayName = 'CartLayout'
+
+export default CartLayout
+```
+
+#### 2.嵌套路由
+
+创建 `/profile/page.tsx` 页面，和 `/profile/layout.tsx` 布局页面。
+
+在 `/profile` 中，创建嵌套路由 `/login/page.tsx`，`/register/page.tsx`
+
+src\app\profile\login\page.tsx
+
+```tsx
+import React, { memo } from 'react'
+import type { FC, ReactNode } from 'react'
+
+interface IProps {
+  children?: ReactNode
+}
+const Login: FC<IProps> = memo(props => {
+  return (
+    <div className="login">
+      <div>Login</div>
+    </div>
+  )
+})
+
+Login.displayName = 'Login'
+
+export default Login
+```
+
+在 `/profile/layout.tsx` 中，添加路由链接：
+
+> app router 项目中，嵌套的路由链接，可写在 layout 页面中；
+>
+> pages router 项目中，嵌套的路由链接，要写在 index 页面中。
+
+src\app\profile\layout.tsx
+
+```tsx
+import Link from 'next/link'
+import React, { memo } from 'react'
+import type { FC, ReactNode } from 'react'
+
+interface IProps {
+  children?: ReactNode
+}
+const ProfileLayout: FC<IProps> = memo(props => {
+  const { children } = props
+
+  return (
+    <div>
+      <div>ProfileLayout</div>
+      <Link href={'/profile'}>
+        <button>profile</button>
+      </Link>
+      <Link href={'/profile/login'}>
+        <button>login</button>
+      </Link>
+      <Link href={'/profile/register'}>
+        <button>login</button>
+      </Link>
+      {children}
+    </div>
+  )
+})
+
+ProfileLayout.displayName = 'ProfileLayout'
+
+export default ProfileLayout
+```
+
+> app 目录和 pages 目录不能共存.
+
+#### 3.Loading 页面
+
+##### 1.全局
+
+在 `/app` 中，编写 `loading.tsx` 页面，作为全局的加载页面。
+
+src\app\loading.tsx
+
+```tsx
+import React, { memo } from 'react'
+import type { FC, ReactNode } from 'react'
+
+interface IProps {
+  children?: ReactNode
+}
+const Loading: FC<IProps> = memo(props => {
+  return <h1>Loading...</h1>
+})
+
+Loading.displayName = 'Loading'
+
+export default Loading
+```
+
+##### 2.局部
+
+在 `/cart` 中，创建 `loading.tsx` 页面。作为局部的加载页面。
+
+也就是说：当从某一个路由，跳转到 `/cart` 路由时，才会显示的加载页面。
+
+src\app\cart\loading.tsx
+
+```tsx
+import React, { memo } from 'react'
+import type { FC, ReactNode } from 'react'
+
+interface IProps {
+  children?: ReactNode
+}
+const CartLoading: FC<IProps> = memo(props => {
+  return <h1>Cart Loading...</h1>
+})
+
+CartLoading.displayName = 'CartLoading'
+
+export default CartLoading
+```
+
+> loading 页面可以:
+>
+> - 显示加载的进度；
+> - 做”骨架屏“；
