@@ -1,14 +1,12 @@
-# 编程式导航 & 动态路由 & 中间件 & 布局 & app目录
+# 编程式导航 & 动态路由 & 中间件 & 布局 & app 目录
 
 ## 一、编程导航
 
-Next 13 除了 `<Link>` 组件来实现导航，也支持使用编程导航。
+Next 13 除了 `<Link>` 组件来实现导航，也支持”编程导航“，缺点是：不利于 SEO。
 
-编程导航缺点是：不利于 SEO。
+拿到 `router` 对象：
 
-在组件中，拿到 `router` 对象：
-
-- 函数式组件中，使用 `useRouter` 函数；从 `next/router` 中导入；
+- 函数式组件中，使用 `useRouter` 函数，从 `next/router` 中导入；
 - 类组件中，用 `withRouer`；
 
 `router` 对象的方法：
@@ -16,10 +14,10 @@ Next 13 除了 `<Link>` 组件来实现导航，也支持使用编程导航。
 - `push(url [, as , opts])`：页面跳转；
 - `replace(url [, as , opts])`：页面跳转（会替换当前页面）；
 - `back()`：页面返回；
-- `events.on(name, func)`：客户端路由的监听（建议在 `_app.tsx` 监听）：
-  - `routeChangeStart`
-  - `routeChangeComplete`
-- `beforePopState`：路由的返回和前进的监听。 （建议在 `_app.tsx` 监听）：
+- `events.on(name, func)`：客户端路由的监听（建议在 `_app.tsx` 监听），可监听的事件有：：
+  - `routeChangeStart`；
+  - `routeChangeComplete`。
+- `beforePopState`：路由的返回、前进的监听；（建议在 `_app.tsx` 监听）：
 - ....
 
 :egg: 案例理解：
@@ -54,12 +52,12 @@ export default function App({ Component, pageProps }: AppProps) {
     // 取别名
     router.push('/find?id=1000','find_v2')
   }
+  
   return (
     <div>
       <div className="router-link">
         <h2>编程导航</h2>
         <button onClick={() => onFindClick()}>find</button>
-
         <button onClick={() => router.back()}>返回</button>
       </div>
 
@@ -101,7 +99,6 @@ export default function App({ Component, pageProps }: AppProps) {
       router.events.off('routeChangeStart', handleRouterChangeStart)
       router.events.off('routeChangeComplete', handleRouterChangeComplete)
     }
-
   })
 }
 ```
@@ -141,12 +138,14 @@ src\pages\\_app.tsx
 </Link>
 ```
 
+### 1.一级路由
+
 在 `/detail01/[id].tsx` 中，获取动态路由的参数。
 
 注意：`router` 只有 `query` 属性，没有 `params` 属性，
 
-- `query` 既可以拿到查询字符串，也可以拿到动态路由的参数；
-- 如果重复，取动态路由的参数。
+- `query` 既可以拿到”查询字符串“，也可以拿到”动态路由的参数“；
+- 如果它们重复，取”动态路由的参数“。
 
 注意：Nextjs 是 `router`， Nuxt3 是 `route`；
 
@@ -163,7 +162,7 @@ interface IProps {
 const Detail01: FC<IProps> = memo(props => {
   const router = useRouter()
   console.log('router.query:', router.query); // 没有 params 属性，
-  // query 既可以拿到查询字符串，也可以拿到动态路由的 params，如果重复，取动态路由的 params
+  // query 既可以拿到查询字符串，也可以拿到动态路由的参数（params），如果重复，取动态路由的参数。
 
   const { id } = router.query;
   console.log('id:', id);
@@ -175,6 +174,8 @@ Detail01.displayName = 'Detail01'
 
 export default Detail01
 ```
+
+### 2.二级路由
 
 在 `detail02\[role]\[id].tsx`中，获取动态路由的参数。
 
@@ -203,17 +204,17 @@ export default Detail02
 
 ## 三、404 page
 
-编写全局 404 page
+### 1.全局 404 page
 
-在 `/pages` 目录下，创建 `[...slug].tsx` 或 `404.tsx`（也可创建 `500.tsx`，用于处理服务器报错）
+在 `/pages` 目录下，创建 `[...slug].tsx` 或 `404.tsx`（也可创建 `500.tsx`，用于处理服务器报错）：
 
 - "slug" 名称不是固定的。
 - `404.tsx` 只能用于捕获全局 404 页面，即只能在 `/pages` 目录下生效。
 
-[...slug] 匹配的参数将作为查询参数发送到页面，并且它始终是一个数组，比如：
+[...slug] 匹配的参数，将作为 query 参数，发送到页面，并且它始终是一个数组，比如：
 
-- 访问 /post/a 路径，对应的参数为：`{"slug": ["a"] }`；
-- 访问 /post/a/b 路径，对应的参数为：`{"slug": ["a", "b"]}`。
+- 访问 `/post/a` 路径，对应的参数为：`{"slug": ["a"] }`；
+- 访问 `/post/a/b` 路径，对应的参数为：`{"slug": ["a", "b"]}`。
 
 src\pages\[...slug].tsx
 
@@ -238,9 +239,9 @@ NotFound.displayName = 'NotFound'
 export default NotFound
 ```
 
-编写局部 404 page。
+### 2.局部 404 page
 
-在 `/detail03` 下，创建 `[...slug].vue` 文件
+在 `/detail03` 下，创建 `[...slug].vue` 文件：
 
 在其中拿到 slug 参数。
 
@@ -255,7 +256,7 @@ interface IProps {
   children?: ReactNode
 }
 const Detail03NotFound: FC<IProps> = memo(props => {
-    const router = useRouter()
+  const router = useRouter()
   const { slug } = router.query
   console.log('slug:', slug);
 
@@ -290,8 +291,8 @@ export default Detail03NotFound
 Nextjs 的中间件，可拦截：
 
 - API 请求；
-- router 切换；
-- 资源加载、站点图片
+- router 跳转；
+- 资源加载、如：站点图片加载
 - ...
 
 可在拦截中，进行：重写，重定向，修改请求响应头，...。
@@ -302,16 +303,16 @@ Nextjs 的中间件，可拦截：
 
 2.在其中导出一个 `middleware` 函数（支持 async，只在服务端执行），接收两个参数：
 
-- `req`：类型为 `NextRequest`
-- `event`：类型为 `NextFetchEvent`
+- `req`：类型为 `NextRequest`；
+- `event`：类型为 `NextFetchEvent`。
 
 3.通过返回 `NextResponse` 对象，来实现重定向等功能。
 
-- `next()`- 将继续中间件链；
+- `next()`- 继续中间件链；
 - `redirect()`- 重定向；如：路由重定向；
 - `rewrite()`- 将重写 URL，如：配置反向代理。
 
-4.没返回值：页面将按预期加载和返回 `next()` 效果一样。
+4.没返回值：页面按预期加载，和返回 `next()` 效果一样。
 
 :egg: 案例理解：
 
@@ -341,9 +342,11 @@ export function middleware(req: NextRequest) {
 
 ### 1.匹配器
 
-匹配器，用于过滤中间件，以在特定路径上运行，比如：
+匹配器，用于过滤请求，让中间件在特定路径上运行，比如：
 
-- `matcher: "/about/:path*"` 意为匹配以 `/about/*` 开头的路径。其中路径开头的：是修饰符，而 * 代表 0 个 或 n 个；
+- `matcher: "/about/:path*"` 意为匹配以 `/about/*` 开头的路径。
+  - 其中 `:path` 是修饰符;
+  - 而 `*` 代表 0 个 或 n 个 path；
 - `matcher: [‘/about/:path*’, ‘/dashboard/:path*’]`，意为匹配以 `/about/*` 和 `/dashboard/*` 开头的路径；
 - `matcher: [‘/((?!api|_next/static|favicon.ico).*)‘]`，意思是不匹配以 `api`、`_next`、`static`、`favicon.ico` 开头的路径；
 
@@ -356,7 +359,7 @@ import { type NextRequest } from "next/server";
 
 // 1.可拦截，API 请求、router 切换、资源加载、站点图片...
 // 2.这个中间件，只在服务器端运行。
-export function middleware(req:NextRequest) {
+export function middleware(req: NextRequest) {
   console.log('req.url:', req.url)
 }
 
@@ -381,7 +384,7 @@ import { type NextRequest, NextResponse } from "next/server";
 
 // 1.可拦截，API 请求、router 切换、资源加载、站点图片...
 // 2.这个中间件，只在服务器端运行。
-export function middleware(req:NextRequest) {
+export function middleware(req: NextRequest) {
   // 2.返回 next()
   return NextResponse.next(); // 和没有返回值的效果是一样，放行请求
 }
@@ -394,6 +397,8 @@ export const config = {
 ```
 
 2.请求重定向：
+
+路由跳转时，cookie 中没有携带 token 的吗，重定向到 /login
 
 src\middleware.ts
 
@@ -466,7 +471,7 @@ export default Login
 pnpm add axios
 ```
 
-在 `index.vue` 中，发送网络请求。
+在 `index.tsx` 中，发送网络请求。
 
 src\pages\index.tsx
 
@@ -493,7 +498,7 @@ export default function Home() {
 Home.displayName = 'Home'
 ```
 
-重写网络请求的域名，防止跨域。
+在中间件中，重写网络请求的域名，防止跨域。
 
 src\middleware.ts
 
@@ -521,20 +526,20 @@ export const config = {
 
 ## 六、布局组件
 
-Layout 布局是页面的包装器，可将多个页面的共性，写到 Layout 布局中；
+Layout 布局，是页面的包装器，可将多个页面的共性，写到 Layout 布局中；
 
-使用 `props.children` 属性，来显示页面内容
+使用 `props.children` 属性，来显示页面内容。
 
-- 例如：可将每个页面的页眉、页脚组件，写到一个 Layout 布局中。
+- 例如：可将每个页面的页眉、页脚组件，封装到一个 Layout 布局中。
 
 Layout 布局的使用步骤：
 
-1. 在 /src 目录下，新建 /layout/index.tsx 布局组件；
-2. 接着在 _app.tsx 中通过 `<Layout>` 组件包裹 `<Component>` 组件
+1. 在 `/src` 目录下，新建 `/layout/index.tsx` 布局组件；
+2. 接着在 `_app.tsx` 中通过 `<Layout>` 组件包裹 `<Component>` 组件。
 
 :egg: 案例理解：
 
-在 /src 夏，新建 /layout/index.tsx 文件。
+在 `/src` 目录下，新建 `/layout/index.tsx` 文件。
 
 src\layout\index.tsx
 
@@ -602,7 +607,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
 ### 1.自定义布局
 
-在首页，无需页眉、页脚，在购物车页面，需要。
+需求：在首页，无需页眉、页脚，在购物车页面，需要。
 
 在 `_app.tsx` 中，进行判断
 
@@ -632,7 +637,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
 ### 2.嵌套布局
 
-在布局中，嵌套布局。
+为 profile 页面，创建嵌套布局。
 
 在 `/src/layout` 中，新建 `ProfileLayout.tsx` 布局。
 
@@ -784,11 +789,11 @@ Nextjs 和 Nuxt 3 一样，也支持嵌套路由；
 
 根据目录结构，和文件的名称，自动生成。
 
-有两种方案：
+有两种方案，分别对应两种模式：pages router 和 app router：
 
-方案一：使用 Layout 布局，嵌套来实现。
+方案一，pages router：使用嵌套布局，来实现嵌套路由。
 
-方案二：在 app router 项目中，使用约定式的嵌套路由。
+方案二，app router：使用约定式的嵌套路由。
 
 :egg: 案例理解：
 
@@ -798,7 +803,7 @@ Nextjs 和 Nuxt 3 一样，也支持嵌套路由；
 
 在 `/profile` 中，新建 `login.tsx`，`register.tsx`；
 
-每个页面，都要有 `getLoayout` 方法，并复用 Profile 的布局。
+这两个页面，都要有 `getLoayout` 方法，并复用 ProfileLayout 的布局。
 
 src\pages\profile\login.tsx
 
@@ -904,7 +909,7 @@ export default Profile
 
 方案二：
 
-创建 06-hello-react-app
+创建 06-hello-react-app 项目。
 
 目录结构说明：
 
@@ -986,7 +991,7 @@ export default CartLayout
 
 创建 `/profile/page.tsx` 页面，和 `/profile/layout.tsx` 布局页面。
 
-在 `/profile` 中，创建嵌套路由 `/login/page.tsx`，`/register/page.tsx`
+在 `/profile` 中，创建两个页面，作为嵌套路由 `/login/page.tsx`，`/register/page.tsx`；
 
 src\app\profile\login\page.tsx
 
@@ -1012,9 +1017,9 @@ export default Login
 
 在 `/profile/layout.tsx` 中，添加路由链接：
 
-> app router 项目中，嵌套的路由链接，可写在 layout 页面中；
+> app router 项目中，采用约定式的嵌套路由，不用在嵌套路由的页面，封装 `getLayout` 方法。
 >
-> pages router 项目中，嵌套的路由链接，要写在 index 页面中。
+> pages router 项目中，要在嵌套路由的页面，封装 `getLayout` 方法。
 
 src\app\profile\layout.tsx
 
@@ -1055,7 +1060,7 @@ export default ProfileLayout
 
 #### 3.Loading 页面
 
-##### 1.全局
+##### 1.全局 loaidng
 
 在 `/app` 中，编写 `loading.tsx` 页面，作为全局的加载页面。
 
@@ -1077,7 +1082,7 @@ Loading.displayName = 'Loading'
 export default Loading
 ```
 
-##### 2.局部
+##### 2.局部 loading
 
 在 `/cart` 中，创建 `loading.tsx` 页面。作为局部的加载页面。
 
