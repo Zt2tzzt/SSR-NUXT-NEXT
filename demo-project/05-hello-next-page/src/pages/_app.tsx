@@ -104,6 +104,19 @@ export default function App({ Component, pageProps }: AppPropWithLayout) {
         <Link href="/detail02/admin/233" replace>
           <button>detail02/admin/233</button>
         </Link>
+
+        <h2>生命周期</h2>
+        <Link href={'/lifecycle-class'}>
+          <button>lifecycle-class</button>
+        </Link>
+        <Link href={'/lifecycle-func'}>
+          <button>lifecycle-func</button>
+        </Link>
+
+        <h2>网络请求</h2>
+        <Link href="/fetch">
+          <button>fetch</button>
+        </Link>
       </div>
 
       {/* {cn === 'Cart' ? (
@@ -119,7 +132,6 @@ export default function App({ Component, pageProps }: AppPropWithLayout) {
       )} */}
 
       {getLayout(<Component {...pageProps} />)}
-
     </div>
   )
 }
