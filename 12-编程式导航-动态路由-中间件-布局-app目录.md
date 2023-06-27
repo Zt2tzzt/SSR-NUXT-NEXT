@@ -161,7 +161,7 @@ interface IProps {
 }
 const Detail01: FC<IProps> = memo(props => {
   const router = useRouter()
-  console.log('router.query:', router.query); // 没有 params 属性，
+  console.log('router.query:', router.query); // router 没有 params 属性，
   // query 既可以拿到查询字符串，也可以拿到动态路由的参数（params），如果重复，取动态路由的参数。
 
   const { id } = router.query;
@@ -211,12 +211,12 @@ export default Detail02
 - "slug" 名称不是固定的。
 - `404.tsx` 只能用于捕获全局 404 页面，即只能在 `/pages` 目录下生效。
 
-[...slug] 匹配的参数，将作为 query 参数，发送到页面，并且它始终是一个数组，比如：
+[...slug] 匹配的参数，将作为 router 的 query 参数，并且它始终是一个数组，比如：
 
 - 访问 `/post/a` 路径，对应的参数为：`{"slug": ["a"] }`；
 - 访问 `/post/a/b` 路径，对应的参数为：`{"slug": ["a", "b"]}`。
 
-src\pages\[...slug].tsx
+src\pages\\[...slug].tsx
 
 ```tsx
 import { useRouter } from 'next/router'
@@ -245,7 +245,7 @@ export default NotFound
 
 在其中拿到 slug 参数。
 
-src\pages\detail03\[...slug].tsx
+src\pages\detail03\\[...slug].tsx
 
 ```tsx
 import { useRouter } from 'next/router'
@@ -856,6 +856,7 @@ const Register: FC<IProps> & IStaticProps = memo(props => {
 })
 
 Register.displayName = 'Register'
+
 Register.getLayout = (page: ReactElement) => (
   <Layout>
     <ProfileLayout>{page}</ProfileLayout>

@@ -127,7 +127,7 @@ package.json
 
 用 `ReactDOM.renderToString` 来进行渲染应用。
 
-并返回一个网页
+并返回一个网页。
 
 src\server\index.js
 
@@ -298,7 +298,7 @@ pnpm add react-router-dom
 
 创建 Home，About 两个页面。
 
-在 `/src` 下，新建 `/pages/Home.jsx`，`About.jsx` 文件。
+在 `/src` 下，新建 `/pages/Home.jsx`，`/pages/About.jsx` 文件。
 
 src\pages\About.jsx
 
