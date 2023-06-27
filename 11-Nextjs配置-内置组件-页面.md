@@ -2,9 +2,9 @@
 
 ## 一、Next.js 是什么
 
-Next.js 是一个 React 框架，支持 CSR、SSR、SSG、ISR (Incremental Static Regeneration) 等渲染模式。
+Nextjs 是一个 React 框架，支持 CSR、SSR、SSG、ISR (Incremental Static Regeneration) 等渲染模式。
 
-Next.js 提供了创建 Web 应用程序的构建块，比如：
+Nextjs 提供了创建 Web 应用程序的构建块，比如：
 
 - 用户界面、路由、数据获取、渲染模式、后端服务、等等。
 
@@ -30,7 +30,7 @@ Next.js 提供了创建 Web 应用程序的构建块，比如：
 
 2021 年 10 月 26 日，Next.js 12 版本发布，添加了 Rust 编译器，使编译速度更快。
 
-2022 年 10 月 26 日，Vercel 发布了 Next.js 13。
+2022 年 10 月 26 日，Next.js 13 被 Vercel 发布了。
 
 - 带来了一种新的路由模式，增加了 app 目录、布局、服务器组件、一组新的数据获取方法等（目前是 beta 版本）。
 - 编译、压缩等由 Babel + Terser 换为 SWC（Speedy Web Compiler）（由 Rust 构建）；
@@ -73,8 +73,8 @@ Next.js 和 Nuxt3 的相同点：
 Next.js 和 Nuxt3 的不同点：
 
 - Nuxt3 使用的是 Vue 技术栈：Vue、webpack、vite、h3（http 框架，实现部署可移植性）、nitro（生产环境打包）、node.....；
-- Next.js 使用的是 React 技术栈：React、webpack、express、node.....。
-- Nuxt3 支持组件、组合 API、Vue API 等自动导入;
+- Next.js 使用的是 React 技术栈：React、webpack、turbopack、express、node.....。
+- Nuxt3 支持组件、Vue API Composition API、等自动导入;
 - Next.js 则不支持。
 - Next.js 社区生态、资源和文档，比 Nuxt3 友好（star 数：Nuxt3：41.6k；Next.js：96.8k ）
 
@@ -305,7 +305,7 @@ NEXT_PUBLIC_BASE_URL=http://$HOST_NAME:$NUMBER
 
 [更多的配置](https://nextjs.org/docs/api-reference/next.config.js/introduction)。
 
-在其中配置 `env` 环境变量：`basePath`：
+在其中配置 `env` 环境变量，和 `basePath`：
 
 next.config.js
 
@@ -359,7 +359,7 @@ export default function Home() {
 
 Next.js 框架提供了内置组件，常用的有：
 
-- `<Head>`：将新增的标签，添加到页面的 `<head>` 标签中，用于 SEO 优化。需要从 `next/head` 中导入
+- `<Head>`：需要从 `next/head` 中导入，将新增的标签，添加到页面的 `<head>` 标签中，用于 SEO 优化。
   - 给所有页面统一添加，需 `/pages` 目录下新建 `_document.js` 文件，来定制 HTML 页面；
 - `<Script>`：将一个 script 标签，添加到页面的 body 中（不支持在 `_document.js` 中用），需要从 `next/script` 中导入
 - `<Link>`：客户端的路由链接，从 `next/link` 导入；
@@ -433,7 +433,7 @@ export default function Document() {
 
 创建 `assets` 目录，在其中，放入需要用到的资源。
 
-创建 `About.jsx` 页面，在其中使用 `<Image>` 组件，展示本地图片资源。
+创建 `About.jsx` 页面，在其中使用 `<Image>` 组件，展示**本地图片**资源。
 
 src\pages\about.tsx
 
@@ -456,7 +456,7 @@ About.displayName = 'About'
 export default About
 ```
 
-在其中使用 `<Image>` 组件，展示网络图片资源。
+在其中使用 `<Image>` 组件，展示**网络图片**资源。
 
 首先，要在 `next.cofing.js` 中，配置图片的白名单：
 
@@ -696,7 +696,7 @@ import styles from './index.module.css';
 
 - 例如：`robots.txt`、`favicon.ico`、`img` 等等，并直接对外提供访问。
 
-> 注意：确保静态文件中没有与 /pages 下的文件重名，否则导致错误。
+> 注意：确保静态文件中没有与 `/pages` 下的文件重名，否则导致错误。
 
 `/public` 目录下的静态资源，直接通过 `/` 来访问。
 
@@ -777,7 +777,7 @@ src\assets\font\iconfont.css
 
 全局引入字体图标：
 
-src\pages\、_app.tsx
+src\pages\\_app.tsx
 
 ```tsx
 import '@/assets/font/iconfont.css'
@@ -846,7 +846,7 @@ Next.js 不需要路由占位。
 
 先在 `_app.tsx` 中，打印组件名称。
 
-src\pages\_app.tsx
+src\pages\\_app.tsx
 
 ```tsx
 import '@/styles/globals.css'
@@ -863,7 +863,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
 在 `_app.tsx` 中，编写路由链接。
 
-src\pages\_app.tsx
+src\pages\\_app.tsx
 
 ```tsx
 import '@/styles/globals.css'
