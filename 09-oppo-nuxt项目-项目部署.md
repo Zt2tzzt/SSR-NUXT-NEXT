@@ -6,7 +6,7 @@
 
 在 grid-view 中，第一个 item，占据宽度 40%。
 
-在其中，接收图片的 url，categoryUrl
+在其中，接收图片的 url：`categoryUrl`
 
 components\grid-view\index.vue
 
