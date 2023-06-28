@@ -117,6 +117,27 @@ export default function App({ Component, pageProps }: AppPropWithLayout) {
         <Link href="/fetch">
           <button>fetch</button>
         </Link>
+
+        <h2>静态生成</h2>
+        <Link href="/books-ssg">
+          <button>books-ssg</button>
+        </Link>
+        <Link href="/books-detail-ssg">
+          <button>books-detail-ssg</button>
+        </Link>
+
+        <h2>服务端渲染</h2>
+        <Link href="/books-ssr">
+          <button>books-ssr</button>
+        </Link>
+        <h2>静态增量再生</h2>
+        <Link href="/books-isr">
+          <button>books-isr</button>
+        </Link>
+        <h2>客户端渲染</h2>
+        <Link href="/books-csr">
+          <button>books-csr</button>
+        </Link>
       </div>
 
       {/* {cn === 'Cart' ? (
