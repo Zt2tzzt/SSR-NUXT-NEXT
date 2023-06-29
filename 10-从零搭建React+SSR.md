@@ -193,7 +193,7 @@ export default app
 
 ## 二、React Client 搭建
 
-创建 React SSR 应用，需要调用 `ReactDOM.hydrateRoot` 函数，而不是 `ReactDOM.createRoot`，它们的区别：
+创建 React SSR 应用的客户端，需要调用 `ReactDOM.hydrateRoot` 函数，而不是 `ReactDOM.createRoot`，它们的区别：
 
 - `createRoot` ：创建一个 Root，接着调用其 `render` 函数，将 App 直接挂载到页面上。
 - `hydrateRoot` ：创建水合 Root ，表示在激活的模式下渲染 App。
