@@ -6,7 +6,7 @@
 
 在 grid-view 中，第一个 item，占据宽度 40%。
 
-在其中，接收图片的 url：`categoryUrl`
+在其中，接收图片的 url：`picUrl`
 
 components\grid-view\index.vue
 
@@ -16,11 +16,11 @@ import { IProductDetailss } from '~/types/home'
 
 interface IProps {
   productsDetails?: IProductDetailss[]
-  categoryUrl?: string
+  picUrl?: string
 }
 withDefaults(defineProps<IProps>(), {
   productsDetails: () => [],
-  categoryUrl: ''
+  picUrl: ''
 })
 </script>
 
@@ -28,7 +28,7 @@ withDefaults(defineProps<IProps>(), {
   <div class="grid-view">
     <!-- 第一个 item -->
     <div class="view-item first">
-      <img :src="categoryUrl" alt="商品图片">
+      <img :src="picUrl" alt="商品图片">
     </div>
 
     <!-- 其余的 item -->
@@ -223,7 +223,7 @@ console.log('data.value?.data:', data.value?.data)
 
 ### 1.el-tabs
 
-在 oppo-detail 页面中，编写”标签组件“，使用 EP 的 el-tabs、eb-tab-pane 组件。
+在 oppo-detail 页面中，编写”标签组件“，使用 EP 的 el-tabs、el-tab-pane 组件。
 
 并编写样式。使用 `:deep` “样式穿透”，重写 EP 组件的样式。
 
