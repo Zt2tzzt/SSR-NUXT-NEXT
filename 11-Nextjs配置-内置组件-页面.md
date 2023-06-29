@@ -6,7 +6,7 @@ Nextjs 是一个 React 框架，支持 CSR、SSR、SSG、ISR (Incremental Static
 
 Nextjs 提供了创建 Web 应用程序的构建块，比如：
 
-- 用户界面、路由、数据获取、渲染模式、后端服务、等等。
+- 用户界面、路由、数据获取（用 axios）、渲染模式、后端服务、等等。
 
 [中文官网](https://www.nextjs.cn/docs/getting-started)、[英文官网（官网）](https://nextjs.org/docs/getting-started)
 
@@ -81,7 +81,7 @@ Next.js 和 Nuxt3 的不同点：
 Next.js 和 Nuxt3 如何选择？
 
 - 首先，根据自己或团队，擅长的技术栈来选择，擅长 Vue 选择 Nuxt3，擅长 React 选择 Next.js；
-- 其次，需要更灵活的，选择 Next.js；需要简单易用、快速上手的，选择 Nuxt3。
+- 其次，需要更灵活的编码方式，选择 Next.js；需要简单易用的、快速上手的编码方式，选择 Nuxt3。
 
 ## 五、Next.js 13 项目创建
 
@@ -214,7 +214,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
 > 注意事项：
 >
-> - 由于 `.env`、`.env.development`、`.env.production` 文件，定义了默认设置，需提交到源码仓库中。
+> - 由于 `.env`、`.env.development`、`.env.production` 文件，定义了环境变量的默认设置，应提交到源码仓库中。
 > - 而 `.env.*.local` 应当添加到 `.gitignore` 中，因为这类文件是需要被忽略的。
 
 环境变量定义语法（支持变量，例如 `$PORT`)：
@@ -228,8 +228,6 @@ export default function App({ Component, pageProps }: AppProps) {
 - 比如：`NEXT_PUBLIC_ANALYTICS_ID=aaabbbccc`
 
 `.env` 文件中，定义环境变量，会被 *dotenv* 库，加载到 `process.env.` 中。
-
-- 两端都可直接通过 `process.env.` 访问使用（不支持解构）
 
 :egg: 案例理解：
 
@@ -567,7 +565,7 @@ src\styles\globals.css
 
 在 `_app.tsx` 中引入。
 
-src\pages\_app.tsx
+src\pages\\_app.tsx
 
 ```tsx
 import '@/styles/globals.css'
@@ -593,7 +591,7 @@ $firstColor: green;
 
 在 `_app.tsx` 中引入。
 
-src\pages\_app.tsx
+src\pages\\_app.tsx
 
 ```tsx
 import '@/styles/main.scss'
