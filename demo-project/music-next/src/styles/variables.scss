@@ -1,0 +1,65 @@
+$contentWidth: 1100px; // 内容宽
+
+$navBarHeight: 73px; // 导航栏高
+$logoWidth: 290px; // logo
+$logoHeight: 70px;
+$searchPanelHeight: 300px; // search
+$searchPanelWidth: 170px;
+
+$cartHeight: 36px;
+$cartWidht: 36px;
+
+$swiperHeight: 480px; // 轮播图高
+$bannerHeight: 320px; // 轮播图高
+$categoryBarHeight: 80px; // 分类栏高
+$recommendHeight: 300px; // 推荐栏高
+
+$imgHeight: 263px; // 商品图片高
+$imgWidth: 263px; // 商品图片高
+
+$footer: 160px; // 底部的高度
+$footerContent: 118px;
+
+$fontSize14: 14px;
+$fontSize12: 12px;
+
+$textTitleColor: #333333;
+$textSubColor: #999;
+$textRedColor: #d74d45;
+$priceColor: #d33a31;
+
+$bgColor: #fff;
+$bgGrayColor: #f2f2f2;
+
+// 背景精灵图
+@mixin bgSpride() {
+  background-image: url("../assets/images/spride.png");
+  background-repeat: no-repeat;
+}
+
+// 水平居中的flex
+@mixin normalFlex($direction: row, $content: space-between) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $content;
+}
+
+// 调试用
+@mixin border($color: red) {
+  border: 1px solid $color;
+}
+
+@mixin textEllipsis() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+@mixin textMultiEllipsis($line: 2) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: $line; //多行在这里修改数字即可
+  overflow: hidden;
+  /* autoprefixer: ignore next */
+  -webkit-box-orient: vertical;
+}

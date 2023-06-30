@@ -1,0 +1,80 @@
+@import "@/styles/variables.scss";
+.navbar {
+  box-sizing: border-box;
+  height: $navBarHeight;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  .content {
+    height: 100%;
+    @include normalFlex();
+  }
+
+  .content-left {
+    .logo {
+      display: inline-block;
+      width: $logoWidth;
+      height: $logoHeight;
+      @include bgSpride();
+      // 定位
+      background-position: 0px -48px;
+      text-decoration: none;
+    }
+
+    .title {
+      text-indent: -1000px;
+      margin: 0;
+      height: 0;
+    }
+  }
+  .content-right {
+    @include normalFlex();
+    justify-content: flex-end;
+    & > div {
+      height: 100%;
+      line-height: $navBarHeight; // 会继承
+    }
+  }
+
+  /* .right-search {
+  } */
+
+  .right-cart {
+    display: flex;
+    align-items: center;
+    margin-left: 41px;
+    margin-right: 10px;
+    position: relative;
+    .cart {
+      display: inline-block;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      text-decoration: none;
+      @include bgSpride();
+      background-position: -110px -158px;
+    }
+
+    .count {
+      position: absolute;
+      top: 10px;
+      left: 26px;
+      width: 18px;
+      height: 18px;
+      line-height: 18px;
+      text-align: center;
+      color: #fff;
+      @include bgSpride();
+      background-position: -156px -158px;
+    }
+  }
+
+  .right-login {
+    width: 80px;
+    // border: 1px solid red;
+    background: url('../../assets/images/arrow-d.png') no-repeat 110% center;
+    text-align: center;
+    font-size: 14px;
+    &:hover {
+      background: url('../../assets/images/arrow-u.png') no-repeat 110% center;
+    }
+  }
+}
