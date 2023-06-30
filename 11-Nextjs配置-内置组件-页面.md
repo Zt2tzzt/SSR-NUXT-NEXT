@@ -74,7 +74,7 @@ Next.js 和 Nuxt3 的不同点：
 
 - Nuxt3 使用的是 Vue 技术栈：Vue、webpack、vite、h3（http 框架，实现部署可移植性）、nitro（生产环境打包）、node.....；
 - Next.js 使用的是 React 技术栈：React、webpack、turbopack、express、node.....。
-- Nuxt3 支持组件、Vue API Composition API、等自动导入;
+- Nuxt 3 支持组件、Vue API Composition API、等自动导入;
 - Next.js 则不支持。
 - Next.js 社区生态、资源和文档，比 Nuxt3 友好（star 数：Nuxt3：41.6k；Next.js：96.8k ）
 
@@ -185,7 +185,7 @@ export default function Home() {
 
 环境变量的配置：
 
-src\pages\_app.tsx
+src\pages\\_app.tsx
 
 ```tsx
 // 5.导入全局的样式
