@@ -1,0 +1,78 @@
+@import "@/styles/variables.scss";
+.search {
+  width: 300px;
+  position: relative;
+
+  .search-bg {
+    width: 100%;
+    height: 38px;
+    line-height: 38px;
+    margin-top: 18px;
+    @include bgSpride();
+    background-position: 0px 0px;
+  }
+
+  .input {
+    width: 80%;
+    margin: 10px 0 0 34px;
+    border: 0;
+    height: 18px;
+    font-size: 12px;
+    &:focus {
+      border: 0;
+      outline: none;
+    }
+  }
+
+  .search-panel {
+    // 默认是隐藏
+    display: none;
+
+    position: absolute;
+    z-index: 999;
+    top: 56px;
+    width: 300px;
+    height: auto;
+    background-color: #fff;
+    box-shadow: 0 4px 7px #555;
+    text-shadow: 0 1px 0 rgb(255 255 255 / 90%);
+    padding-bottom: 10px;
+
+    .shadow {
+      width: 100%;
+      height: 4px;
+      background: url("../../assets/images/bort.png");
+    }
+
+    h2 {
+      width: 280px;
+      height: 33px;
+      margin: 0;
+      padding-left: 20px;
+      line-height: 34px;
+      font-size: 12px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    li {
+      width: 280px;
+      height: 34px;
+      padding-left: 20px;
+      line-height: 34px;
+      font-size: 14px;
+      color: #888;
+      cursor: pointer;
+      &:hover {
+        background-color: $bgGrayColor;
+      }
+    }
+  }
+
+  // 这个样式要放到后面
+  .show {
+    display: block;
+  }
+  .hide {
+    display: none;
+  }
+}
