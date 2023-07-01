@@ -101,7 +101,7 @@ export default function Document() {
 
 ## 三、布局
 
-在 `/components` 下，新建 `/layout/index.tsx`，`footer/index.tsx`、`navbar/index.tsx` 组件。
+在 `/components` 下，新建 `/layout/index.tsx`，`/footer/index.tsx`、`/navbar/index.tsx` 组件。
 
 在 layout 中，使用 footer 和 navbar。
 
@@ -172,7 +172,7 @@ export default NavBar
 
 在 `_app.tsx` 中，使用 Layout
 
-src\pages\_app.tsx
+src\pages\\_app.tsx
 
 ```tsx
 import type { AppProps } from 'next/app'
@@ -219,6 +219,7 @@ const NavBar: FC<IProps> = memo(props => {
         {/* 左侧区域 */}
         <div className={styles["content-left"]}>
           <Link href="/" className={styles.logo}></Link>
+          {/* SEO 优化 */}
           <h1 className={styles.title}>云音乐商城 - 音乐购有趣</h1>
         </div>
 
@@ -245,9 +246,7 @@ export default NavBar
 
 在 `/components` 下，创建 `/search/index.tsx` 组件。
 
-搜索框上，监听三个事件。
-
-发送网络请求，请求搜索的关键词：使用 SSR 的模式。
+input 搜索框上，监听三个事件。
 
 src\components\search\index.tsx
 
@@ -322,6 +321,10 @@ Search.displayName = 'Search'
 export default Search
 ```
 
+然后要发送网络请求，请求搜索的关键词：
+
+项目中采用 SSR 的模式。
+
 ## 五、Nextjs 集成 Redux
 
 安装依赖
@@ -334,11 +337,13 @@ npm install @reduxjs/toolkit react-redux
 
 *next-redux-wrapper* 依赖。
 
-- 在访问服务器，端渲染页面时，避免 store 重置；
+- 在访问服务器端，渲染页面时，避免 store 重置；
 - 将服务器端 redux 状态，同步一份到客户端上；
 - 提供了 `HYDRATE` 调度操作：
   - 当用户访问动态路由，或后端渲染的页面时，会执行 Hydration 来保持两端数据状态一致
-  - 比如：每次当用户打开使用了 `getStaticProps`，或 `getServerSideProps` 函数生成的页面时，HYDRATE将执行调度操作。
+  - 比如：每次当用户打开使用了 `getStaticProps`，或 `getServerSideProps` 函数生成的页面时，HYDRATE 将执行调度操作。
+
+:open_book: 操作步骤：
 
 创建 `/stores/index.ts` 作为 Redux 的入口。
 
@@ -399,7 +404,7 @@ const homeSlice = createSlice({
     }
   },
   extraReducers(builder) {
-    // Hydrate 的操作, 保证服务端端和客户端数据的一致性
+    // Hydrate 的操作, 保证服务端端、客户端，数据的一致性
     builder.addCase(HYDRATE, (state, { payload }: any) => {
       return {
         ...state, // state -> initialState
@@ -436,7 +441,7 @@ export default wrapper;
 
 在 `_app.tsx` 中，接入 redux
 
-src\pages\_app.tsx
+src\pages\\_app.tsx
 
 ```tsx
 import type { AppProps } from 'next/app'
@@ -510,7 +515,7 @@ src\service\index.ts
 - 将网络请求，拿到的数据，保存到 Redux 中。
 - 再在 navbar 组件中，获取这些数据。
 
-:egg: 案例理解：
+:open_book: 操作步骤：
 
 先在 `/stores/home.ts` 中，编写异步的 action
 
@@ -543,7 +548,7 @@ const homeSlice = createSlice({
       .addCase(HYDRATE, (state, { payload }: any) => {
         return {
           ...state, // state -> initialState
-          ...payload.home // action.payload -> rootState
+          ...payload.home // action.payload.home -> rootState.home
         }
       })
       .addCase(fetchSearchSuggest.fulfilled, (state, { payload }) => {
@@ -560,6 +565,10 @@ export const fetchSearchSuggest = createAsyncThunk('fetchSearchSuggest', async (
 export const { increment } = homeSlice.actions
 export default homeSlice.reducer
 ```
+
+在首页 index.tsx 中，使用 `wrapper.getServerSideProps` 封装 `getServerSideProps`，
+
+将 Redux 集成到 ssr 的渲染模式中。
 
 src\pages\index.tsx
 
