@@ -1,0 +1,11 @@
+@import "@/styles/variables.scss";
+.recommend {
+  margin: 40px 0;
+  .content {
+    // @include border();
+    // 在局部样式可以，编写全局样式来重写框架的样式
+    :global(.ant-row .ant-col:last-child .recommend-item) {
+      text-align: right;
+    }
+  }
+}

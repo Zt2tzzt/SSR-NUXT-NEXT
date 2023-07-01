@@ -1,0 +1,100 @@
+@import '@/styles/variables.scss';
+@mixin swiperBtn {
+  position: absolute;
+  top: 208px;
+  width: 37px;
+  height: 63px;
+  background-color: #000;
+  filter: alpha(opacity=10);
+  opacity: 0.1;
+
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  & > span {
+    display: inline-block;
+    width: 37px;
+    height: 63px;
+    // background: url("~assets/images/pointlist.png") no-repeat 0 9999px;
+    // background-position: 0px 0px;
+  }
+}
+.top-swiper {
+  height: $swiperHeight;
+  position: relative;
+  .content {
+    // 1100px
+    height: $swiperHeight;
+    position: relative;
+  }
+  .carousel {
+    // 放大-轮播图 3100px
+    margin: 0 -1000px;
+    .swiper-item {
+      height: $swiperHeight;
+      position: relative;
+      .swiper-bg {
+        height: 100%;
+        width: 100%;
+
+        background-position: center center;
+        background-size: 10px auto;
+
+        position: absolute;
+        top: 0;
+        left: 0;
+        // 层级
+        z-index: -1;
+      }
+      .image {
+        margin: 0 auto;
+      }
+    }
+  }
+
+  // 分页器
+  .dots {
+    // ul
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    li {
+      display: inline-block;
+    }
+    .dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      margin: 0 5px;
+      background: url('../../assets/images/dot.png') no-repeat;
+      background-size: contain;
+    }
+    .active {
+      background: url('../../assets/images/dot_hover.png') no-repeat;
+      background-size: contain;
+      width: 7px;
+      height: 7px;
+    }
+  }
+
+  // 上一页和下一页
+  .prev {
+    @include swiperBtn();
+    left: 20px;
+    top: 208px;
+    & > span {
+      background: url('../../assets/images/pointlist.png') no-repeat 0 9999px;
+      background-position: 0px 0px;
+    }
+  }
+  .next {
+    @include swiperBtn();
+    right: 20px;
+    & > span {
+      background: url('../../assets/images/pointlist.png') no-repeat 0 9999px;
+      background-position: -48px 0px;
+    }
+  }
+}

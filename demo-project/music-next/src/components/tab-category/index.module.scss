@@ -1,0 +1,41 @@
+@import "@/styles/variables.scss";
+.tab-category {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  .content {
+    height: $categoryBarHeight;
+    .category-item {
+      @include normalFlex();
+      justify-content: center;
+      align-items: center;
+      border-right: 1px solid rgba(0, 0, 0, 0.1);
+      margin-top: 16px;
+      cursor: pointer;
+
+      .right {
+        text-align: center;
+        .title {
+          margin-left: 10px;
+          max-width: 190px;
+          font-size: 14px;
+          font-weight: bold;
+          color: #333333;
+        }
+
+        .sub-title {
+          display: inline-block;
+          padding: 2px 0 0 4px;
+          font-size: 12px;
+          color: #d33a31;
+        }
+        .count {
+          display: inline-block;
+          padding-right: 5px;
+        }
+      }
+    }
+
+    & > div > div:last-child .category-item {
+      border-right: 1px solid white;
+    }
+  }
+}

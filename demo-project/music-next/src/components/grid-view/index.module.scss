@@ -1,0 +1,10 @@
+@import "@/styles/variables.scss";
+.grid-view {
+  // @include border();
+  margin-right: -16px;
+
+  .view-item {
+    // @include border();
+    margin-right: 16px;
+  }
+}

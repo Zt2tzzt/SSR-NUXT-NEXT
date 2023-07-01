@@ -13,6 +13,7 @@
     "@types/node": "20.3.2",
     "@types/react": "18.2.14",
     "@types/react-dom": "18.2.6",
+    "antd": "^5.6.3",
     "axios": "^1.4.0",
     "classnames": "^2.3.2",
     "eslint": "8.43.0",
@@ -25,5 +26,8 @@
     "react-redux": "^8.1.1",
     "sass": "^1.63.6",
     "typescript": "5.1.6"
+  },
+  "devDependencies": {
+    "@types/antd": "^1.0.0"
   }
 }
