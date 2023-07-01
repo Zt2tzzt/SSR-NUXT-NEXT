@@ -4,7 +4,7 @@ import styles from './index.module.scss'
 import classNames from 'classnames'
 import Link from "next/link";
 import Search from "../search";
-import { useSelector } from 'react-redux';
+import { useSelector, shallowEqual } from 'react-redux';
 import type { IAppRootState } from '@/stores';
 
 interface IProps {
@@ -14,7 +14,7 @@ const NavBar: FC<IProps> = memo(props => {
 
   const { navbar } = useSelector((rootState: IAppRootState) => ({
     navbar: rootState.home.navbar
-  }))
+  }), shallowEqual)
   
   return (
     <div className={styles.navbar}>

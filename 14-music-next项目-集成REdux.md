@@ -12,7 +12,7 @@ npx create-next-app@latest
 
 删除多余文件
 
-## 三、安装依赖
+### 1.安装依赖
 
 样式
 
@@ -46,7 +46,7 @@ npm install antd
 npm install -D @types/antd
 ```
 
-## 四、样式初始化
+### 2.样式初始化
 
 在 `_app.tsx` 中，引入 *normalize*
 
@@ -54,19 +54,21 @@ npm install -D @types/antd
 import 'normalize.css';
 ```
 
-在 /styles 目录下，导入全局样式 `globals.scss`，全局样式变量 `variables.scss`。
+在 `/styles` 目录下，导入全局样式 `globals.scss`，全局样式变量 `variables.scss`。
 
-在 _app.tsx 中引入
+在 `_app.tsx` 中引入全局样式。
 
 ```tsx
 import "@/styles/globals.scss";
 ```
 
----
+### 3.图标
 
-修改站点图标 favicon.ico
+修改站点图标 `favicon.ico`
 
-在 _document.tsx 中，进行 SEO 优化。
+### 4.SEO
+
+在 `_document.tsx` 中，进行 SEO 优化。
 
 src\pages\_document.tsx
 
@@ -97,9 +99,9 @@ export default function Document() {
 }
 ```
 
----
+## 三、布局
 
-在 /components 下，新建 /layout/index.tsx，footer/index.tsx、navbar/index.tsx 组件。
+在 `/components` 下，新建 `/layout/index.tsx`，`footer/index.tsx`、`navbar/index.tsx` 组件。
 
 在 layout 中，使用 footer 和 navbar。
 
@@ -168,7 +170,7 @@ NavBar.displayName = 'NavBar'
 export default NavBar
 ```
 
-在 _app.tsx 中，使用 Layout
+在 `_app.tsx` 中，使用 Layout
 
 src\pages\_app.tsx
 
@@ -187,11 +189,9 @@ export default function App({ Component, pageProps }: AppProps) {
 }
 ```
 
----
+## 四、navbar 组件
 
 在 navbar 中，导入样式。
-
-编写该组件。
 
 编写左边区域，使用精灵图。
 
@@ -243,7 +243,7 @@ NavBar.displayName = 'NavBar'
 export default NavBar
 ```
 
-在 /components 下，创建 search 组件。
+在 `/components` 下，创建 `/search/index.tsx` 组件。
 
 搜索框上，监听三个事件。
 
@@ -322,11 +322,7 @@ Search.displayName = 'Search'
 export default Search
 ```
 
-
-
----
-
-Nextjs 集成 Redux
+## 五、Nextjs 集成 Redux
 
 安装依赖
 
@@ -336,7 +332,15 @@ npm install next-redux-wrapper
 npm install @reduxjs/toolkit react-redux
 ```
 
-创建 /stores/index.ts 作为 Redux 的入口。
+*next-redux-wrapper* 依赖。
+
+- 在访问服务器，端渲染页面时，避免 store 重置；
+- 将服务器端 redux 状态，同步一份到客户端上；
+- 提供了 `HYDRATE` 调度操作：
+  - 当用户访问动态路由，或后端渲染的页面时，会执行 Hydration 来保持两端数据状态一致
+  - 比如：每次当用户打开使用了 `getStaticProps`，或 `getServerSideProps` 函数生成的页面时，HYDRATE将执行调度操作。
+
+创建 `/stores/index.ts` 作为 Redux 的入口。
 
 src\stores\index.ts
 
@@ -351,7 +355,7 @@ const store = configureStore({
 })
 ```
 
-创建 /features/home.ts 作为 home 模块。
+创建 `/features/home.ts` 作为 home 模块。
 
 src\stores\features\home.ts
 
@@ -395,7 +399,7 @@ const homeSlice = createSlice({
     }
   },
   extraReducers(builder) {
-    // Hydrate的操作, 保证服务端端和客户端数据的一致性
+    // Hydrate 的操作, 保证服务端端和客户端数据的一致性
     builder.addCase(HYDRATE, (state, { payload }: any) => {
       return {
         ...state, // state -> initialState
@@ -408,6 +412,10 @@ const homeSlice = createSlice({
 export const { increment } = homeSlice.actions
 export default homeSlice.reducer
 ```
+
+store 的创建，
+
+使用 *next-redux-wrapper* 中的 `createWrapper`，对 store 进行封装。
 
 src\stores\index.ts
 
@@ -426,7 +434,7 @@ const wrapper = createWrapper(() => store)
 export default wrapper;
 ```
 
-在 _app.tsx 中，接入 redux
+在 `_app.tsx` 中，接入 redux
 
 src\pages\_app.tsx
 
@@ -451,7 +459,7 @@ export default function App({ Component, ...rest }: AppProps) {
 }
 ```
 
-在 pages/index.tsx 中，使用 store。
+在 `pages/index.tsx` 中，使用 store。
 
 src\pages\index.tsx
 
@@ -483,9 +491,7 @@ export default function Home() {
 }
 ```
 
----
-
-封装网络请求。
+## 六、网络请求封装
 
 安装 axios
 
@@ -497,12 +503,16 @@ npm install axios
 
 src\service\index.ts
 
-在首页 index.tsx 中，发送网络请求，采用 ssr 的渲染模式。
+:recycle: 思路：
+
+在首页 `index.tsx` 中，发送网络请求，采用 ssr 的渲染模式。
 
 - 将网络请求，拿到的数据，保存到 Redux 中。
-- 再在 search 组件中，获取这些数据。
+- 再在 navbar 组件中，获取这些数据。
 
-现在 /stores/home.ts 中，编写异步的 action
+:egg: 案例理解：
+
+先在 `/stores/home.ts` 中，编写异步的 action
 
 src\stores\features\home.ts
 
@@ -566,7 +576,7 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
 })
 ```
 
-在 navbar 中，拿到 Redux 中，搜索建议的数据，并展示。
+再在 navbar 中，拿到 Redux 中，“搜索建议”的数据，传递给 search 组件。
 
 src\components\navbar\index.tsx
 
@@ -600,7 +610,7 @@ NavBar.displayName = 'NavBar'
 export default NavBar
 ```
 
-在 search 中，接收 searchData。
+在 search 组件中，接收 `searchData`。
 
 src\components\search\index.tsx
 
@@ -619,7 +629,7 @@ interface IProps {
 const Search: FC<IProps> = memo(props => {
   const { children, searchData } = props
 
-	//...
+  //...
 
   return (
     <div className={styles.search}>
@@ -658,4 +668,3 @@ Search.displayName = 'Search'
 
 export default Search
 ```
-
