@@ -70,7 +70,7 @@ import "@/styles/globals.scss";
 
 在 `_document.tsx` 中，进行 SEO 优化。
 
-src\pages\_document.tsx
+src\pages\\_document.tsx
 
 ```tsx
 import { Html, Head, Main, NextScript } from 'next/document'
@@ -289,7 +289,7 @@ const Search: FC<IProps> = memo(props => {
           placeholder={placeholder}
           onFocus={() => onInputFocus(true)}
           onBlur={() => onInputFocus(false)}
-          onKeyDown={(e) => onInputKeyDown(e as any)}
+          onKeyDown={(e) => onInputKeyDown(e)}
         />
       </div>
 
