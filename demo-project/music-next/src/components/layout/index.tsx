@@ -11,9 +11,7 @@ const Layout: FC<IProps> = memo(props => {
   return (
     <div>
       <NavBar></NavBar>
-
       {children}
-
       <Footer></Footer>
     </div>
   )

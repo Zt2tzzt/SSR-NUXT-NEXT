@@ -5,14 +5,15 @@ import { fetchSearchSuggest } from '@/stores/features/home'
 import type { GetServerSideProps } from 'next'
 // import { Inter } from 'next/font/google'
 import type { Banner, Category, Recommend, DigitalData } from '@/types/home'
-import { HotProduct } from '@/types/product';
-import { getHomeInfo, getProductInfo } from '@/service/features/home'
+import type { AllProduct, HotProduct } from '@/types/product';
+import { getAllProductInfo, getHomeInfo, getProductInfo } from '@/service/features/home'
 import TopSwiper from '@/components/top-swiper'
 import TabCategory from '@/components/tab-category'
 import RecommendCpn from '@/components/recommend'
 import classNames from 'classnames'
 import SectionTitle from '@/components/section-title'
 import GridView from '@/components/grid-view'
+import DigitalPanel from '@/components/digital-panel'
 
 // const inter = Inter({ subsets: ['latin'] })
 
@@ -21,9 +22,11 @@ interface IProps {
   categorys: Category[]
   recommends: Recommend[]
   hotProducts: HotProduct[]
+  allProducts: AllProduct[]
+  digitalData: DigitalData
 }
 const Home: FC<IProps> = memo(props => {
-  const { banners, categorys, recommends, hotProducts } = props
+  const { banners, categorys, recommends, hotProducts, allProducts, digitalData } = props
 
   return (
     <>
@@ -33,8 +36,11 @@ const Home: FC<IProps> = memo(props => {
         <RecommendCpn recommends={recommends}></RecommendCpn>
         {/* 商品区域 */}
         <div className={classNames('wrapper', styles['content'])}>
-          <SectionTitle title="商品推荐"></SectionTitle>
+          <SectionTitle title="编辑推荐"></SectionTitle>
           <GridView products={hotProducts}></GridView>
+          <DigitalPanel itemData={digitalData}></DigitalPanel>
+          <SectionTitle title="热门商品"></SectionTitle>
+          <GridView products={allProducts}></GridView>
         </div>
       </div>
     </>
@@ -52,13 +58,15 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
     // 2.发送网络请求，获取主页信息。
     // 3.发送网络请求，获取商品数据
 
-    const [homeinfo, productinfo] = await Promise.all([getHomeInfo(), getProductInfo()])
+    const [homeinfo, productinfo, allProductInfo] = await Promise.all([getHomeInfo(), getProductInfo(), getAllProductInfo()])
     return {
       props: {
         banners: homeinfo.data.banners,
         categorys: homeinfo.data.categorys,
         recommends: homeinfo.data.recommends,
         hotProducts: productinfo.data.hotProduct,
+        allProducts: allProductInfo.data.allProduct,
+        digitalData: homeinfo.data.digitalData
       }
     }
   }

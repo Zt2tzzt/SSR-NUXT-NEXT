@@ -1,0 +1,63 @@
+@import "@/styles/variables.scss";
+.footer {
+  height: $footer;
+  background: $bgGrayColor;
+  .content {
+    height: $footerContent;
+    @include normalFlex();
+    .left {
+      font-size: 12px;
+      padding-top: 20px;
+      a {
+        color: #666;
+        line-height: 24px;
+        padding-right: 8px;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      .first {
+        a {
+          line-height: 24px;
+          color: #999;
+          padding: 5px 6px 5px 0;
+        }
+        span {
+          position: relative;
+          top: -1px;
+          color: #999;
+        }
+      }
+    }
+
+    .right {
+      width: 330px;
+      height: 70px;
+      margin-top: 30px;
+      // @include border();
+      @include normalFlex();
+      align-items: center;
+
+      a {
+        display: inline-block;
+        width: 60px;
+        height: 70px;
+        background: url(../../assets/images//foot_enter.png) no-repeat;
+      }
+      .icon1 {
+        background-position: -60px -80px;
+      }
+      .icon2 {
+        background-position: 0 -80px;
+      }
+      .icon3 {
+        background-position: 0 0;
+      }
+      .icon4 {
+        background-position: -60px 0;
+      }
+    }
+  }
+}
