@@ -12,8 +12,9 @@ interface IProps {
 }
 const NavBar: FC<IProps> = memo(props => {
 
-  const { navbar } = useSelector((rootState: IAppRootState) => ({
-    navbar: rootState.home.navbar
+  const { navbar, counter } = useSelector((rootState: IAppRootState) => ({
+    navbar: rootState.home.navbar,
+    counter: rootState.home.counter
   }), shallowEqual)
   
   return (
@@ -31,7 +32,7 @@ const NavBar: FC<IProps> = memo(props => {
           {/* 购物车 */}
           <div className={styles["right-cart"]}>
             <Link href="/" className={styles.cart}>
-              <span className={styles.count}>6</span>
+              <span className={styles.count}>{counter}</span>
             </Link>
           </div>
           <div className={styles["right-login"]}>登录</div>

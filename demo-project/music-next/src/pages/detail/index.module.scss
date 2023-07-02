@@ -1,0 +1,11 @@
+@import "@/styles/variables.scss";
+.detail {
+  .content {
+    .banner {
+      margin-top: 40px;
+      margin-bottom: 40px;
+      height: $bannerHeight;
+      position: relative;
+    }
+  }
+}

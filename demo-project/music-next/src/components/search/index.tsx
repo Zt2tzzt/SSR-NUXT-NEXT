@@ -33,20 +33,22 @@ const Search: FC<IProps> = memo(props => {
     setInputFocus(isFocus)
   }
 
-  /*   function handleItemClick(name: string) {
-    console.log(name);
-    setPlaceholder(name);
-    goToSearchPage(name);
-  } */
+  function onItemClick(name?: string) {
+    if (!name) return
+    console.log(name)
+    setPlaceholder(name)
+    goToSearchPage(name)
+  }
 
-  /*   function goToSearchPage(name: string) {
+  const router = useRouter()
+  function goToSearchPage(name: string) {
     router.push({
-      pathname: "/search",
+      pathname: '/search',
       query: {
-        q: name,
-      },
-    });
-  } */
+        q: name
+      }
+    })
+  }
 
   return (
     <div className={styles.search}>
@@ -71,7 +73,7 @@ const Search: FC<IProps> = memo(props => {
             searchData?.configKey.map((item, index) => (
               <li
                 key={item[String(index + 1) as keyof ConfigKey]}
-                // onMouseDown={() => handleItemClick(item[index + 1])}
+                onMouseDown={() => onItemClick(item[String(index + 1) as keyof ConfigKey])}
               >
                 {item[String(index + 1) as keyof ConfigKey]}
               </li>

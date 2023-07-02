@@ -1,6 +1,6 @@
 import type { IResultData } from '@/types/global'
 import type { HomeInfo, SearchSuggest } from '@/types/home'
-import type { AllProductInfo, DetailProductInfo, ProductInfo } from '@/types/product'
+import type { AllProductInfo, ProductInfo } from '@/types/product'
 import ztRequest from '..'
 
 export const getSearchSuggest = () =>
@@ -23,7 +23,3 @@ export const getAllProductInfo = () =>
     url: '/allProduct/gets'
   })
 
-export const getDetailProductInfo = (id: number) =>
-  ztRequest.get<IResultData<DetailProductInfo>>({
-    url: '/special/getdetail?specialTopicId=' + id
-  })

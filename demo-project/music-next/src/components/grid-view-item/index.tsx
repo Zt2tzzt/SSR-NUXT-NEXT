@@ -1,13 +1,13 @@
 import React, { memo } from 'react'
 import type { FC, ReactNode } from 'react'
-import type { HotProduct, AllProduct } from '@/types/product'
+import type { HotProduct, AllProduct, Product } from '@/types/product'
 import Link from 'next/link'
 import Image from 'next/image'
 import styles from './index.module.scss'
 
 interface IProps {
   children?: ReactNode
-  product: HotProduct | AllProduct
+  product: HotProduct | AllProduct | Product
   showTip: boolean
 }
 const GridViewItem: FC<IProps> = memo(props => {
