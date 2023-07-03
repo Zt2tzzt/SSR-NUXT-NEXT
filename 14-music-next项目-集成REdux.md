@@ -566,7 +566,7 @@ export const { increment } = homeSlice.actions
 export default homeSlice.reducer
 ```
 
-在首页 index.tsx 中，使用 `wrapper.getServerSideProps` 封装 `getServerSideProps`，
+在首页 `index.tsx` 中，使用 `wrapper.getServerSideProps` 封装 `getServerSideProps`，
 
 将 Redux 集成到 ssr 的渲染模式中。
 
