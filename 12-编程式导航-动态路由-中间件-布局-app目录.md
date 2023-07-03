@@ -105,11 +105,13 @@ export default function App({ Component, pageProps }: AppProps) {
 
 ## 二、动态路由
 
-Nextjs 支持动态路由，也是根据目录结构，和文件的名称，自动生成。
+Nextjs 支持动态路由，
+
+也是根据目录结构，和文件的名称，自动生成。
 
 动态路由语法：
 
-- 页面组件目录 或页面组件文件，都支持 `[]` 方括号语法（方括号前后不能有字符串）。
+- 页面组件目录 或页面组件文件，都支持 `[]` 方括号语法（前后不能有字符串）。
 - 方括号里编写的字符串就是：动态路由的参数。
 
 例如，下方的目录结构，组成的动态路由：
@@ -211,7 +213,7 @@ export default Detail02
 - "slug" 名称不是固定的。
 - `404.tsx` 只能用于捕获全局 404 页面，即只能在 `/pages` 目录下生效。
 
-[...slug] 匹配的参数，将作为 router 的 query 参数，并且它始终是一个数组，比如：
+[...slug] 匹配的参数，将作为 `router` 的 `query` 参数，并且它始终是一个数组，比如：
 
 - 访问 `/post/a` 路径，对应的参数为：`{"slug": ["a"] }`；
 - 访问 `/post/a/b` 路径，对应的参数为：`{"slug": ["a", "b"]}`。
@@ -316,7 +318,7 @@ Nextjs 的中间件，可拦截：
 
 :egg: 案例理解：
 
-在根目录，创建 `/src/middleware.ts` 文件，
+在根目录，创建 `/src/middleware.ts` 文件。
 
 src\middleware.ts
 
@@ -398,7 +400,7 @@ export const config = {
 
 2.请求重定向：
 
-路由跳转时，cookie 中没有携带 token 的吗，重定向到 /login
+路由跳转时，cookie 中没有携带 token 的，重定向到 `/login`。
 
 src\middleware.ts
 
@@ -407,7 +409,7 @@ import { NextResponse } from "next/server";
 
 // 1.可拦截，API 请求、router 切换、资源加载、站点图片...
 // 2.这个中间件，只在服务器端运行。
-export function middleware(req:NextRequest) {
+export function middleware(req: NextRequest) {
   console.log('req:', req)
 
   // 3.返回的 重定向
@@ -706,7 +708,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
 ### 3.布局抽取
 
-对布局进行抽取
+对布局进行抽取：
 
 在 `profile.tsx` 中，抽取 `getLayout` 方法。
 
@@ -910,7 +912,7 @@ export default Profile
 
 方案二：
 
-创建 06-hello-react-app 项目。
+使用 app router 模式，创建 06-hello-react-app 项目。
 
 目录结构说明：
 
@@ -1057,7 +1059,7 @@ ProfileLayout.displayName = 'ProfileLayout'
 export default ProfileLayout
 ```
 
-> app 目录和 pages 目录不能共存.
+> app 目录和 pages 目录不能共存。
 
 #### 3.Loading 页面
 
