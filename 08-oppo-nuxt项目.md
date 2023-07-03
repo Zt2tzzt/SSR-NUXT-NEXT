@@ -2,9 +2,9 @@
 
 ## 一、导航栏组件
 
-在 `/components` 目录下，创建 `navbar/index.vue` 组件。
+在 `/components` 目录下，创建 `/navbar/index.vue` 组件。
 
-oppo-nuxt\components\navbar\index.vue
+components\navbar\index.vue
 
 ```vue
 <template>
@@ -18,7 +18,7 @@ oppo-nuxt\components\navbar\index.vue
 
 在默认布局 `default.vue` 中，使用。
 
-oppo-nuxt\layouts\default.vue
+layouts\default.vue
 
 ```vue
 <template>
@@ -44,7 +44,7 @@ oppo-nuxt\layouts\default.vue
 
 分别编写其中的内容。
 
-oppo-nuxt\components\navbar\index.vue
+components\navbar\index.vue
 
 ```vue
 <template>
@@ -94,7 +94,7 @@ oppo-nuxt\components\navbar\index.vue
 
 在 `/components` 目录中，创建一个 `search` 组件，用于展示搜索框。
 
-oppo-nuxt\components\search\index.vue
+components\search\index.vue
 
 ```vue
 <template>
@@ -107,9 +107,9 @@ oppo-nuxt\components\search\index.vue
 
 ## 二、网络请求封装
 
-将之前封装好的网络请求，`service/index` 拷贝到项目中。修改 `BASE_URL`
+将之前封装好的网络请求，`/service/index` 拷贝到项目中。修改 `BASE_URL`
 
-oppo-nuxt\service\index.ts
+service\index.ts
 
 ```typescript
 import type { AsyncData, UseFetchOptions } from 'nuxt/app'
@@ -161,7 +161,7 @@ export default new ZtRequest()
 
 测试：在默认布局 `default.vue` 中，发送网络请求。
 
-oppo-nuxt\layouts\default.vue
+layouts\default.vue
 
 ```vue
 <script setup lang="ts">
@@ -202,7 +202,7 @@ export default defineNuxtConfig({
 
 给网络请求的返回值，指定类型。
 
-oppo-nuxt\service\home.ts
+service\home.ts
 
 ```typescript
 import ztRequest from './index'
@@ -216,7 +216,7 @@ export const getHomeInfo = (type: HomeInfoType = 'oppo') => {
 }
 ```
 
-oppo-nuxt\store\home.ts
+store\home.ts
 
 ```typescript
 import type { HomeInfoType } from '@/types/home';
@@ -254,7 +254,7 @@ export const useHomeStore =defineStore('home', {
 
 将数据传给 `<navbar>` 组件。
 
-oppo-nuxt\layouts\default.vue
+layouts\default.vue
 
 ```vue
 <script setup lang="ts">
@@ -281,9 +281,9 @@ const { navbars } = storeToRefs(homeStore)
 
 ## 五、完善 navbar
 
-在 `navbar/index.vue` 中，接收布局 `default.vue` 中，传递过来的数据。
+在 `/navbar/index.vue` 中，接收布局 `default.vue` 中，传递过来的数据。
 
-oppo-nuxt\components\navbar\index.vue
+components\navbar\index.vue
 
 ```vue
 <script setup lang="ts">
@@ -401,7 +401,7 @@ import { ElCarousel, ElCarouselItem } from 'element-plus'
 
 自定义轮播图的“指示器”。
 
-oppo-nuxt\components\swiper\index.vue
+components\swiper\index.vue
 
 ```vue
 <script setup lang="ts">
@@ -449,7 +449,7 @@ const onCarouselChange = (index: number) => {
 
 使用编程式导航，编写 item 点击功能。
 
-oppo-nuxt\components\tab-category\index.vue
+components\tab-category\index.vue
 
 ```vue
 <script setup lang="ts">
@@ -506,7 +506,7 @@ const handleTabCategoryItemClick = (item: ICategory) => {
 
 封装 `section-title` 组件。
 
-oppo-nuxt\components\section-title\index.vue
+components\section-title\index.vue
 
 ```vue
 <script setup lang="ts">
@@ -529,7 +529,7 @@ withDefaults(defineProps<IProps>(), {
 
 在其中接收 `productsDetails` 的数据：
 
-oppo-nuxt\components\grid-view\index.vue
+components\grid-view\index.vue
 
 ```vue
 <script setup lang="ts">
