@@ -692,10 +692,10 @@ Vue 技术栈：
 
 环境准备：
 
-- Node.js（最新 LTS 版本，或 16.11 以上）
-- VSCode 插件：Volar、ESLint、Prettier
+- Node.js（最新 LTS 版本，或 16.11 以上）。
+- VSCode 插件：Volar、ESLint、Prettier。
 
-命令行工具，创建项目（hello-nuxt)
+命令行工具，创建项目（hello-nuxt）
 
 ```shell
 npx nuxi init hello-nuxt
@@ -782,7 +782,7 @@ demo-project\03-hello-nuxt\package.json
 
 ## 七、应用入口分析
 
-默认情况下，Nuxt 会将 `app.vue` 文件，视为项目入口；并为应用程序的每个路由呈现其内容，
+默认情况下，Nuxt 会将 `app.vue` 文件，视为项目入口；并为应用程序的每个路由，呈现其内容，
 
 该文件常用于：
 
@@ -834,7 +834,7 @@ export default defineNuxtConfig({
 在这里写的变量，都会放到 `process.env` 对象中。
 
 ```shell
-NUXT_APP_KEY = 'DDDDD' # 会覆盖 nuxt.config.ts 中的 runtimeConfig 中的 appKey
+NUXT_APP_KEY = 'DDDDD' # 会覆盖 nuxt.config.ts 中的 runtimeConfig 中的 appKey 属性
 
 PORT= 9000 # 项目会运行在 9000 端口上。
 ```
