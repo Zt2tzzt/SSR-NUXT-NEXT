@@ -23,6 +23,7 @@ const GridViewItem: FC<IProps> = memo(props => {
           alt="image"
           width={263}
           height={263}
+          priority
         ></Image>
 
         {showTip && (

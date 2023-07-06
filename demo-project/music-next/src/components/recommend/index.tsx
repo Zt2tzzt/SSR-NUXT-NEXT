@@ -27,6 +27,7 @@ const Recommend: FC<IProps> = memo(props => {
                   alt="recommend"
                   width={542}
                   height={300}
+                  priority
                 ></Image>
               </Link>
             </Col>

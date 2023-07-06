@@ -26,6 +26,7 @@ const TabCategory: FC<IProps> = memo(props => {
                   alt="category"
                   width={48}
                   height={48}
+                  priority
                 ></Image>
 
                 <div className={styles['right']}>

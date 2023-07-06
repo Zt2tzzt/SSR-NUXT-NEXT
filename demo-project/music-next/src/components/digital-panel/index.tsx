@@ -20,7 +20,8 @@ const DigitalPanel: FC<IProps> = memo(props => {
             src={itemData.digitalIcon}
             width={32}
             height={32}
-            alt="hy next"
+            alt="next"
+            priority
           ></Image>
           <div className={styles.name}>{itemData.name}</div>
         </div>
@@ -36,6 +37,7 @@ const DigitalPanel: FC<IProps> = memo(props => {
           width={100}
           height={100}
           alt="hy next"
+          priority
         ></Image>
         <Image
           className={styles.image2}
@@ -43,6 +45,7 @@ const DigitalPanel: FC<IProps> = memo(props => {
           width={120}
           height={120}
           alt="hy next"
+          priority
         ></Image>
         <i className={styles.image}></i>
       </div>
