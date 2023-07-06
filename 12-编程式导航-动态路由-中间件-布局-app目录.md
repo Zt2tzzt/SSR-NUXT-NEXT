@@ -149,7 +149,7 @@ src\pages\\_app.tsx
 - `query` 既可以拿到”查询字符串“，也可以拿到”动态路由的参数“；
 - 如果它们重复，取”动态路由的参数“。
 
-注意：Nextjs 是 `router`， Nuxt3 是 `route`；
+> 注意：Nextjs 是 `router`， Nuxt3 是 `route`；
 
 src\pages\detail01\\[id].tsx
 
@@ -179,7 +179,7 @@ export default Detail01
 
 ### 2.二级路由
 
-在 `detail02\[role]\[id].tsx`中，获取动态路由的参数。
+在 `detail02\[role]\[id].tsx` 中，获取动态路由的参数。
 
 src\pages\detail02\\[role]\\[id].tsx
 
@@ -609,9 +609,9 @@ export default function App({ Component, pageProps }: AppProps) {
 
 ### 1.自定义布局
 
-需求：在首页，无需页眉、页脚，在购物车页面，需要。
+需求：在首页，无需页眉、页脚，在购物车（Cart）页面，需要。
 
-在 `_app.tsx` 中，进行判断
+在 `_app.tsx` 中，进行判断。
 
 src\pages\\_app.tsx
 
