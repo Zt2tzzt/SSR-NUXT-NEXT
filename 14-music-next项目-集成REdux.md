@@ -327,7 +327,7 @@ export default Search
 
 ## 五、Nextjs 集成 Redux
 
-安装依赖
+安装依赖：
 
 ```shell
 npm install next-redux-wrapper
