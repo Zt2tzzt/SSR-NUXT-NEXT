@@ -816,7 +816,7 @@ Nuxt3 也支持 Vue3 的 `useRouter`，或者 Options API 的 `this.$router`。
 - `push`：导航到新页面。
 - `replace`：导航到新页面，但会替换当前路由。
 - `beforeEach`：路由守卫钩子，每次导航前执行（用于全局监听）。
-- `afterEac`：路由守卫钩子，每次导航后执行（用于全局监听）。
+- `afterEach`：路由守卫钩子，每次导航后执行（用于全局监听）。
 
 - .....
 
