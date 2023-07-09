@@ -1,10 +1,10 @@
-# music-next项目-集成REdux
+# music-next项目-集成Redux
 
 ## 一、项目介绍
 
 网易云音乐-商城项目。
 
-## 二、项目初始化
+## 二、项目初始
 
 ```shell
 npx create-next-app@latest
@@ -327,7 +327,7 @@ export default Search
 
 ## 五、Nextjs 集成 Redux
 
-安装依赖
+安装依赖：
 
 ```shell
 npm install next-redux-wrapper

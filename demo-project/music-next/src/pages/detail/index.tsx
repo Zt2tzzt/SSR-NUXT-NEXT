@@ -4,11 +4,11 @@ import type { GetServerSideProps } from 'next'
 import wrapper from '@/stores'
 import { fetchSearchSuggest } from '@/stores/features/home'
 import { getDetailProductInfo } from '@/service/features/detail'
-import Link from "next/link";
-import Image from "next/image";
-import styles from "./index.module.scss";
-import classNames from "classnames";
-import GridView from '@/components/grid-view';
+import Link from 'next/link'
+import Image from 'next/image'
+import styles from './index.module.scss'
+import classNames from 'classnames'
+import GridView from '@/components/grid-view'
 import type { DetailProductInfo } from '@/types/product'
 
 interface IProps {
@@ -16,15 +16,21 @@ interface IProps {
   detailData: DetailProductInfo
 }
 const Detail: FC<IProps> = memo(props => {
-  const { detailData } = props;
-  
+  const { detailData } = props
+
   return (
-    <div className={styles.detail}>
-      <div className={classNames('wrapper', styles.content)}>
+    <div className={styles['detail']}>
+      <div className={classNames('wrapper', styles['content'])}>
         {/* 图片 */}
-        <div className={styles.banner}>
+        <div className={styles['banner']}>
           <Link href={'/'}>
-            <Image className={styles.image} src={detailData?.webPic!} alt="air" fill></Image>
+            <Image
+              className={styles['image']}
+              src={detailData?.webPic!}
+              alt="air"
+              fill
+              priority
+            ></Image>
           </Link>
         </div>
 

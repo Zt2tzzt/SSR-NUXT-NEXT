@@ -124,7 +124,7 @@ SPA 应用，默认只返回一个空 HTML 页面；
 - ❌ `<span href="http://example.com>"`
 - ❌ `<a onclick="global('http://example.com')">`
 
-4.`<meta>` 标签优化：设置 description keywords 等
+4.`<meta>` 标签优化：设置 description keywords 等。
 
 5.多用“文本标记”和 `<img>`，比如：
 
@@ -196,7 +196,7 @@ SSR 应用的页面，是在服务端渲染的；
 构建 SSR 应用，常见的库和框架有：
 
 - Vue Nuxt；
-- React Next.js
+- React Next.js；
 
 SSR 应用，也称**同构应用**，即：
 
@@ -370,7 +370,9 @@ pnpm build:server
 
 因为打包的是 node 环境（`target: "node"`）；
 
-所以要在 `webpack.config.js` 中，配置 *webpack-node-externals* 插件，排除 node 环境的打包。
+所以要在 `webpack.config.js` 中，配置 *webpack-node-externals*；
+
+插件，排除 node 环境的打包。
 
 demo-project\01-node-server\src\config\webpack.config.js
 
