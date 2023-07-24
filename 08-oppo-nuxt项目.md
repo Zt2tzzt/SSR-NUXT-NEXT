@@ -559,7 +559,7 @@ withDefaults(defineProps<IProps>(), {
 
 创建 `grid-view-item` 组件，用于展示商品图片。
 
-在其中接受 `productDetail` 的数据。
+在其中接收 `productDetail` 的数据。
 
 components\grid-view-item\index.vue
 
