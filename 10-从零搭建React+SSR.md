@@ -608,7 +608,7 @@ const Home = memo(() => {
 export default Home
 ```
 
-同样的，在 `About.jsx` 中，使用 store
+同样的，在 `About.jsx` 中，使用 store。
 
 src\pages\About.jsx
 

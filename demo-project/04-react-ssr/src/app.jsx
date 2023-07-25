@@ -11,6 +11,7 @@ const app = memo(() => {
       <div>counter: {counter}</div>
       <button onClick={() => setCounter(counter + 1)}>+1</button>
 
+      {/* 路由链接 */}
       <div>
         <Link to="/">
           <button>Home</button>
