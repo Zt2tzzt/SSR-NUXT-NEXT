@@ -792,7 +792,7 @@ src\pages\index.tsx
 
 ## 十六、新建页面
 
-Next.js 项目页面，需在 pages 目录下新建（ .js, .jsx, .ts, .tsx ）文件，该文件需导出 React 组件。
+Next.js 项目页面，需在 pages 目录下新建（.js, .jsx, .ts, .tsx）文件，该文件需导出 React 组件。
 
 Next.js 会根据 pages 目录结构和文件名，自动生成路由。
 
