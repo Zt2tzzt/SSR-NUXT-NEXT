@@ -467,7 +467,7 @@ export default Login
 
 3.重写请求。
 
-安装 *axios* 库
+安装 *axios* 库：
 
 ```shell
 pnpm add axios
